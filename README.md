@@ -6,3 +6,5 @@ Team members:
 * Gerald Arocena
 * Xiaoxuan Liu
 * M. Elaine Cunha
+
+[![Build Status](https://travis-ci.com/teamxvii/cs107-FinalProject.svg?token=5WGpytqskq3ZvgrSgy3f&branch=master)](https://travis-ci.com/teamxvii/cs107-FinalProject)
