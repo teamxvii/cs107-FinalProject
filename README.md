@@ -8,3 +8,5 @@ Team members:
 * M. Elaine Cunha
 
 [![Build Status](https://travis-ci.com/teamxvii/cs107-FinalProject.svg?token=5WGpytqskq3ZvgrSgy3f&branch=master)](https://travis-ci.com/teamxvii/cs107-FinalProject)
+
+[![codecov](https://codecov.io/gh/teamxvii/cs107-FinalProject/branch/master/graph/badge.svg?token=VVBQSYY46I)](https://codecov.io/gh/teamxvii/cs107-FinalProject)
