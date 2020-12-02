@@ -4,9 +4,9 @@ from FADiff import FADiff
 
 
 class Scalar:
-    def __init__(self, val, der=None, parents=[], **kwargs):
+    def __init__(self, val, der=None, parents=[], name=None, new_input=False):
         self._val = val
-        if 'new_input' in kwargs and kwargs['new_input']:  # Creating input var?
+        if new_input:  # Creating input var?
             self._der = {}
             for var in FADiff.vars_list:
                 self._der[var] = 0         # Partial der of others' as 0 in self
@@ -15,21 +15,19 @@ class Scalar:
             FADiff.vars_list.append(self)  # Add self to global vars list
         else:
             self._der = der
-        self.name = None
-        if 'name' in kwargs:
-            self.name = kwargs['name']
-        self.parents = set()
-        for parent in parents:
-            self.parents.add(parent)
+        self.name = name
+        self.parents = parents
 
     def __add__(self, other):
         try:
             der = {}
             for var, part_der in self._der.items():
                 der[var] = part_der + other.partial_der(var)
-            return Scalar(self._val + other._val, der)
+            parents = self.set_parents(self, other)
+            return Scalar(self._val + other._val, der, parents)
         except AttributeError:
-            return Scalar(self._val + other, self._der)
+            parents = self.set_parents(self)
+            return Scalar(self._val + other, self._der, parents)
 
     def __radd__(self, other):
         return self.__add__(other)
@@ -40,12 +38,14 @@ class Scalar:
             for var, part_der in self._der.items():
                 der[var] = self._val * other.partial_der(var) +\
                            part_der * other._val
-            return Scalar(self._val * other._val, der)
+            parents = self.set_parents(self, other)
+            return Scalar(self._val * other._val, der, parents)
         except AttributeError:
             der = {}
             for var, part_der in self._der.items():
                 der[var] = part_der * other
-            return Scalar(self._val * other, der)
+            parents = self.set_parents(self)
+            return Scalar(self._val * other, der, parents)
 
     def __rmul__(self, other):
         return self.__mul__(other)
@@ -55,7 +55,7 @@ class Scalar:
 
     @property
     def val(self):
-        return self._val
+        return [self._val]
 
     @val.setter
     def val(self, into):
@@ -69,8 +69,19 @@ class Scalar:
                 parents.append(value)
         if parents:
             return parents
-        elif self in FADiff.vars_list:  # TODO Change logic when parents are working again
+        elif self in FADiff.vars_list:       # For inputs (no parents)
             return [self._der[self]]
 
-    def set_parents(self, var1, var2):
-        return var1.parents.add(var1).union(var2.parents.add(var2))
+    @staticmethod
+    def set_parents(var1, var2=None):
+        parents = []
+        parents.append(var1)
+        for parent in var1.parents:
+            parents.append(parent)
+        if var2:
+            parents.append(var2)
+            for parent in var2.parents:
+                parents.append(parent)
+        parents = set(parents)
+        parents = list(parents)
+        return parents
