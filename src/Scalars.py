@@ -4,7 +4,6 @@ from FADiff import FADiff
 
 
 class Scalar:
-    # TODO: add name attribute
     def __init__(self, val, der=None, name=None, new_input=False):
         self._val = val
         if new_input:                      # Creating input var?

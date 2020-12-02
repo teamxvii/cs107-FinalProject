@@ -9,11 +9,11 @@ print(f'---- DEMOS / DEBUGGING / VERIFY CALCULATIONS ----\n')
 
 print('Create input vars -->')       # Create input vars
 print(f'x = FADiff.new_scalar(2)')
-x = fd.new_var(2)             # x = 2
+x = fd.new_var(2, name='x')             # x = 2
 print(f'y = FADiff.new_scalar(5)')
-y = fd.new_var(5)             # y = 5
+y = fd.new_var(5, name='y')             # y = 5
 print(f'z = FADiff.new_scalar(3)')
-z = fd.new_var(3)             # z = 3
+z = fd.new_var(3, name='z')             # z = 3
 
 print(f'x.val -->\n'                   
       f'{x.val}')              # Should be 2
@@ -120,20 +120,30 @@ print(f'check.partial_der(y) -->\n'
 print(f'check.partial_der(z) -->\n'  
       f'{check.partial_der(z)}')         # Should be 1
 
-# TODO: VECTOR DEBUGGING --
+print(f'check = 7 * x + 6')
+x1 = fd.new_var(2)
+x2 = fd.new_var(3)
+check = (x1 - x2) * 2
 
-i = x * y + ef.sin(x) + z
-j = x * y
-
-print('check = i + j')
-check = i + j
 print(f'check.val -->\n'
       f'{check.val}')
 print(f'check.der -->\n'
       f'{check.der}')
-print(f'check.partial_der(x) -->\n'
-      f'{check.partial_der(x)}')
-print(f'check.partial_der(y) -->\n'  
-      f'{check.partial_der(y)}')
-print(f'check.partial_der(z) -->\n'  
-      f'{check.partial_der(z)}')
+
+# TODO: VECTOR DEBUGGING --
+
+# i = x * y + ef.sin(x) + z
+# j = x * y
+#
+# print('check = i + j')
+# check = i + j
+# print(f'check.val -->\n'
+#       f'{check.val}')
+# print(f'check.der -->\n'
+#       f'{check.der}')
+# print(f'check.partial_der(x) -->\n'
+#       f'{check.partial_der(x)}')
+# print(f'check.partial_der(y) -->\n'
+#       f'{check.partial_der(y)}')
+# print(f'check.partial_der(z) -->\n'
+#       f'{check.partial_der(z)}')

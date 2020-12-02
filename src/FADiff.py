@@ -7,11 +7,7 @@ class FADiff:
 
     @staticmethod
     def new_var(val, der=None, name=None):
-        # TODO: How to handle both a list and single vars?
-        try:
-            pass
-        except AttributeError:
-            pass
+        # TODO: Should we also handle for list inputs?
         return Scalar(val, der=der, name=name, new_input=True)
 
     @staticmethod
