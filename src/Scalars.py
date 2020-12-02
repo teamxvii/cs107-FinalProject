@@ -4,9 +4,9 @@ from FADiff import FADiff
 
 
 class Scalar:
-    def __init__(self, val, der=None, name=None, new_input=False):
+    def __init__(self, val, der=None, parents=[], **kwargs):
         self._val = val
-        if new_input:                      # Creating input var?
+        if 'new_input' in kwargs and kwargs['new_input']:  # Creating input var?
             self._der = {}
             for var in FADiff.vars_list:
                 self._der[var] = 0         # Partial der of others' as 0 in self
@@ -15,6 +15,12 @@ class Scalar:
             FADiff.vars_list.append(self)  # Add self to global vars list
         else:
             self._der = der
+        self.name = None
+        if 'name' in kwargs:
+            self.name = kwargs['name']
+        self.parents = set()
+        for parent in parents:
+            self.parents.add(parent)
 
     def __add__(self, other):
         try:
@@ -57,8 +63,14 @@ class Scalar:
 
     @property
     def der(self):
-        return self._der
+        parents = []
+        for key, value in self._der.items():
+            if key in self.parents:
+                parents.append(value)
+        if parents:
+            return parents
+        elif self in FADiff.vars_list:  # TODO Change logic when parents are working again
+            return [self._der[self]]
 
-    @der.setter
-    def der(self, into):
-        self._der = into
+    def set_parents(self, var1, var2):
+        return var1.parents.add(var1).union(var2.parents.add(var2))

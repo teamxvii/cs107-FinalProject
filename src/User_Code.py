@@ -123,7 +123,7 @@ print(f'check.partial_der(z) -->\n'
 print(f'check = 7 * x + 6')
 x1 = fd.new_var(2)
 x2 = fd.new_var(3)
-check = (x1 - x2) * 2
+check = x1 * x2 + x1
 
 print(f'check.val -->\n'
       f'{check.val}')
