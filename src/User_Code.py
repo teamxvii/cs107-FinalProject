@@ -17,8 +17,8 @@ z = fd.new_var(3, name='z')             # z = 3
 
 print(f'x.val -->\n'                   
       f'{x.val}')              # Should be 2
-print(f'x.der -->\n'           
-      f'{x.der}')
+print(f'x.der -->\n'           # 'der' are dictionaries resembling the partial
+      f'{x.der}')              #   derivatives in one row of evaluation trace
 print(f'y.val -->\n'                  
       f'{y.val}')              # Should be 5
 print(f'y.der -->\n'
@@ -36,7 +36,7 @@ check = x * y + ef.sin(x)
 print(f'check.val -->\n'
       f'{check.val}')                    # Should be 10.909...
 print(f'check.der -->\n'
-      f'{check.der}')                    # Should be [4.583, 2]
+      f'{check.der}')                    # Dict should have partial deriv values
 print(f'check.partial_der(x) -->\n'
       f'{check.partial_der(x)}')         # Should be 4.583...
 print(f'check.partial_der(y) -->\n'  
@@ -123,7 +123,7 @@ print(f'check.partial_der(z) -->\n'
 print(f'check = 7 * x + 6')
 x1 = fd.new_var(2)
 x2 = fd.new_var(3)
-check = x1 * x2 + x1
+check = (x1 - x2) * 2
 
 print(f'check.val -->\n'
       f'{check.val}')
