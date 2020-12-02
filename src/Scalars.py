@@ -15,7 +15,7 @@ class Scalar:
             FADiff.vars_list.append(self)  # Add self to global vars list
         else:
             self._der = der
-        self.name = name  # TODO: Use name somewhere?
+        self.name = name  # TODO: Utilize somewhere?
         self.parents = parents
 
     def __add__(self, other):
@@ -50,30 +50,26 @@ class Scalar:
     def __rmul__(self, other):
         return self.__mul__(other)
 
-    def partial_der(self, var):                # Returns partial deriv wrt var
+    def partial_der(self, var):            # Returns partial deriv wrt var
         return self._der[var]
 
     @property
     def val(self):
         return [self._val]
 
-    @val.setter
-    def val(self, into):
-        self._val = into
-
     @property
-    def der(self):
+    def der(self):                      # Returns input vars used in calculation
         parents = []
         for key, value in self._der.items():
             if key in self.parents:
                 parents.append(value)
         if parents:
             return parents
-        elif self in FADiff.vars_list:       # For inputs (no parents)
+        elif self in FADiff.vars_list:       # For input vars (no parents)
             return [self._der[self]]
 
     @staticmethod
-    def set_parents(var1, var2=None):
+    def set_parents(var1, var2=None):   # Retrieves parent vars + grandparents
         parents = []
         parents.append(var1)
         for parent in var1.parents:
