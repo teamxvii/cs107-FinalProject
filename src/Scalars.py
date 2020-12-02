@@ -24,8 +24,8 @@ class Scalar:
             der = {}
             for var, part_der in self._der.items():
                 der[var] = part_der + other.partial_der(var)
-            parents = list(self.parents.add(self)) + list(other.parents.add(other))
-            return Scalar(self._val + other._val, der, parents=parents)
+            return Scalar(self._val + other._val, der,
+                          parents=[self.parents.a, other])
         except AttributeError:
             return Scalar(self._val + other, self._der, parents=[self])
 
