@@ -19,7 +19,7 @@ print(f'x.val --> '
 print(f'x._der --> '           # '_der' is a dictionary containing the 
       f'{x._der}')             #   partial derivatives for a var
 print(f'x.der --> '            # 'der' (no underscore) returns only the partial
-      f'{x.der}')              #   derivatives used in the calculation
+      f'{x.der}')              #   derivatives involved in the calculation
 print(f'y.val --> '                  
       f'{y.val}')              # Should be [5]
 print(f'y.der --> '

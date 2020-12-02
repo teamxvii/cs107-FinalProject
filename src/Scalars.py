@@ -58,7 +58,7 @@ class Scalar:
         return [self._val]
 
     @property
-    def der(self):                      # Returns input vars used in calculation
+    def der(self):                      # Returns partial derivs of calculation
         parents = []
         for key, value in self._der.items():
             if key in self.parents:
