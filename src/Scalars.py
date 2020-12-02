@@ -11,7 +11,7 @@ class Scalar:
             for var in FADiff.vars_list:
                 self._der[var] = 0         # Partial der of others' as 0 in self
                 var._der[self] = 0         # Self's partial der as 0 in others
-            self._der[self] = 1            # Self's partial der as 1 in self
+            self._der[self] = der          # Self's partial der as der in self
             FADiff.vars_list.append(self)  # Add self to global vars list
         else:
             self._der = der

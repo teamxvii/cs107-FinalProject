@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
-from FADiff import FADiff as fd
-import Elems as ef
+from FADiff import FADiff as fd    # User needs to import
+import Elems as ef                 # User needs to import
+import numpy as np
 
 
 # TODO: Debugging, etc. --
@@ -124,18 +125,4 @@ print(f'check.der --> '
 
 # TODO: VECTOR DEBUGGING --
 
-# i = x * y + ef.sin(x) + z
-# j = x * y
-#
-# print('check = i + j')
-# check = i + j
-# print(f'check.val -->\n'
-#       f'{check.val}')
-# print(f'check.der -->\n'
-#       f'{check.der}')
-# print(f'check.partial_der(x) -->\n'
-#       f'{check.partial_der(x)}')
-# print(f'check.partial_der(y) -->\n'
-#       f'{check.partial_der(y)}')
-# print(f'check.partial_der(z) -->\n'
-#       f'{check.partial_der(z)}')
+print(np.array([1,2,3]) + np.array([1,1,1]))
