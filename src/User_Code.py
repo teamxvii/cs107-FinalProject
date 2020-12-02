@@ -15,24 +15,24 @@ y = fd.new_var(5, name='y')
 print(f'z = FADiff.new_scalar(3)')
 z = fd.new_var(3, name='z')
 print(f'x.val --> '                   
-      f'{x.val}')              # Should be 2
+      f'{x.val}')              # Should be [2]
 print(f'x._der --> '           # '_der' is a dictionary containing the 
       f'{x._der}')             #   partial derivatives for a var
 print(f'x.der --> '            # 'der' (no underscore) returns only the partial
       f'{x.der}')              #   derivatives wrt all parent inputs of a var
 print(f'y.val --> '                  
-      f'{y.val}')              # Should be 5
+      f'{y.val}')              # Should be [5]
 print(f'y.der --> '
-      f'{y.der}')
+      f'{y.der}')              # Should be [1]
 print(f'z.val --> '                  
-      f'{z.val}')              # Should be 3
+      f'{z.val}')              # Should be [3]
 print(f'z.der --> '
-      f'{z.der}')
+      f'{z.der}')              # Should be [1]
 
 print(f'\ncheck = x * y + ef.sin(x)')
 check = x * y + ef.sin(x)
 print(f'check.val --> '
-      f'{check.val}')                    # Should be 10.909...
+      f'{check.val}')                    # Should be [10.909...]
 print(f'check.der --> '
       f'{check.der}')
 print(f'check.partial_der(x) --> '
@@ -43,7 +43,7 @@ print(f'check.partial_der(y) --> '
 print(f'\ncheck = ef.sin(x + y)')
 check = ef.sin(x + y)
 print(f'check.val --> ' 
-      f'{check.val}')                    # Should be 0.656...
+      f'{check.val}')                    # Should be [0.656...]
 print(f'check.der --> '
       f'{check.der}')
 print(f'check.partial_der(x) --> '
@@ -54,9 +54,9 @@ print(f'check.partial_der(y) --> '
 print(f'\ncheck = ef.sin(x * y)')
 check = ef.sin(x * y)
 print(f'check.val --> '
-      f'{check.val}')                    # Should be -0.544..
+      f'{check.val}')                    # Should be [-0.544..]
 print(f'check.der --> '
-      f'{check.der}')
+      f'{check.der}')                    # Should be [-4.195..., -1.678...]
 print(f'check.partial_der(x) --> '
       f'{check.partial_der(x)}')         # Should be -4.195...
 print(f'check.partial_der(y) --> '

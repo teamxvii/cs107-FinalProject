@@ -15,7 +15,7 @@ class Scalar:
             FADiff.vars_list.append(self)  # Add self to global vars list
         else:
             self._der = der
-        self.name = name
+        self.name = name  # TODO: Use name somewhere?
         self.parents = parents
 
     def __add__(self, other):
