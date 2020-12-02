@@ -11,4 +11,4 @@ class Vector:
 
     def compute_jacobian(self):
         pass
-
+    
