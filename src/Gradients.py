@@ -22,7 +22,7 @@ class Scal_Func:
         try:
             der = {}
             for var, part_der in self._der.items():
-                der[var] = part_der + other.partial_der(var)
+                der[var] = part_der + other._der.get(var)
             parents = self.set_parents(self, other)
             return Scal_Func(self._val + other._val, der, parents)
         except AttributeError:
@@ -36,7 +36,7 @@ class Scal_Func:
         try:
             der = {}
             for var, part_der in self._der.items():
-                der[var] = self._val * other.partial_der(var) +\
+                der[var] = self._val * other._der.get(var) +\
                            part_der * other._val
             parents = self.set_parents(self, other)
             return Scal_Func(self._val * other._val, der, parents)
@@ -49,9 +49,6 @@ class Scal_Func:
 
     def __rmul__(self, other):
         return self.__mul__(other)
-
-    def partial_der(self, var):            # Returns partial deriv wrt var
-        return self._der[var]
 
     @property
     def val(self):

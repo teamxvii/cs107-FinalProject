@@ -8,7 +8,7 @@ def sin(x):
     try:
         der = {}
         for var in x._der.keys():
-            der[var] = x.partial_der(var) * np.cos(x._val)
+            der[var] = x._der.get(var) * np.cos(x._val)
         parents = x.set_parents(x)
         return Scal_Func(np.sin(x._val), der, parents)
     except AttributeError:
