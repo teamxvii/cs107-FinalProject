@@ -10,7 +10,7 @@ class FADiff:
         # TODO: Should we also handle for list inputs?
         if not der:         # No der arg?
             der = 1         # Init der to 1
-        return Scalar(val, der=der, name=name, new_input=True)
+        return Scal_Func(val, der=der, name=name, new_input=True)
 
     @staticmethod
     def new_vector(vector, der=None, name=None):
@@ -24,5 +24,5 @@ class FADiff:
 
 
 # NOTE: Imports intentionally at bottom to prevent circular dependencies
-from Scalars import Scalar
+from Gradients import Scal_Func
 from Matrices import Vector

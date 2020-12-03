@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import numpy as np
-from Scalars import Scalar
+from Gradients import Scal_Func
 
 
 class Vector:

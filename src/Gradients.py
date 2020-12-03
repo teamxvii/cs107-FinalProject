@@ -3,7 +3,7 @@
 from FADiff import FADiff
 
 
-class Scalar:
+class Scal_Func:
     def __init__(self, val, der=None, parents=[], name=None, new_input=False):
         self._val = val
         if new_input:  # Creating input var?
@@ -24,10 +24,10 @@ class Scalar:
             for var, part_der in self._der.items():
                 der[var] = part_der + other.partial_der(var)
             parents = self.set_parents(self, other)
-            return Scalar(self._val + other._val, der, parents)
+            return Scal_Func(self._val + other._val, der, parents)
         except AttributeError:
             parents = self.set_parents(self)
-            return Scalar(self._val + other, self._der, parents)
+            return Scal_Func(self._val + other, self._der, parents)
 
     def __radd__(self, other):
         return self.__add__(other)
@@ -39,13 +39,13 @@ class Scalar:
                 der[var] = self._val * other.partial_der(var) +\
                            part_der * other._val
             parents = self.set_parents(self, other)
-            return Scalar(self._val * other._val, der, parents)
+            return Scal_Func(self._val * other._val, der, parents)
         except AttributeError:
             der = {}
             for var, part_der in self._der.items():
                 der[var] = part_der * other
             parents = self.set_parents(self)
-            return Scalar(self._val * other, der, parents)
+            return Scal_Func(self._val * other, der, parents)
 
     def __rmul__(self, other):
         return self.__mul__(other)
