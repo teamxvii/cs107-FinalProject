@@ -3,15 +3,15 @@
 from FADiff import FADiff
 
 
-class Scal_Func:
+class ScalFunc:
     def __init__(self, val, der=None, parents=[], name=None, new_input=False):
         self._val = val
-        if new_input:  # Creating input var?
-            self._der = {}
-            for var in FADiff.vars_list:
-                self._der[var] = 0         # Partial der of others' as 0 in self
+        if new_input:                      # Creating input var?
+            self._der = {}                 # Add gradient dict for new var
+            for var in FADiff.vars_list:   # Update gradient dicts for all vars
+                self._der[var] = 0         # Partial der of others as 0 in self
                 var._der[self] = 0         # Self's partial der as 0 in others
-            self._der[self] = der          # Self's partial der as der in self
+            self._der[self] = der          # Self's partial der in self
             FADiff.vars_list.append(self)  # Add self to global vars list
         else:
             self._der = der
@@ -24,10 +24,10 @@ class Scal_Func:
             for var, part_der in self._der.items():
                 der[var] = part_der + other._der.get(var)
             parents = self.set_parents(self, other)
-            return Scal_Func(self._val + other._val, der, parents)
+            return ScalFunc(self._val + other._val, der, parents)
         except AttributeError:
             parents = self.set_parents(self)
-            return Scal_Func(self._val + other, self._der, parents)
+            return ScalFunc(self._val + other, self._der, parents)
 
     def __radd__(self, other):
         return self.__add__(other)
@@ -39,13 +39,13 @@ class Scal_Func:
                 der[var] = self._val * other._der.get(var) +\
                            part_der * other._val
             parents = self.set_parents(self, other)
-            return Scal_Func(self._val * other._val, der, parents)
+            return ScalFunc(self._val * other._val, der, parents)
         except AttributeError:
             der = {}
             for var, part_der in self._der.items():
                 der[var] = part_der * other
             parents = self.set_parents(self)
-            return Scal_Func(self._val * other, der, parents)
+            return ScalFunc(self._val * other, der, parents)
 
     def __rmul__(self, other):
         return self.__mul__(other)
@@ -55,18 +55,18 @@ class Scal_Func:
         return [self._val]
 
     @property
-    def der(self):                      # Returns partial derivs of calculation
+    def der(self):                           # Returns partial derivs
         parents = []
         for key, value in self._der.items():
             if key in self.parents:
                 parents.append(value)
-        if parents:
+        if parents:                          # For non-input vars
             return parents
         elif self in FADiff.vars_list:       # For input vars (no parents)
             return [self._der[self]]
 
     @staticmethod
-    def set_parents(var1, var2=None):   # Retrieves parent vars + grandparents
+    def set_parents(var1, var2=None):        # Gets parent/grandparent vars
         parents = []
         parents.append(var1)
         for parent in var1.parents:

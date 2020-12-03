@@ -35,7 +35,7 @@ check = x * y + ef.sin(x)
 print(f'check.val --> '
       f'{check.val}')                    # Should be [10.909...]
 print(f'check.der --> '
-      f'{check.der}')
+      f'{check.der}')                 # Should be [4.583..., 2]
 print(f'check._der.get(x) --> '
       f'{check._der.get(x)}')         # Should be 4.583...
 print(f'check._der.get(y) --> '  
@@ -75,18 +75,18 @@ print(f'check._der.get(x) --> '
 print(f'\ncheck = 8 * y')
 check = 8 * y
 print(f'check.val --> '
-      f'{check.val}')                    # Should be 40
+      f'{check.val}')                    # Should be [40]
 print(f'check.der --> '
-      f'{check.der}')
+      f'{check.der}')                    # Should be [8]
 print(f'check._der.get(y) --> '
       f'{check._der.get(y)}')         # Should be 8
 
 print(f'\ncheck = 8 + x')
 check = 8 + x
 print(f'check.val --> '
-      f'{check.val}')                    # Should be 10
+      f'{check.val}')                    # Should be [10]
 print(f'check.der --> '
-      f'{check.der}')
+      f'{check.der}')                    # Should be [1]
 print(f'check._der.get(x) --> '
       f'{check._der.get(x)}')         # Should be 1
 
@@ -104,7 +104,7 @@ check = x * y + ef.sin(x) + z
 print(f'check.val --> '
       f'{check.val}')                    # Should be 13.909...
 print(f'check.der --> '
-      f'{check.der}')
+      f'{check.der}')                 # Should be [4.583..., 2, 1]
 print(f'check._der.get(x) --> '
       f'{check._der.get(x)}')         # Should be 4.583...
 print(f'check._der.get(y) --> '  
@@ -119,10 +119,29 @@ x1 = fd.new_scal(2)
 x2 = fd.new_scal(3)
 check = x1 * x2 + x1
 print(f'check.val --> '
-      f'{check.val}')                    # Should be 8
+      f'{check.val}')                    # Should be [8]
 print(f'check.der --> '
       f'{check.der}')                    # Should be [4, 2]
 
 # TODO: VECTOR DEBUGGING --
+print()
 
-print(np.array([1,2,3]) + np.array([1,1,1]))
+print(f'x1 = fd.new_vec([2, 3, 4])\n'
+      f'x2 = fd.new_vec([3, 2, 1])\n'
+      f'check = x1 - x2\n')
+x1 = fd.new_vec([2, 3, 4])
+x2 = fd.new_vec([3, 2, 1])
+check = x1 - x2
+print(f'x1._der.get(x1) -->\n'
+      f'{x1._der.get(x1)}\n')
+print(f'x2._der.get(x2) -->\n'
+      f'{x2._der.get(x2)}\n')
+print(f'check._der.get(x1) -->\n'
+      f'{check._der.get(x1)}')
+print(f'check._der.get(x2) -->\n'
+      f'{(check._der.get(x2))}')
+
+
+# print(np.array([1,2,3]) * np.array([1,2,4]))
+# print(np.identity(2) - 0)
+# print((np.eye(2) - np.eye(2)) * 2)
