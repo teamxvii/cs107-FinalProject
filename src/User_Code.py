@@ -9,12 +9,12 @@ import numpy as np
 print(f'---- DEMOS / DEBUGGING / VERIFY CALCULATIONS ----\n')
 
 print('Create input vars -->')
-print(f'x = FADiff.new_scalar(2)')
-x = fd.new_var(2, name='x')
-print(f'y = FADiff.new_scalar(5)')
-y = fd.new_var(5, name='y')
-print(f'z = FADiff.new_scalar(3)')
-z = fd.new_var(3, name='z')
+print(f'x = FADiff.new_scal(2)')
+x = fd.new_scal(2, name='x')
+print(f'y = FADiff.new_scal(5)')
+y = fd.new_scal(5, name='y')
+print(f'z = FADiff.new_scal(3)')
+z = fd.new_scal(3, name='z')
 print(f'x.val --> '                   
       f'{x.val}')              # Should be [2]
 print(f'x._der --> '           # '_der' is a dictionary containing the 
@@ -115,8 +115,8 @@ print(f'check.partial_der(z) --> '
 print(f'\nx1 = fd.new_var(2)\n'
       f'x2 = fd.new_var(3)\n'
       f'check = x1 * x2 + x1')
-x1 = fd.new_var(2)
-x2 = fd.new_var(3)
+x1 = fd.new_scal(2)
+x2 = fd.new_scal(3)
 check = x1 * x2 + x1
 print(f'check.val --> '
       f'{check.val}')                    # Should be 8
