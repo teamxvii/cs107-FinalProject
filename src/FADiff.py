@@ -3,8 +3,8 @@
 # NOTE: See bottom of this module for imported modules
 
 class FADiff:
-    vars_list = []        # Global input vars list
-    vectors_list = []
+    scals_list = []        # Global input scalar vars list
+    vects_list = []        # Global input vector vars list
 
     # TODO: Should we also handle for list inputs?
 
