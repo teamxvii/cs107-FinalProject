@@ -4,7 +4,38 @@ from FADiff import FADiff
 
 
 class Scal:
+    """
+    A class to represent a person.
+
+    ...
+
+    Attributes
+    ----------
+    name : str
+        first name of the person
+    surname : str
+        family name of the person
+    age : int
+        age of the person
+
+    Methods
+    -------
+    info(additional=""):
+        Prints the person's name and age.
+    """
     def __init__(self, val, der=None, parents=[], name=None, new_input=False):
+        """
+        Constructs all the necessary attributes for the person object.
+
+        Parameters
+        ----------
+            name : str
+                first name of the person
+            surname : str
+                family name of the person
+            age : int
+                age of the person
+        """
         self._val = val
         if new_input:                       # Creating input var?
             self._der = {}                  # Add gradient dict for new var
@@ -19,6 +50,20 @@ class Scal:
         self.parents = parents
 
     def __add__(self, other):
+        """
+        Prints the person's name and age.
+
+        If the argument 'additional' is passed, then it is appended after the main info.
+
+        Parameters
+        ----------
+        additional : str, optional
+            More info to be displayed (default is None)
+
+        Returns
+        -------
+        None
+        """
         try:
             der = {}
             for var, part_der in self._der.items():
@@ -67,7 +112,8 @@ class Scal:
             return [self._der[self]]
 
     @staticmethod
-    def set_parents(var1, var2=None):        # Gets parent/grandparent vars
+    # Gets parent/grandparent vars
+    def set_parents(var1, var2=None):
         parents = []
         parents.append(var1)
         for parent in var1.parents:
