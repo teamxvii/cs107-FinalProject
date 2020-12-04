@@ -9,11 +9,11 @@ class Vect:
         self._val = np.array(vect)
         if new_input:
             self._der = {}
-            for vec_var in FADiff.vects_list:
+            for vec_var in FADiff.vect_inputs:
                 self._der[vec_var] = 0
                 vec_var._der[self] = 0
             self._der[self] = der * np.identity(len(vect))
-            FADiff.vects_list.append(self)
+            FADiff.vect_inputs.append(self)
         else:
             self._der = der
         self.name = name  # TODO: Utilize somewhere?
@@ -46,7 +46,7 @@ class Vect:
                 parents.append(value)
         if parents:                      # For output vars
             return parents
-        elif self in FADiff.vects_list:  # For input vars (no parents)
+        elif self in FADiff.vect_inputs:  # For input vars (no parents)
             return [self._der[self]]
 
     @staticmethod

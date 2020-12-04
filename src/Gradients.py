@@ -27,11 +27,11 @@ class Scal:
         self._val = val
         if new_input:                       # Creating input var?
             self._der = {}                  # Add gradient dict for new var
-            for var in FADiff.scals_list:    # Update gradient dicts for all vars
+            for var in FADiff.scal_inputs:    # Update gradient dicts for all vars
                 self._der[var] = 0          # Partial der of others as 0 in self
                 var._der[self] = 0          # Self's partial der as 0 in others
             self._der[self] = der           # Self's partial der in self
-            FADiff.scals_list.append(self)   # Add self to global vars list
+            FADiff.scal_inputs.append(self)   # Add self to global vars list
         else:
             self._der = der
         self.name = name  # TODO: Utilize somewhere?
@@ -94,7 +94,7 @@ class Scal:
                 parents.append(value)
         if parents:                           # For output vars
             return parents
-        elif self in FADiff.scals_list:       # For input vars (no parents)
+        elif self in FADiff.scal_inputs:       # For input vars (no parents)
             return [self._der[self]]
 
     @staticmethod

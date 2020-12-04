@@ -3,8 +3,8 @@
 # NOTE: See bottom of this module for imported modules
 
 class FADiff:
-    scals_list = []        # Global input scalar vars list
-    vects_list = []        # Global input vector vars list
+    scal_inputs = []        # Global input scalar vars list
+    vect_inputs = []        # Global input vector vars list
 
     # TODO: If time, also handle for list inputs?
 
@@ -22,7 +22,7 @@ class FADiff:
 
     # TODO
     @staticmethod
-    def new_funcvec():
+    def new_funcvect():
         pass
 
     # TODO: Make sure to specify in doc how user can get Jacobians, etc.
