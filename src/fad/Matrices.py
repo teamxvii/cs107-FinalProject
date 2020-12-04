@@ -16,7 +16,7 @@ class Vect:
             FADiff.vect_inputs.append(self)
         else:
             self._der = der
-        self.name = name  # TODO: Utilize somewhere?
+        self.name = name  # TODO: Utilize if have time?
         self.parents = parents
 
     def __sub__(self, other):

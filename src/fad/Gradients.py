@@ -34,7 +34,7 @@ class Scal:
             FADiff.scal_inputs.append(self)   # Add self to global vars list
         else:
             self._der = der
-        self.name = name  # TODO: Utilize somewhere?
+        self.name = name  # TODO: Utilize if have time?
         self.parents = parents
 
     def __add__(self, other):

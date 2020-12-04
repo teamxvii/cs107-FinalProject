@@ -146,7 +146,7 @@ print(f'check.val --> '
 print(f'check.der -->\n'
       f'{check.der}')
 print(f'check.der (pretty printed) -->')   # TODO: Could add this to How To Use in doc? --
-for mat in check.der:                      # ** How To Use (for prettier user output for vector
+for mat in check.der:                      # ** How To Use (for pretty printing vector
     print(mat)                             # derivs) **
 print(f'check._der.get(x1) -->\n'
       f'{check._der.get(x1)}')
