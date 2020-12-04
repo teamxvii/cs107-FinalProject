@@ -130,19 +130,25 @@ print(f'x1 = fd.new_vect([2, 3, 4])\n'
       f'x2 = fd.new_vect([3, 2, 1])')
 x1 = fd.new_vect([2, 3, 4])
 x2 = fd.new_vect([3, 2, 1])
+print(f'x1.val -->\n'       
+      f'{x1.val}')
 print(f'x1.der -->\n'       # Should be identity
       f'{x1.der}')
+print(f'x2.val -->\n'       
+      f'{x2.val}')
 print(f'x2.der -->\n'       # Should be identity
       f'{x2.der}')
 
 print(f'\ncheck = x1 - x2')
 check = x1 - x2
-print(f'check._der.get(x1) -->\n'
-      f'{check._der.get(x1)}')
-print(f'check._der.get(x2) -->\n'
-      f'{check._der.get(x2)}')
+print(f'check.val -->\n'
+      f'{check.val}')
 print(f'check.der -->\n'
       f'{check.der}')
 print(f'check.der (pretty printed) -->')   # TODO: Could add this to How To Use in doc? --
 for mat in check.der:                      # ** How To Use (for prettier user output for vector
     print(mat)                             # derivs) **
+print(f'check._der.get(x1) -->\n'
+      f'{check._der.get(x1)}')
+print(f'check._der.get(x2) -->\n'
+      f'{check._der.get(x2)}')
