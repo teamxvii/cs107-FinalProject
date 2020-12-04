@@ -127,15 +127,16 @@ print(f'check.der --> '
 print()
 
 print(f'x1 = fd.new_vec([2, 3, 4])\n'
-      f'x2 = fd.new_vec([3, 2, 1])\n'
-      f'check = x1 - x2\n')
-x1 = fd.new_vec([2, 3, 4])
-x2 = fd.new_vec([3, 2, 1])
+      f'x2 = fd.new_vec([3, 2, 1])')
+x1 = fd.new_vect([2, 3, 4])
+x2 = fd.new_vect([3, 2, 1])
+print(f'x1._der.get(x1) -->\n'       # Should be identity
+      f'{x1._der.get(x1)}')
+print(f'x2._der.get(x2) -->\n'       # Should be identity
+      f'{x2._der.get(x2)}')
+
+print(f'\ncheck = x1 - x2')
 check = x1 - x2
-print(f'x1._der.get(x1) -->\n'
-      f'{x1._der.get(x1)}\n')
-print(f'x2._der.get(x2) -->\n'
-      f'{x2._der.get(x2)}\n')
 print(f'check._der.get(x1) -->\n'
       f'{check._der.get(x1)}')
 print(f'check._der.get(x2) -->\n'
