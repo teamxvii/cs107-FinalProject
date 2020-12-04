@@ -89,9 +89,9 @@ class Scal:
     def der(self):
         '''Returns partial derivatives wrt all root input vars used'''
         parents = []
-        for key, value in self._der.items():
-            if key in self.parents:
-                parents.append(value)
+        for var, part_der in self._der.items():
+            if var in self.parents:
+                parents.append(part_der)
         if parents:                           # For output vars
             return parents
         elif self in FADiff.scal_inputs:       # For input vars (no parents)

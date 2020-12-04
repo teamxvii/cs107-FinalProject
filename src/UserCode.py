@@ -159,5 +159,6 @@ print()
 x1 = fd.new_scal(3)
 x2 = fd.new_scal(2)
 f1 = x1 * x2 + x1
-f = fd.new_funcvect([f1])
-print(f.val)
+f2 = 8 * x2
+f = fd.new_funcvect([f1, f2])
+print(f.val, f.der)
