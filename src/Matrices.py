@@ -33,6 +33,3 @@ class Vect:
 
     def __rsub__(self, other):
         return self.__sub__(other)
-
-    def compute_jacobian(self):
-        pass

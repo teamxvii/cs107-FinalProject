@@ -55,7 +55,8 @@ class Scal:
         return [self._val]
 
     @property
-    def der(self):                           # Returns partial derivs
+    # Returns partial derivs wrt all root input vars
+    def der(self):
         parents = []
         for key, value in self._der.items():
             if key in self.parents:

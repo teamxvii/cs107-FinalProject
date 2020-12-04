@@ -3,7 +3,7 @@
 # NOTE: See bottom of this module for imported modules
 
 class FADiff:
-    vars_list = []        # Global vars list (Jacobian includes all)
+    vars_list = []        # Global input vars list (Jacobian includes all)
     vectors_list = []
 
     # TODO: Should we also handle for list inputs?
