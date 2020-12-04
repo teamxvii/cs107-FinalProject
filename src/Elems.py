@@ -6,14 +6,13 @@ from FADiff import *
 
 def sin(x):
     '''
-    Returns the sum of two decimal numbers in binary digits.
+    Returns the sine of...
 
         Parameters:
-            a (int): A decimal integer
-            b (int): Another decimal integer
+            x: A decimal integer
 
         Returns:
-            binary_sum (str): Binary string of the sum of a and b
+            new Scal instance or sine of x
     '''
     try:
         der = {}

@@ -5,36 +5,24 @@ from FADiff import FADiff
 
 class Scal:
     """
-    A class to represent a person.
-
-    ...
-
-    Attributes
-    ----------
-    name : str
-        first name of the person
-    surname : str
-        family name of the person
-    age : int
-        age of the person
-
-    Methods
-    -------
-    info(additional=""):
-        Prints the person's name and age.
+    A class to...
     """
     def __init__(self, val, der=None, parents=[], name=None, new_input=False):
         """
-        Constructs all the necessary attributes for the person object.
+        Constructs all the...
 
         Parameters
         ----------
+            val : float
+                value of the scalar variable
+            der : float, dictionary
+                derivative of the scalar variable
+            parents : list of Scal objects
+                the parent/grandparent vars of the variable
             name : str
-                first name of the person
-            surname : str
-                family name of the person
-            age : int
-                age of the person
+                the name of the variable
+            new_input : boolean
+                if variable is an input variable
         """
         self._val = val
         if new_input:                       # Creating input var?
@@ -51,18 +39,16 @@ class Scal:
 
     def __add__(self, other):
         """
-        Prints the person's name and age.
-
-        If the argument 'additional' is passed, then it is appended after the main info.
+        Adds...
 
         Parameters
         ----------
-        additional : str, optional
-            More info to be displayed (default is None)
+        other : Scal, constant
+            the Scal object or constant being added to self
 
         Returns
         -------
-        None
+        new Scal instance
         """
         try:
             der = {}
@@ -100,8 +86,8 @@ class Scal:
         return [self._val]
 
     @property
-    # Returns partial derivs wrt all root input vars
     def der(self):
+        '''Returns partial derivatives wrt all root input vars used'''
         parents = []
         for key, value in self._der.items():
             if key in self.parents:
@@ -112,8 +98,8 @@ class Scal:
             return [self._der[self]]
 
     @staticmethod
-    # Gets parent/grandparent vars
     def set_parents(var1, var2=None):
+        '''Gets parent/grandparent vars (including root input vars)'''
         parents = []
         parents.append(var1)
         for parent in var1.parents:
