@@ -156,9 +156,18 @@ print(f'check._der.get(x2) -->\n'
 # TODO: FUNCTION VECTOR (FuncVect.py) DEBUGGING --
 print()
 
+print(f'x1 = fd.new_scal(3)\n'
+      f'x2 = fd.new_scal(2)\n'
+      f'f1 = x1 * x2 + x1\n'
+      f'f2 = 8 * x2')
 x1 = fd.new_scal(3)
 x2 = fd.new_scal(2)
 f1 = x1 * x2 + x1
 f2 = 8 * x2
+
+print(f'\nf = fd.new_funcvect([f1, f2])')
 f = fd.new_funcvect([f1, f2])
-print(f.val, f.der)
+print(f'f.val -->\n'
+      f'{f.val}')
+print(f'f.der -->\n'
+      f'{f.der}')
