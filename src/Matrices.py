@@ -47,7 +47,7 @@ class Vect:
 
     @staticmethod
     def set_parents(var1, var2=None):
-        '''Gets parent/grandparent vars (including root input vars used)'''
+        '''Gets parent/grandparent vars used (including root input vars)'''
         parents = []
         parents.append(var1)
         for parent in var1.parents:

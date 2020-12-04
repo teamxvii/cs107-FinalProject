@@ -141,10 +141,6 @@ print(f'check._der.get(x1) -->\n'
       f'{check._der.get(x1)}')
 print(f'check._der.get(x2) -->\n'
       f'{check._der.get(x2)}')
-print(f'check.der -->\n'
-      f'{check.der}')
-
-
-# print(np.array([1,2,3]) * np.array([1,2,4]))
-# print(np.identity(2) - 0)
-# print((np.eye(2) - np.eye(2)) * 2)
+print(f'check.der -->')
+for mat in check.der:
+    print(mat)
