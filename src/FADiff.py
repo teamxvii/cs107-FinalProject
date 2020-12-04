@@ -12,26 +12,26 @@ class FADiff:
     def new_scal(val, der=None, name=None):
         if not der:         # No der arg?
             der = 1         # Init der to 1
-        return Scal(val, der=der, name=name, new_input=True)
+        return fadScal(val, der=der, name=name, new_input=True)
 
     @staticmethod
     def new_vect(vect, der=None, name=None):
         if not der:         # No der arg?
             der = 1         # Init der to identity matrix
-        return Vect(vect, der=der, name=name, new_input=True)
+        return fadVect(vect, der=der, name=name, new_input=True)
 
     # TODO
     @staticmethod
     def new_funcvect(func_list):
-        return FuncVect(func_list)
+        return fadFuncVect(func_list)
 
     # TODO: Make sure to specify in doc how user can get Jacobians, etc.
 
 
 # NOTE: Imports intentionally at bottom to prevent circular dependencies
-from Gradients import Scal
-from Matrices import Vect
-from FuncVect import FuncVect
+from fad.Gradients import Scal as fadScal
+from fad.Matrices import Vect as fadVect
+from fad.FuncVect import FuncVect as fadFuncVect
 
 
 # References:
