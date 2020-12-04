@@ -8,6 +8,8 @@ import numpy as np
 # TODO: Debugging, etc. --
 print(f'---- DEMOS / DEBUGGING / VERIFY CALCULATIONS ----\n')
 
+ad.set_mode('forward')         # Set the mode to forward
+
 print('Create input vars -->')
 print(f'x = FADiff.new_scal(2)')
 x = ad.new_scal(2, name='x')
