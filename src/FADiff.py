@@ -27,3 +27,7 @@ class FADiff:
 # NOTE: Imports intentionally at bottom to prevent circular dependencies
 from Gradients import Scal
 from Matrices import Vect
+
+
+# References:
+# - https://www.programiz.com/python-programming/docstrings
