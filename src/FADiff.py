@@ -22,8 +22,8 @@ class FADiff:
 
     # TODO
     @staticmethod
-    def new_funcvect():
-        pass
+    def new_funcvect(func_list):
+        return FuncVect(func_list)
 
     # TODO: Make sure to specify in doc how user can get Jacobians, etc.
 
@@ -31,6 +31,7 @@ class FADiff:
 # NOTE: Imports intentionally at bottom to prevent circular dependencies
 from Gradients import Scal
 from Matrices import Vect
+from FuncVect import FuncVect
 
 
 # References:

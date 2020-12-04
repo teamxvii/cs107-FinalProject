@@ -7,18 +7,26 @@ from Gradients import Scal
 class FuncVect:
     def __init__(self, funcs):
         try:
-            # TODO: Correctly validating (think so)? --
             for func in funcs:
-                # Don't accept non-Scals
-                if type(func) != Scal:
+                if type(func) != Scal:             # Don't accept non-Scals
                     raise Exception('Invalid function type entered')
-                # Don't accept Scals that are input variables
-                if func in FADiff.scal_inputs:
+                if func in FADiff.scal_inputs:     # No scal input variables
                     raise Exception('Invalid function type entered')
         except Exception:
             raise
         else:
             self.f_vect = funcs
+            self.input_vars = []     # Get complete list of input vars of f_vect
+            for func in funcs:
+                for key in func._der.keys():
+                    if key in func.parents:
+                        self.input_vars.append(key)
+            self.input_vars = list(set(self.input_vars))
 
-            # TODO: Keep track of what input variables each function uses (can use set())
-            self.inputs = []
+    @property
+    def val(self):
+        pass
+
+    @property
+    def der(self):
+        pass
