@@ -153,7 +153,7 @@ print(f'check._der.get(x1) -->\n'
 print(f'check._der.get(x2) -->\n'
       f'{check._der.get(x2)}')
 
-# TODO: Function vector (FuncVect.py) debuggin --
+# TODO: FUNCTION VECTOR (FuncVect.py) DEBUGGING --
 print()
 
 x1 = fd.new_scal(3)
