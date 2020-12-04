@@ -20,7 +20,7 @@ print(f'x.val --> '
 print(f'x._der --> '           # '_der' is a dictionary containing the 
       f'{x._der}')             #   partial derivatives for a var
 print(f'x.der --> '            # 'der' (no underscore) returns only the partial
-      f'{x.der}')              #   derivatives involved in the calculation
+      f'{x.der}')              #   derivatives for input vars used in calculation
 print(f'y.val --> '                  
       f'{y.val}')              # Should be [5]
 print(f'y.der --> '
@@ -112,8 +112,8 @@ print(f'check._der.get(y) --> '
 print(f'check._der.get(z) --> '  
       f'{check._der.get(z)}')         # Should be 1
 
-print(f'\nx1 = fd.new_var(2)\n'
-      f'x2 = fd.new_var(3)\n'
+print(f'\nx1 = fd.new_scal(2)\n'
+      f'x2 = fd.new_scal(3)\n'
       f'check = x1 * x2 + x1')
 x1 = fd.new_scal(2)
 x2 = fd.new_scal(3)
@@ -126,8 +126,8 @@ print(f'check.der --> '
 # TODO: VECTOR DEBUGGING --
 print()
 
-print(f'x1 = fd.new_vec([2, 3, 4])\n'
-      f'x2 = fd.new_vec([3, 2, 1])')
+print(f'x1 = fd.new_vect([2, 3, 4])\n'
+      f'x2 = fd.new_vect([3, 2, 1])')
 x1 = fd.new_vect([2, 3, 4])
 x2 = fd.new_vect([3, 2, 1])
 print(f'x1.der -->\n'       # Should be identity
@@ -141,6 +141,6 @@ print(f'check._der.get(x1) -->\n'
       f'{check._der.get(x1)}')
 print(f'check._der.get(x2) -->\n'
       f'{check._der.get(x2)}')
-print(f'check.der -->')
-for mat in check.der:
-    print(mat)
+print(f'check.der -->')   # TODO: Add this to How To Use in doc --
+for mat in check.der:     # ** How To Use (for prettier user output for vector
+    print(mat)            # derivs) **
