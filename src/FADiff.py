@@ -20,6 +20,11 @@ class FADiff:
             der = 1         # Init der to identity matrix
         return Vect(vect, der=der, name=name, new_input=True)
 
+    # TODO
+    @staticmethod
+    def new_funcvec():
+        pass
+
     # TODO: Make sure to specify in doc how user can get Jacobians, etc.
 
 
