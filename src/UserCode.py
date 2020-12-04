@@ -152,3 +152,12 @@ print(f'check._der.get(x1) -->\n'
       f'{check._der.get(x1)}')
 print(f'check._der.get(x2) -->\n'
       f'{check._der.get(x2)}')
+
+# TODO: Function vector (FuncVect.py) debuggin --
+print()
+
+x1 = fd.new_scal(3)
+x2 = fd.new_scal(2)
+f1 = x1 * x2 + x1
+f = fd.new_funcvect([f1])
+print(f.val)

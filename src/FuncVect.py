@@ -25,7 +25,10 @@ class FuncVect:
 
     @property
     def val(self):
-        pass
+        func_vals = []
+        for func in self.f_vect:
+            func_vals.append(func._val)
+        return func_vals
 
     @property
     def der(self):
