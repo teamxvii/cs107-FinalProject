@@ -99,7 +99,7 @@ class Scal:
 
     @staticmethod
     def set_parents(var1, var2=None):
-        '''Gets parent/grandparent vars (including root input vars)'''
+        '''Gets parent/grandparent vars (including root input vars used)'''
         parents = []
         parents.append(var1)
         for parent in var1.parents:

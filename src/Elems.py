@@ -9,7 +9,7 @@ def sin(x):
     Returns the sine of...
 
         Parameters:
-            x: A decimal integer
+            x: float, Scal, Vect
 
         Returns:
             new Scal instance or sine of x
