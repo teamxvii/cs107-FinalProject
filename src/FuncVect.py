@@ -7,15 +7,14 @@ from Gradients import Scal
 class FuncVect:
     def __init__(self, funcs):
         try:
+            # TODO: Correctly validating (think so)? --
             for func in funcs:
-                # TODO: Correctly validating? --
                 # Don't accept non-Scals
                 if type(func) != Scal:
                     raise Exception('Invalid function type entered')
                 # Don't accept Scals that are input variables
                 if func in FADiff.scal_inputs:
                     raise Exception('Invalid function type entered')
-
         except Exception:
             raise
         else:
