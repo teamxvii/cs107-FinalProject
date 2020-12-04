@@ -6,7 +6,7 @@ class FADiff:
     scals_list = []        # Global input scalar vars list
     vects_list = []        # Global input vector vars list
 
-    # TODO: Should we also handle for list inputs?
+    # TODO: If time, also handle for list inputs?
 
     @staticmethod
     def new_scal(val, der=None, name=None):
@@ -20,8 +20,7 @@ class FADiff:
             der = 1         # Init der to identity matrix
         return Vect(vect, der=der, name=name, new_input=True)
 
-    # TODO: More API(?) stuff?
-    #  - Jacobian?
+    # TODO: Make sure to specify in doc how user can get Jacobians, etc.
 
 
 # NOTE: Imports intentionally at bottom to prevent circular dependencies

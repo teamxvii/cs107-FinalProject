@@ -92,14 +92,14 @@ class Scal:
         for key, value in self._der.items():
             if key in self.parents:
                 parents.append(value)
-        if parents:                          # For output vars
+        if parents:                           # For output vars
             return parents
         elif self in FADiff.scals_list:       # For input vars (no parents)
             return [self._der[self]]
 
     @staticmethod
     def set_parents(var1, var2=None):
-        '''Gets parent/grandparent vars (including root input vars used)'''
+        '''Sets parent/grandparent vars (including root input vars used)'''
         parents = []
         parents.append(var1)
         for parent in var1.parents:

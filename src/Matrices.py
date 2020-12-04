@@ -34,20 +34,24 @@ class Vect:
         return self.__sub__(other)
 
     @property
+    def val(self):
+        return [self._val]
+
+    @property
     def der(self):
         '''Returns partial derivatives wrt all root input vars used'''
         parents = []
         for key, value in self._der.items():
             if key in self.parents:
                 parents.append(value)
-        if parents:  # For output vars
+        if parents:                      # For output vars
             return parents
         elif self in FADiff.vects_list:  # For input vars (no parents)
-            return self._der[self]
+            return [self._der[self]]
 
     @staticmethod
     def set_parents(var1, var2=None):
-        '''Gets parent/grandparent vars used (including root input vars)'''
+        '''Sets parent/grandparent vars used (including root input vars)'''
         parents = []
         parents.append(var1)
         for parent in var1.parents:
