@@ -3,39 +3,49 @@
 # NOTE: See bottom of this module for imported modules
 
 class FADiff:
-    scal_inputs = []        # Global input scalar vars list
-    vect_inputs = []        # Global input vector vars list
-    mode = 'forward'        # Default mode is forward mode
+    _fadscal_inputs = []        # Global input scalar vars list
+    _fadvect_inputs = []        # Global input vector vars list
+    _revscal_inputs = []
+    _mode = 'forward'           # Default mode is forward mode
 
     @staticmethod
     def set_mode(mode):
         # TODO: Input validation necessary here?
-        FADiff.mode = mode.lower()
+        FADiff._mode = mode.lower()
 
     @staticmethod
     def new_scal(val, der=None, name=None):
-        if not der:         # No der arg?
-            der = 1         # Init der to 1
-        if FADiff.mode == 'forward':
-            return fadScal(val, der=der, name=name, new_input=True)
+        if not der:  # No der arg?
+            der = 1  # Init der to 1
+        if FADiff._mode == 'forward':
+            return _fadScal(val, der=der, name=name, new_input=True)
+        elif FADiff._mode == 'reverse':
+            return _revScal(val, der=der, name=name, new_input=True)
 
     @staticmethod
     def new_vect(vect, der=None, name=None):
-        if not der:         # No der arg?
-            der = 1         # Init der to identity matrix
-        if FADiff.mode == 'forward':
-            return fadVect(vect, der=der, name=name, new_input=True)
+        if FADiff._mode == 'forward':
+            if not der:  # No der arg?
+                der = 1  # Init der to identity matrix
+            return _fadVect(vect, der=der, name=name, new_input=True)
+        elif FADiff._mode == 'reverse':
+            return _revVect()
 
     @staticmethod
     def new_funcvect(func_list):
-        if FADiff.mode == 'forward':
-            return fadFuncVect(func_list)
+        if FADiff._mode == 'forward':
+            return _fadFuncVect(func_list)
+        elif FADiff._mode == 'reverse':
+            return _revFuncVect(func_list)
 
 
 # NOTE: Imports intentionally at bottom to prevent circular dependencies
-from fad.Gradients import Scal as fadScal
-from fad.Matrices import Vect as fadVect
-from fad.FuncVect import FuncVect as fadFuncVect
+from fad.Gradients import Scal as _fadScal
+from fad.Matrices import Vect as _fadVect
+from fad.FuncVect import FuncVect as _fadFuncVect
+from rev.Gradients import Scal as _revScal
+from rev.Matrices import Vect as _revVect
+from rev.FuncVect import FuncVect as _revFuncVect
 
 
 # References:

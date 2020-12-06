@@ -25,10 +25,14 @@ print(f'x.der --> '            # 'der' (no underscore) returns only the partial
       f'{x.der}')              #   derivatives for input vars used in calculation
 print(f'y.val --> '                  
       f'{y.val}')              # Should be [5]
+print(f'y._der --> '           # '_der' is a dictionary containing the 
+      f'{y._der}')             #   partial derivatives for a var
 print(f'y.der --> '
       f'{y.der}')              # Should be [1]
 print(f'z.val --> '                  
       f'{z.val}')              # Should be [3]
+print(f'z._der --> '           # '_der' is a dictionary containing the 
+      f'{z._der}')             #   partial derivatives for a var
 print(f'z.der --> '
       f'{z.der}')              # Should be [1]
 
@@ -147,9 +151,9 @@ print(f'check.val --> '
       f'{check.val}')
 print(f'check.der -->\n'
       f'{check.der}')
-print(f'check.der (pretty printed) -->')   # TODO: Could add this to How To Use in doc? --
-for mat in check.der:                      # ** How To Use (for pretty printing vector
-    print(mat)                             # derivs) **
+print(f'check.der (pretty printed) -->')
+for mat in check.der:
+    print(mat)
 print(f'check._der.get(x1) -->\n'
       f'{check._der.get(x1)}')
 print(f'check._der.get(x2) -->\n'

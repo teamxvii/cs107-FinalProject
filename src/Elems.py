@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import numpy as np
-from FADiff import *
+from fad.Gradients import Scal as _fadScal
 
 
 def sin(x):
@@ -18,7 +18,7 @@ def sin(x):
         der = {}
         for var in x._der.keys():
             der[var] = x._der.get(var) * np.cos(x._val)
-        parents = x.set_parents(x)
-        return fadScal(np.sin(x._val), der, parents)
+        parents = x._set_parents(x)
+        return _fadScal(np.sin(x._val), der, parents)
     except AttributeError:
         return np.sin(x)
