@@ -31,12 +31,13 @@ class Scal:
             roots = self._set_roots(self, other)
 
             # TODO: Debugging
+            print('DEBUGGING')
             new = Scal(self._val + other._val, der, parents, roots)
             print(f'{new} --> ')
             part_ders = []
             for var, part_der in new._der.items():
                 part_ders.append(part_der)
-            print(f'{part_ders}')
+            print(f'{part_ders}\n')
             return new
 
             # return Scal(self._val + other._val, der, parents, roots)
@@ -60,19 +61,18 @@ class Scal:
                 self._tmp_part_der = 1
                 self._back_trace(var)
                 parents.append(self._tmp_part_der)
-        return parents  # TODO: Should return correct thing
+        return [parents]  # TODO: Should return correct thing
 
     def _back_trace(self, var):
-        found = False
-        parent = None
-        for parent in self._parents:
-            pass  # TODO
-        # TODO: self._tmp_part_der = self._tmp_part_der * parent_part_der
-        if not self._parents:                   # Base case
+        if not self._parents:             # Base case (at root var)
             return
-        else:
-            parent._back_trace(var)
-        # TODO: Should return a column's partial deriv
+        parent = None     # TODO: Raise exception if no parent found?
+        for par in self._parents:         # Find parent with partial der wrt var
+            if var == par or var in par._root_inputs:
+                parent = par
+                break
+        self._tmp_part_der = self._tmp_part_der * parent._der.get(var)
+        parent._back_trace(var)
 
     @staticmethod
     def _set_roots(var1, var2=None):

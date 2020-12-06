@@ -27,7 +27,6 @@ print(y._der)
 print(z.val)
 print(z._der)
 print()
-x + y + z
-# f = x + y + z
-# print(f.val)
-# print(f._der)
+f = x + y + z
+print(f.val)
+print(f.der)
