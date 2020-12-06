@@ -48,12 +48,6 @@ class Scal:
     def __radd__(self, other):
         return self.__add__(other)
 
-    def __mul__(self, other):
-        pass
-
-    def __rmul__(self, other):
-        return self.__mul__(other)
-
     @property
     def val(self):
         return [self._val]
@@ -64,13 +58,21 @@ class Scal:
         for var in self._der.keys():
             if var in self._root_inputs:
                 self._tmp_part_der = 1
-                parents.append(self._back_trace(var))
+                self._back_trace(var)
+                parents.append(self._tmp_part_der)
         return parents  # TODO: Should return correct thing
 
     def _back_trace(self, var):
-
-
-        pass  # TODO: Should return a column's partial deriv
+        found = False
+        parent = None
+        for parent in self._parents:
+            pass  # TODO
+        # TODO: self._tmp_part_der = self._tmp_part_der * parent_part_der
+        if not self._parents:                   # Base case
+            return
+        else:
+            parent._back_trace(var)
+        # TODO: Should return a column's partial deriv
 
     @staticmethod
     def _set_roots(var1, var2=None):
