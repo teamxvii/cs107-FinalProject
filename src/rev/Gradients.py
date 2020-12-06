@@ -41,6 +41,7 @@ class Scal:
             return new
 
             # return Scal(self._val + other._val, der, parents, roots)
+
         except AttributeError:
             parents = [self]
             roots = self._set_roots(self)

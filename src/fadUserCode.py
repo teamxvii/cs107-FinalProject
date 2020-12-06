@@ -177,3 +177,22 @@ print(f'f.val --> '
       f'{f.val}')
 print(f'f.der --> '
       f'{f.der}')
+
+# TODO: Checking the following against revUserCode.py (can erase later) --
+print('Create input vars -->')
+print(f'x = FADiff.new_scal(2)')
+x = ad.new_scal(2, name='x')
+print(f'y = FADiff.new_scal(5)')
+y = ad.new_scal(5, name='y')
+print(f'z = FADiff.new_scal(3)')
+z = ad.new_scal(3, name='z')
+print(x.val)
+print(x._der)
+print(y.val)
+print(y._der)
+print(z.val)
+print(z._der)
+print()
+f = x + y + z
+print(f.val)
+print(f.der)
