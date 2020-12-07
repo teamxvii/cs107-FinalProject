@@ -24,6 +24,9 @@ class Scal:
             new_input : boolean
                 if variable is an input variable
         """
+        if len(val) > 1
+            
+        
         self._val = val
         if new_input:                       # Creating input var?
             self._der = {}                  # Add gradient dict for new var
@@ -37,50 +40,279 @@ class Scal:
         self._name = name  # TODO: Utilize if have time?
         self._parents = parents
 
+    
+    ### Basic Operations ###
+    
     def __add__(self, other):
         """
-        Adds...
-
-        Parameters
-        ----------
-        other : Scal, constant
-            the Scal object or constant being added to self
-
-        Returns
-        -------
-        new Scal instance
+        Adds self with other (self + other)
+        
+        Inputs: self (Scal object), other (either Scal object or constant)
+        Returns: new Scal object
         """
-        try:
+        try: # if other is a Scal
+            val = self._val + other._val
             der = {}
-            for var, part_der in self._der.items():
+            for var, part_der in self._der.items(): 
                 der[var] = part_der + other._der.get(var)
-            parents = self._set_parents(self, other)
-            return Scal(self._val + other._val, der, parents)
-        except AttributeError:
+            parents = self._set_parents(self, other) 
+        except AttributeError: # if other is a constant
+            val = self._val + other
+            der = self._der
             parents = self._set_parents(self)
-            return Scal(self._val + other, self._der, parents)
+        return Scal(val, der, parents)
 
     def __radd__(self, other):
+        """
+        Adds other with self (other + self)
+        
+        Inputs: self (Scal object), other (either Scal object or constant)
+        Returns: new Scal object
+        """
         return self.__add__(other)
 
-    def __mul__(self, other):
-        try:
+    def __sub__(self, other):
+        """
+        Subtracts other from self (self - other)
+        
+        Inputs: self (Scal object), other (either Scal object or constant)
+        Returns: new Scal object
+        """
+        try:  # if other is a Scal
+            val = self._val - other._val 
             der = {}
-            for var, part_der in self._der.items():
-                der[var] = self._val * other._der.get(var) +\
-                           part_der * other._val
+            for var, part_der in self._der.items(): # loop through partial derivatives 
+                der[var] = part_der - other._der.get(var)
             parents = self._set_parents(self, other)
-            return Scal(self._val * other._val, der, parents)
-        except AttributeError:
+        except AttributeError: # if other is a constant
+            val = self._val - other
+            der = self._der
+            parents = self._set_parents(self)
+        return Scal(val, der, parents)
+
+    def __rsub__(self, other):
+        """
+        Subtracts self from other (other - self)
+        
+        Inputs: self (Scal object), other (either Scal object or constant)
+        Returns: new Scal object
+        """
+        try:  # if other is a Scal
+            val = other._val - self._val
             der = {}
-            for var, part_der in self._der.items():
+            for var, part_der in self._der.items(): # loop through partial derivatives 
+                der[var] = other._der.get(var) - part_der
+            parents = self._set_parents(self, other)
+        except AttributeError: # if other is a constant
+            val = other - self._val
+            for var, part_der in self._der.items(): # loop through partial derivatives 
+                der[var] = other - part_der
+            parents = self._set_parents(self)
+        return Scal(val, der, parents)
+    
+    def __mul__(self, other):
+        """
+        Mulitples self with other (self * other)
+        
+        Inputs: self (Scal object), other (either Scal object or constant)
+        Returns: new Scal object
+        """
+        try: # if other is a Scal
+            val = self._val * other._val
+            der = {}
+            for var, part_der in self._der.items(): # loop through partial derivatives 
+                der[var] = part_der * other._val + self._val * other._der.get(var) 
+            parents = self._set_parents(self, other) 
+        except AttributeError: # if other is a constant
+            val = self._val * other
+            der = {}
+            for var, part_der in self._der.items(): # loop through partial derivatives
                 der[var] = part_der * other
             parents = self._set_parents(self)
-            return Scal(self._val * other, der, parents)
+        return Scal(val, der, parents)
 
     def __rmul__(self, other):
+        """
+        Mulitples other with self (other * self)
+        
+        Inputs: self (Scal object), other (either Scal object or constant)
+        Returns: new Scal object
+        """
         return self.__mul__(other)
+    
+    def __truediv__(self, other):
+        """
+        Divides self by other (self / other)
+        
+        Inputs: self (Scal object), other (either Scal object or constant)
+        Returns: new Scal object
+        """
+        try: # if other is a Scal
+            val = self._val / other._val
+            der = {}
+            for var, part_der in self._der.items(): # loop through partial derivatives 
+                der[var] = (part_der * other._val - self._val * other._der.get(var)) / (other._val * other._val)
+            parents = self._set_parents(self, other) 
+        except AttributeError: # if other is a constant
+            val = self._val / other
+            der = {}
+            for var, part_der in self._der.items(): # loop through partial derivatives
+                der[var] = part_der / other
+            parents = self._set_parents(self)
+        return Scal(val, der, parents)
 
+    def __rtruediv__(self, other):
+        """
+        Divides other by self (other / self)
+        
+        Inputs: self (Scal object), other (either Scal object or constant)
+        Returns: new Scal object
+        """
+        try: # if other is a Scal
+            val = other._val / self._val
+            der = {}
+            for var, part_der in self._der.items(): # loop through partial derivatives 
+                der[var] = (self._val * other._der.get(var) - part_der * other._val) / (self._val * self._val)
+            parents = self._set_parents(self, other) 
+        except AttributeError: # if other is a constant
+            val = self._val / other
+            der = {}
+            for var, part_der in self._der.items(): # loop through partial derivatives
+                der[var] = (- other / (self._val * self._val)) * part_der
+            parents = self._set_parents(self)
+        return Scal(val, der, parents)
+
+    def __pow__(self, other):
+        """
+        Raises self the other power (self ** other)
+        
+        Inputs: self (Scal object), other (either Scal object or constant)
+        Returns: new Scal object
+        """
+        try: # if other is a Scal
+            val = self._val ** other._val
+            der = {}
+            for var, part_der in self._der.items(): # loop through partial derivatives
+                der[var] = other._val * (self._val ** (other._val - 1.)) * part_der
+            parents = self._set_parents(self, other)
+        except AttributeError: # if other is a constant
+            val = self._val ** other
+            der = {}
+            for var, part_der in self._der.items(): # loop through partial derivatives
+                der[var] = other * (self._val ** (other - 1.)) * part_der
+            parents = self._set_parents(self)
+        return Scal(val, der, parents)
+    
+    def __rpow__(self, other):
+        """
+        Raises other the self power (other ** self)
+        
+        Inputs: self (Scal object), other (either Scal object or constant)
+        Returns: new Scal object
+        """
+        try: # if other is a Scal
+            val = other._val ** self._val
+            der = {}
+            for var, part_der in self._der.items(): # loop through partial derivatives
+                der[var] = (other._val ** self._val) * np.log(other._val) * part_der
+            parents = self._set_parents(self, other)
+        except AttributeError: # if other is a constant
+            val = other ** self._val
+            der = {}
+            for var, part_der in self._der.items(): # loop through partial derivatives
+                der[var] = (other ** self._val) * np.log(other) * part_der
+            parents = self._set_parents(self)
+        return Scal(val, der, parents)
+    
+    def __neg__(self):
+        """
+        Negates self (- self)
+        
+        Inputs: self (Scal object)
+        Returns: new Scal object
+        """
+        val = - self._val
+        der = {}
+        for var, part_der in self._der.items():
+            der[var] = - part_der
+        parents = self._set_parents(self, other)
+        return Scal(var, der, parents)
+    
+    
+    ### Comparison Operators ###
+    
+    def __eq__(self, other):
+        """
+        Checks if self equals other
+        
+        Inputs: self (Scal object), other (either Scal object or constant)
+        Returns: Boolean (True if self equals other, False otherwise)
+        """
+        try: # if other is a Scal
+            return self._val == other._val
+        except AttributeError: # if other is a constant
+            return self._val == other
+        
+    def __ne__(self, other):
+        """
+        Checks if self does not equal other
+        
+        Inputs: self (Scal object), other (either Scal object or constant)
+        Returns: Boolean (True if self does not equal other, False otherwise)
+        """
+        try: # if other is a Scal
+            return self._val != other._val
+        except AttributeError: # if other is a constant
+            return self._val != other      
+        
+    def __lt__(self, other):
+        """
+        Checks if self is less than other
+        
+        Inputs: self (Scal object), other (either Scal object or constant)
+        Returns: Boolean (True if self is less than other, False otherwise)
+        """
+        try: # if other is a Scal
+            return self._val < other._val
+        except AttributeError: # if other is a constant
+            return self._val < other 
+        
+    def __le__(self, other):
+        """
+        Checks if self is less than or equal to other
+        
+        Inputs: self (Scal object), other (either Scal object or constant)
+        Returns: Boolean (True if self is less than or equal to other, False otherwise)
+        """
+        try: # if other is a Scal
+            return self._val <= other._val
+        except AttributeError: # if other is a constant
+            return self._val <= other   
+        
+    def __gt__(self, other):
+        """
+        Checks if self is greater than other
+        
+        Inputs: self (Scal object), other (either Scal object or constant)
+        Returns: Boolean (True if self is greater than other, False otherwise)
+        """
+        try: # if other is a Scal
+            return self._val > other._val
+        except AttributeError: # if other is a constant
+            return self._val > other 
+        
+    def __ge__(self, other):
+        """
+        Checks if self is greater than or equal to other
+        
+        Inputs: self (Scal object), other (either Scal object or constant)
+        Returns: Boolean (True if self is greater than or equal to other, False otherwise)
+        """
+        try: # if other is a Scal
+            return self._val >= other._val
+        except AttributeError: # if other is a constant
+            return self._val >= other 
+ 
     @property
     def val(self):
         return [self._val]
