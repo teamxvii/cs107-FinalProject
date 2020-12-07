@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 
 from FADiff import FADiff
-from fad.Gradients import Scal as _fadScal
+from fad.Gradients import Scal as fadScal
+from rev.Gradients import Scal as revScal
 
 
 class FuncVect:
     def __init__(self, funcs):
         try:
             for func in funcs:
-                if type(func) != _fadScal:        # Don't accept non-Scals
+                if type(func) != fadScal:        # Don't accept non-Scals
                     raise Exception('Invalid function type entered')
         except Exception:
             raise

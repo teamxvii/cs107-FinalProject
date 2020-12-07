@@ -33,19 +33,15 @@ class FADiff:
 
     @staticmethod
     def new_funcvect(func_list):
-        if FADiff._mode == 'forward':
-            return _fadFuncVect(func_list)
-        elif FADiff._mode == 'reverse':
-            return _revFuncVect(func_list)
+        return _funcVect(func_list)
 
 
 # NOTE: Imports intentionally at bottom to prevent circular dependencies
 from fad.Gradients import Scal as _fadScal
 from fad.Matrices import Vect as _fadVect
-from fad.FuncVect import FuncVect as _fadFuncVect
+from FuncVect import FuncVect as _funcVect
 from rev.Gradients import Scal as _revScal
 from rev.Matrices import Vect as _revVect
-from rev.FuncVect import FuncVect as _revFuncVect
 
 
 # References:
