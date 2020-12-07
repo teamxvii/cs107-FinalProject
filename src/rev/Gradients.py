@@ -4,6 +4,8 @@ from FADiff import FADiff
 
 
 class Scal:
+    _tmp_part_der = 0
+
     def __init__(self, val, der=None, parents=[],
                  roots=[], name=None, new_input=False):
         self._val = val
@@ -20,7 +22,6 @@ class Scal:
         self._name = name
         self._parents = parents
         self._root_inputs = roots
-        self._tmp_part_der = 0   # TODO: Should this be static (should work without)?
 
     def __add__(self, other):
         try:
@@ -29,19 +30,7 @@ class Scal:
                 der[var] = part_der + other._der.get(var)
             parents = [self, other]
             roots = self._set_roots(self, other)
-
-            # TODO: Debugging
-            print('DEBUGGING')
-            new = Scal(self._val + other._val, der, parents, roots)
-            print(f'{new} --> ')
-            part_ders = []
-            for var, part_der in new._der.items():
-                part_ders.append(part_der)
-            print(f'{part_ders}\n')
-            return new
-
-            # return Scal(self._val + other._val, der, parents, roots)
-
+            return Scal(self._val + other._val, der, parents, roots)
         except AttributeError:
             parents = [self]
             roots = self._set_roots(self)
@@ -57,14 +46,16 @@ class Scal:
             for var, part_der in self._der.items():
                 der[var] = self._val * other._der.get(var) +\
                            part_der * other._val
-            parents = self._set_parents(self, other)
-            return Scal(self._val * other._val, der, parents)
+            parents = [self, other]
+            roots = self._set_roots(self, other)
+            return Scal(self._val * other._val, der, parents, roots)
         except AttributeError:
             der = {}
             for var, part_der in self._der.items():
                 der[var] = part_der * other
-            parents = self._set_parents(self)
-            return Scal(self._val * other, der, parents)
+            parents = [self]
+            roots = self._set_roots(self, other)
+            return Scal(self._val * other, der, parents, roots)
 
     def __rmul__(self, other):
         return self.__mul__(other)
@@ -78,10 +69,10 @@ class Scal:
         parents = []
         for var in self._der.keys():
             if var in self._root_inputs:
-                self._tmp_part_der = 1
+                Scal._tmp_part_der = 1
                 self._back_trace(var)
-                parents.append(self._tmp_part_der)
-        return [parents]  # TODO: Should return correct thing
+                parents.append(Scal._tmp_part_der)
+        return parents
 
     def _back_trace(self, var):
         if not self._parents:             # Base case (at root var)
@@ -91,7 +82,7 @@ class Scal:
             if var == par or var in par._root_inputs:
                 parent = par
                 break
-        self._tmp_part_der = self._tmp_part_der * parent._der.get(var)
+        Scal._tmp_part_der = Scal._tmp_part_der * self._der.get(var)
         parent._back_trace(var)
 
     @staticmethod
