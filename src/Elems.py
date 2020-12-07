@@ -12,7 +12,7 @@ def sin(x):
             x: float, Scal, Vect
 
         Returns:
-            new Scal instance or sine of x
+            new Scal or Vect instance or sine of x
     '''
     try:
         der = {}
