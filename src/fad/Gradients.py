@@ -8,7 +8,7 @@ class Scal:
     """
     A class for automatic differentiation of scalar variables
     """
-    def __init__(self, val, der=None, parents=[], name=None, new_input=False):
+    def __init__(self, val, der=None, parents=None, name=None, new_input=False):
         """
         Inputs
         ------
@@ -47,6 +47,8 @@ class Scal:
         else:
             self._der = deriv
         self._name = name  # TODO: Utilize if have time?
+        if parents is None:
+            parents = []
         self._parents = parents
 
     
