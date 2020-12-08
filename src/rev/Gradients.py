@@ -63,9 +63,16 @@ class Scal:
         return parents  # TODO: Should return correct thing
 
     # TODO
-    def _back_trace(self, var):
-        if self._inputs[var]:    # (Base case: list is empty @ root)
-            pass
+    def _back_trace(self, root):
+        if self._inputs[root]:  # (Base case: list is empty @ root)
+            for parent, part_der in self._inputs[root]:
+                Scal._tmp_part_der = self._der * part_der
+                parent._back_trace(root)
+
+    def __str__(self):
+        printout = f'{self._name} = {self._val}\n' \
+                   f'inputs = {self._inputs}'
+        return printout
 
     # TODO: Don't think need this --
     # @staticmethod
