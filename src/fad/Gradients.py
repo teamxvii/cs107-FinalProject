@@ -24,7 +24,7 @@ class Scal:
             new_input : boolean
                 if variable is an input variable
         """
-        # if len(val) > 1  TODO: What's this (it caused an error)?
+        if len(val) > 1
             
         
         self._val = val

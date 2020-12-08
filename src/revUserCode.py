@@ -21,22 +21,18 @@ y = ad.new_scal(5, name='y')
 print(f'z = FADiff.new_scal(3)')
 z = ad.new_scal(3, name='z')
 print(x.val)
-print(x.der)
+print(x._der)
 print(y.val)
-print(y.der)
+print(y._der)
 print(z.val)
-print(z.der)
-
-# TODO: Debugging
-q = ad.new_scal(6)
-
-print()
-print('f = x + y + z')
-f = x + y + z
-print('f.val -->')
-print(f.val)
-print('f.der -->')
-print(f.der)
+print(z._der)
+# print()
+# print('f = x + y + z')
+# f = x + y + z
+# print('f.val -->')
+# print(f.val)
+# print('f.der -->')
+# print(f.der)
 # print()
 # print('f = x * y')
 # f = x * y

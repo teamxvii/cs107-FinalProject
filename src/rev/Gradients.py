@@ -9,7 +9,7 @@ class Scal:
     def __init__(self, val, inputs={}, parents=[],     # TODO: Need parents and roots or delete?
                  roots=[], name=None, new_input=False):
         self._val = val
-        self._inputs = inputs           # An instance's particular roots
+        self._inputs = inputs           # Roots in the eval trace table
         if new_input:
             self._inputs[self] = []
             FADiff._revscal_inputs.append(self)
@@ -56,18 +56,16 @@ class Scal:
     def der(self):
         parents = []
         for root in FADiff._revscal_inputs:  # Iterating w/this keeps var order
-            if root in self._inputs.keys():  # TODO: Use _root_inputs here instead?
+            if root in self._root_inputs:  # TODO: Think can use self._inputs.keys() here instead
                 self._tmp_part_der = 1  # TODO: Will this work instead of _der?
                 self._back_trace(root)
                 parents.append(self._tmp_part_der)
         return parents  # TODO: Should return correct thing
 
     # TODO
-    def _back_trace(self, root):
-        if self._inputs[root]:    # (Base case: list is empty @ root)
-            for parent, part_der in self._inputs[root]:
-                Scal._tmp_part_der = self._der * part_der
-                parent._back_trace(root)
+    def _back_trace(self, var):
+        if self._inputs[var]:    # (Base case: list is empty @ root)
+            pass
 
     # TODO: Don't think need this --
     # @staticmethod
