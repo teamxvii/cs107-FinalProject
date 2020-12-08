@@ -6,23 +6,16 @@ from FADiff import FADiff
 class Scal:
     _tmp_part_der = 0  # TODO: Maybe can use?
 
-    def __init__(self, val, inputs=None, parents=None,     # TODO: Need parents and roots or delete?
-                 roots=None, name=None, new_input=False):
+    def __init__(self, val, inputs=None, name=None, new_input=False):
         self._val = val
         if inputs is None:
             inputs = {}
-        self._inputs = inputs           # Roots in the eval trace table
+        self._inputs = inputs           # Roots of a particular instance
         if new_input:
             self._inputs[self] = []
             FADiff._revscal_inputs.append(self)
         self._der = 0  # TODO: Not sure if need
         self._name = name
-        if parents is None:
-            parents = []
-        self._parents = parents         # Immediate parents of an instance
-        if roots is None:
-            roots = []
-        self._root_inputs = roots       # TODO: Don't need (see below)? -- An instance's particular roots
 
     # TODO
     def __add__(self, other):
@@ -35,13 +28,9 @@ class Scal:
                     inputs[root].append([other, 1])
                 else:
                     inputs[root] = [[other, 1]]
-            # parents = [self, other]
-            # roots = self._set_roots(self, other)
-            return Scal(self._val + other._val, inputs)#, parents, roots)
+            return Scal(self._val + other._val, inputs)
         except AttributeError:
-            # parents = [self]
-            # roots = self._set_roots(self)
-            return Scal(self._val + other, inputs)#, parents, roots)
+            return Scal(self._val + other, inputs)
 
     def __radd__(self, other):
         return self.__add__(other)
@@ -62,7 +51,7 @@ class Scal:
     def der(self):
         parents = []
         for root in FADiff._revscal_inputs:  # Iterating w/this keeps var order
-            if root in self._inputs.keys():  # TODO: Think can use self._inputs.keys() here instead
+            if root in self._inputs.keys():
                 self._tmp_part_der = 1  # TODO: Will this work instead of _der?
                 self._back_trace(root)
                 parents.append(self._tmp_part_der)
@@ -70,24 +59,7 @@ class Scal:
 
     # TODO
     def _back_trace(self, root):
-        if self._inputs[root]:  # (Base case: list is empty @ root)
+        if self._inputs[root]:               # (Base case: list is empty @ root)
             for parent, part_der in self._inputs[root]:
                 Scal._tmp_part_der = self._der * part_der
                 parent._back_trace(root)
-
-    # TODO: Don't think need this --
-    # @staticmethod
-    # def _set_roots(var1, var2=None):
-    #     roots = []
-    #     if not var1._parents and var1 in FADiff._revscal_inputs:  # Root parent
-    #         roots.append(var1)
-    #     else:
-    #         for root in var1._root_inputs:
-    #             roots.append(root)
-    #     if var2:
-    #         if not var2._parents and var2 in FADiff._revscal_inputs:  # Root parent
-    #             roots.append(var2)
-    #         else:
-    #             for root in var2._root_inputs:
-    #                 roots.append(root)
-    #     return roots
