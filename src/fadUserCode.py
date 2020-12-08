@@ -134,8 +134,8 @@ print()
 
 print(f'x1 = ad.new_vect([2, 3, 4])\n'
       f'x2 = ad.new_vect([3, 2, 1])')
-x1 = ad.new_vect([2, 3, 4])
-x2 = ad.new_vect([3, 2, 1])
+x1 = ad.new_vect(np.array([2, 3, 4]))
+x2 = ad.new_vect(np.array([3, 2, 1]))
 print(f'x1.val --> '       
       f'{x1.val}')
 print(f'x1.der -->\n'       # Should be identity
