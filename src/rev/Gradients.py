@@ -4,45 +4,56 @@ from FADiff import FADiff
 
 
 class Scal:
-    _tmp_part_der = 0  # TODO: Maybe can use?
+    _tmp_der = None                     # For evaluating derivative
 
-    def __init__(self, val, inputs={}, parents=[],     # TODO: Need parents and roots or delete?
-                 roots=[], name=None, new_input=False):
+    def __init__(self, val, inputs=None, name=None, new_input=False):
         self._val = val
-        self._inputs = inputs           # Roots in the eval trace table
+        if inputs is None:
+            inputs = {}
+        self._inputs = inputs           # Roots of an instance
         if new_input:
             self._inputs[self] = []
             FADiff._revscal_inputs.append(self)
-        self._der = 0  # TODO: Not sure if need
         self._name = name
-        self._parents = parents         # Immediate parents of an instance
-        self._root_inputs = roots       # TODO: Don't need (see below)? -- An instance's particular roots
 
-    # TODO
+    # TODO: Check works correctly
     def __add__(self, other):
-        inputs = {}
-        for root in self._inputs.keys():
-            inputs[root] = [[self, 1]]
         try:
+            inputs = {}
+            for root in self._inputs.keys():
+                inputs[root] = [[self, 1]]
             for root in other._inputs.keys():
-                if inputs[root]:
+                if root in inputs:
                     inputs[root].append([other, 1])
                 else:
                     inputs[root] = [[other, 1]]
-            # parents = [self, other]
-            # roots = self._set_roots(self, other)
-            return Scal(self._val + other._val, inputs)#, parents, roots)
+            return Scal(self._val + other._val, inputs)
         except AttributeError:
-            # parents = [self]
-            # roots = self._set_roots(self)
-            return Scal(self._val + other, inputs)#, parents, roots)
+            inputs = {}
+            for root in self._inputs.keys():
+                inputs[root] = [[self, 1]]
+            return Scal(self._val + other, inputs)
 
     def __radd__(self, other):
         return self.__add__(other)
 
-    # TODO
+    # TODO: Check works correctly
     def __mul__(self, other):
-        pass
+        try:
+            inputs = {}
+            for root in self._inputs.keys():
+                inputs[root] = [[self, other._val]]
+            for root in other._inputs.keys():
+                if root in inputs:
+                    inputs[root].append([other, self._val])
+                else:
+                    inputs[root] = [[other, self._val]]
+            return Scal(self._val * other._val, inputs)
+        except AttributeError:
+            inputs = {}
+            for root in self._inputs.keys():
+                inputs[root] = [[self, other]]
+            return Scal(self._val * other, inputs)
 
     def __rmul__(self, other):
         return self.__mul__(other)
@@ -51,35 +62,20 @@ class Scal:
     def val(self):
         return [self._val]
 
-    # TODO
+    # TODO: Check works correctly
     @property
     def der(self):
         parents = []
         for root in FADiff._revscal_inputs:  # Iterating w/this keeps var order
-            if root in self._root_inputs:  # TODO: Think can use self._inputs.keys() here instead
-                self._tmp_part_der = 1  # TODO: Will this work instead of _der?
+            if root in self._inputs.keys():
+                Scal._tmp_der = 1
                 self._back_trace(root)
-                parents.append(self._tmp_part_der)
-        return parents  # TODO: Should return correct thing
+                parents.append(Scal._tmp_der)
+        return parents
 
-    # TODO
-    def _back_trace(self, var):
-        if self._inputs[var]:    # (Base case: list is empty @ root)
-            pass
-
-    # TODO: Don't think need this --
-    # @staticmethod
-    # def _set_roots(var1, var2=None):
-    #     roots = []
-    #     if not var1._parents and var1 in FADiff._revscal_inputs:  # Root parent
-    #         roots.append(var1)
-    #     else:
-    #         for root in var1._root_inputs:
-    #             roots.append(root)
-    #     if var2:
-    #         if not var2._parents and var2 in FADiff._revscal_inputs:  # Root parent
-    #             roots.append(var2)
-    #         else:
-    #             for root in var2._root_inputs:
-    #                 roots.append(root)
-    #     return roots
+    # TODO: Check works correctly
+    def _back_trace(self, root):
+        if self._inputs[root]:               # (Base case: list is empty @ root)
+            for parent, part_der in self._inputs[root]:
+                Scal._tmp_der = Scal._tmp_der * part_der
+                parent._back_trace(root)
