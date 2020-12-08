@@ -4,9 +4,10 @@ python:
 before_install:
   - pip install pytest pytest-cov
   - pip install codecov
+  - pip install coverage
 install:
   - pip install -r requirements.txt
 script:
-  - pytest --cov=./
+  - pytest --cov=. --cov-report html --cov-report xml
 after_success:
   - codecov
