@@ -6,16 +6,22 @@ from FADiff import FADiff
 class Scal:
     _tmp_part_der = 0  # TODO: Maybe can use?
 
-    def __init__(self, val, inputs={}, parents=[],     # TODO: Need parents and roots or delete?
-                 roots=[], name=None, new_input=False):
+    def __init__(self, val, inputs=None, parents=None,     # TODO: Need parents and roots or delete?
+                 roots=None, name=None, new_input=False):
         self._val = val
+        if inputs is None:
+            inputs = {}
         self._inputs = inputs           # Roots in the eval trace table
         if new_input:
             self._inputs[self] = []
             FADiff._revscal_inputs.append(self)
         self._der = 0  # TODO: Not sure if need
         self._name = name
+        if parents is None:
+            parents = []
         self._parents = parents         # Immediate parents of an instance
+        if roots is None:
+            roots = []
         self._root_inputs = roots       # TODO: Don't need (see below)? -- An instance's particular roots
 
     # TODO
@@ -25,7 +31,7 @@ class Scal:
             inputs[root] = [[self, 1]]
         try:
             for root in other._inputs.keys():
-                if inputs[root]:
+                if root in inputs:
                     inputs[root].append([other, 1])
                 else:
                     inputs[root] = [[other, 1]]
@@ -56,7 +62,7 @@ class Scal:
     def der(self):
         parents = []
         for root in FADiff._revscal_inputs:  # Iterating w/this keeps var order
-            if root in self._root_inputs:  # TODO: Think can use self._inputs.keys() here instead
+            if root in self._inputs.keys():  # TODO: Think can use self._inputs.keys() here instead
                 self._tmp_part_der = 1  # TODO: Will this work instead of _der?
                 self._back_trace(root)
                 parents.append(self._tmp_part_der)
@@ -68,11 +74,6 @@ class Scal:
             for parent, part_der in self._inputs[root]:
                 Scal._tmp_part_der = self._der * part_der
                 parent._back_trace(root)
-
-    def __str__(self):
-        printout = f'{self._name} = {self._val}\n' \
-                   f'inputs = {self._inputs}'
-        return printout
 
     # TODO: Don't think need this --
     # @staticmethod
