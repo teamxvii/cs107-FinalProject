@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from FADiff import FADiff as ad    # User needs to import
-import Elems as ef                 # User needs to import
+import Elems as ef           # User needs to import
 import numpy as np
 
 
@@ -132,17 +132,17 @@ print(f'check.der --> '
 # TODO: VECTOR DEBUGGING --
 print()
 
-print(f'x1 = ad.new_vect([2, 3, 4])\n'
-      f'x2 = ad.new_vect([3, 2, 1])')
+print(f'x1 = ad.new_vect(np.array([2, 3, 4]))\n'
+      f'x2 = ad.new_vect(np.array([3, 2, 1]))')
 x1 = ad.new_vect(np.array([2, 3, 4]))
 x2 = ad.new_vect(np.array([3, 2, 1]))
 print(f'x1.val --> '       
       f'{x1.val}')
-print(f'x1.der -->\n'       # Should be identity
+print(f'x1.der -->\n'       # Should be array of ones of size x1
       f'{x1.der}')
 print(f'x2.val --> '       
       f'{x2.val}')
-print(f'x2.der -->\n'       # Should be identity
+print(f'x2.der -->\n'       # Should be identity of ones of size x2
       f'{x2.der}')
 
 print(f'\ncheck = x1 - x2')
@@ -160,6 +160,52 @@ print(f'check._der.get(x2) -->\n'
       f'{check._der.get(x2)}')
 
 # TODO: FUNCTION VECTOR (FuncVect.py) DEBUGGING --
+
+# print()
+
+# print(f'x1 = ad.new_scal(3)\n'
+#       f'x2 = ad.new_scal(2)\n'
+#       f'f1 = x1 * x2 + x1\n'
+#       f'f2 = 8 * x2')
+# x1 = ad.new_scal(3)
+# x2 = ad.new_scal(2)
+# f1 = x1 * x2 + x1
+# f2 = 8 * x2
+
+# print(f'\nf = ad.new_funcvect([f1, f2])')
+# f = ad.new_funcvect([f1, f2])
+# print(f'f.val --> '
+#       f'{f.val}')
+# print(f'f.der --> '
+#       f'{f.der}')
+
+# # TODO: Checking the following against revUserCode.py (can erase later) --
+# print('Create input vars -->')
+# print(f'x = FADiff.new_scal(2)')
+# x = ad.new_scal(2, name='x')
+# print(f'y = FADiff.new_scal(5)')
+# y = ad.new_scal(5, name='y')
+# print(f'z = FADiff.new_scal(3)')
+# z = ad.new_scal(3, name='z')
+# print(x.val)
+# print(x._der)
+# print(y.val)
+# print(y._der)
+# print(z.val)
+# print(z._der)
+# print()
+# print('f = x + y + z')
+# f = x + y + z
+# print('f.val -->')
+# print(f.val)
+# print('f.der -->')
+# print(f.der)
+# print('f = x * y')
+# f = x * y
+# print('f.val -->')
+# print(f.val)
+# print('f.der -->')
+# print(f.der)
 print()
 
 print(f'x1 = ad.new_scal(3)\n'
