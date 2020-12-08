@@ -9,11 +9,7 @@ class Scal:
     def __init__(self, val, der=None, parents=[],
                  roots=[], name=None, new_input=False):
         self._val = val
-<<<<<<< HEAD
         self._grad = 0          # TODO: Not sure if need
-=======
-        self._inputs = inputs           # Roots in the eval trace table
->>>>>>> parent of 13269d8... Reverse mode still buggy.
         if new_input:
             self._der = {}
             for var in FADiff._revscal_inputs:
@@ -71,7 +67,6 @@ class Scal:
     @property
     def der(self):
         parents = []
-<<<<<<< HEAD
         for var in self._der.keys():
             if var in self._root_inputs:
                 Scal._tmp_part_der = 1
@@ -89,19 +84,6 @@ class Scal:
                 break
         Scal._tmp_part_der = Scal._tmp_part_der * self._der.get(var)
         parent._back_trace(var)
-=======
-        for root in FADiff._revscal_inputs:  # Iterating w/this keeps var order
-            if root in self._root_inputs:  # TODO: Think can use self._inputs.keys() here instead
-                self._tmp_part_der = 1  # TODO: Will this work instead of _der?
-                self._back_trace(root)
-                parents.append(self._tmp_part_der)
-        return parents  # TODO: Should return correct thing
-
-    # TODO
-    def _back_trace(self, var):
-        if self._inputs[var]:    # (Base case: list is empty @ root)
-            pass
->>>>>>> parent of 13269d8... Reverse mode still buggy.
 
     @staticmethod
     def _set_roots(var1, var2=None):
