@@ -1,4 +1,5 @@
 import pytest
+import coverage
 from FADiff import FADiff
 
 class TestClass:

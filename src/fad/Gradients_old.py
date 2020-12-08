@@ -6,15 +6,15 @@ import numpy as np
 
 class Scal:
     """
-    A class for automatic differentiation of scalar variables
+    A class for...
     """
-    def __init__(self, val, der=None, parents=None, name=None, new_input=False):
+    def __init__(self, val, der=None, parents=[], name=None, new_input=False):
         """
         Inputs
         ------
-            val : int/float
+            val : float
                 value of the scalar variable
-            der : int/float or dictionary
+            der : float, dictionary
                 derivative of the scalar variable
             parents : list of Scal objects
                 the parent/grandparent vars of the variable
@@ -23,32 +23,17 @@ class Scal:
             new_input : boolean
                 if variable is an input variable
         """
-        
-        # preprocess inputs
-        if new_input:
-            if isinstance(val, float) or isinstance(val, int) and isinstance(der, float) or isinstance(der, int):
-                value = val
-                deriv = der
-                zero = 0
-            else:
-                raise TypeError('Val and Der must both be scalars (ints or floats).')
-        else:
-            value = val
-            deriv = der
-            
-        self._val = value
+        self._val = val
         if new_input:                       # Creating input var?
             self._der = {}                  # Add gradient dict for new var
             for var in FADiff._fadscal_inputs:    # Update gradient dicts for all vars
-                self._der[var] = zero    # Partial der of others as 0 in self
-                var._der[self] = zero    # Self's partial der as 0 in others
-            self._der[self] = deriv     # Self's partial der in self
+                self._der[var] = 0    # Partial der of others as 0 in self
+                var._der[self] = 0    # Self's partial der as 0 in others
+            self._der[self] = der     # Self's partial der in self
             FADiff._fadscal_inputs.append(self)   # Add self to global vars list
         else:
-            self._der = deriv
+            self._der = der
         self._name = name  # TODO: Utilize if have time?
-        if parents is None:
-            parents = []
         self._parents = parents
 
     
@@ -123,7 +108,7 @@ class Scal:
     
     def __mul__(self, other):
         """
-        Multiplies self with other (self * other)
+        Mulitples self with other (self * other)
         
         Inputs: self (Scal object), other (either Scal object or constant)
         Returns: new Scal object
@@ -144,7 +129,7 @@ class Scal:
 
     def __rmul__(self, other):
         """
-        Multiplies other with self (other * self)
+        Mulitples other with self (other * self)
         
         Inputs: self (Scal object), other (either Scal object or constant)
         Returns: new Scal object
@@ -246,7 +231,7 @@ class Scal:
         der = {}
         for var, part_der in self._der.items():
             der[var] = - part_der
-        parents = self._set_parents(self)
+        parents = self._set_parents(self, other)
         return Scal(var, der, parents)
     
     
@@ -261,7 +246,7 @@ class Scal:
         """
         try: # if other is a Scal
             return self._val == other._val
-        except AttributeError: # if other is a scalar, but not an instance of Scal
+        except AttributeError: # if other is a constant
             return self._val == other
         
     def __ne__(self, other):
@@ -335,27 +320,19 @@ class Scal:
  
     @property
     def val(self):
-        """
-        Inputs: self (Scal object)
-        Returns: NumPy array of values
-        """
-        return np.array(self._val)
+        '''Returns value'''
+        return np.array([self._val])
 
     @property
     def der(self):
-        """
-        Returns partial derivatives wrt all root input vars used
-        
-        Inputs: self (Scal object)
-        Returns: NumPy array of derivative
-        """
+        '''Returns partial derivatives wrt all root input vars used'''
         parents = []
         for var, part_der in self._der.items():
             if var in self._parents:
                 parents.append(part_der)
         if parents:                           # For output vars
-            return np.array(parents)
-        elif self in FADiff._fadscal_inputs:  # For input vars (no parents)
+            return parents
+        elif self in FADiff._fadscal_inputs:       # For input vars (no parents)
             return np.array(self._der[self])
 
     @staticmethod

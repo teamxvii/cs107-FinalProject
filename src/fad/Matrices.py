@@ -6,24 +6,24 @@ import numpy as np
 
 class Vect:
     """
-    A class for automatic differentiation of vector variables (NumPy arrays)
-    """
-    def __init__(self, val, der=None, parents=[], name=None, new_input=False):
+   A class for automatic differentiation of vector variables (NumPy arrays)
+   """
+    def __init__(self, val, der=None, parents=None, name=None, new_input=False):
         """
-        Inputs
-        ------
-            val : NumPy array (column or row vector)
-                value of the vector variable
-            der : NumPy array (column or row vector) or a dictionary
-                derivative of the vector variable
-            parents : list of Scal objects
-                the parent/grandparent vars of the variable
-            name : str
-                the name of the variable
-            new_input : boolean
-                if variable is an input variable
-        """
-        
+                Inputs
+                ------
+                    val : NumPy array (column or row vector)
+                        value of the vector variable
+                    der : NumPy array (column or row vector) or a dictionary
+                        derivative of the vector variable
+                    parents : list of Scal objects
+                        the parent/grandparent vars of the variable
+                    name : str
+                        the name of the variable
+                    new_input : boolean
+                        if variable is an input variable
+                """
+
         # preprocess inputs
         if new_input:
             if len(val.shape) > 1 and min(val.shape) > 1: # check for correct shape
@@ -49,6 +49,8 @@ class Vect:
         else:
             self._der = deriv
         self._name = name  # TODO: Utilize if have time?
+        if parents is None:
+            parents = []
         self._parents = parents
 
     
@@ -246,7 +248,7 @@ class Vect:
         der = {}
         for var, part_der in self._der.items():
             der[var] = - part_der
-        parents = self._set_parents(self, other)
+        parents = self._set_parents(self)
         return Vect(var, der, parents)
     
     
