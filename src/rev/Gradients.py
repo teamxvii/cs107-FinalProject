@@ -6,8 +6,8 @@ from FADiff import FADiff
 class Scal:
     _tmp_part_der = 0
 
-    def __init__(self, val, der=None, parents=[],
-                 roots=[], name=None, new_input=False):
+    def __init__(self, val, der=None, parents=None,
+                 roots=None, name=None, new_input=False):
         self._val = val
         self._grad = 0          # TODO: Not sure if need
         if new_input:

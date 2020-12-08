@@ -7,7 +7,7 @@ class Scal:
     """
     A class to...
     """
-    def __init__(self, val, der=None, parents=[], name=None, new_input=False):
+    def __init__(self, val, der=None, parents=None, name=None, new_input=False):
         """
         Constructs all the...
 
@@ -38,6 +38,8 @@ class Scal:
         else:
             self._der = der
         self._name = name  # TODO: Utilize if have time?
+        if parents is None:
+            parents = []
         self._parents = parents
 
     
