@@ -52,7 +52,7 @@ class Scal:
         except AttributeError:
             inputs = {}
             for root in self._inputs.keys():
-                inputs[root] = [[self, other._val]]
+                inputs[root] = [[self, other]]
             return Scal(self._val * other, inputs)
 
     def __rmul__(self, other):
