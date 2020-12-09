@@ -35,6 +35,27 @@ class Scal:
     def __radd__(self, other):
         return self.__add__(other)
 
+     def __sub__(self, other):
+        try:
+            inputs = {}
+            for root in self._inputs.keys():
+                inputs[root] = [[self, 1]]
+            for root in other._inputs.keys():
+                if root in inputs:
+                    inputs[root].append([other, 1])
+                else:
+                    inputs[root] = [[other, 1]]
+            return Scal(self._val - other._val, inputs)
+        except AttributeError:
+            inputs = {}
+            for root in self._inputs.keys():
+                inputs[root] = [[self, 1]]
+            return Scal(self._val - other, inputs)
+
+    def __rsub__(self, other):
+        return self.__sub__(other)
+
+    
     # TODO: Check works correctly
     def __mul__(self, other):
         try:
