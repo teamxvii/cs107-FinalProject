@@ -255,28 +255,38 @@ class Vect:
     ### Comparison Operators ###
 
     def __eq__(self, other):
-        """
-        Checks if self equals other
-        
-        Inputs: self (Scal object), other (either Scal object or constant)
-        Returns: Boolean (True if self equals other, False otherwise)
-        """
-        try: # if other is a Scal
-            return (self._val == other._val).all()
-        except AttributeError: # if other is a vector, but not an instance of Scal
-            return (self._val == other).all()
-        
+        if isinstance(other, Vect):
+            return self.__key() == other.__key()
+        return NotImplemented
+
     def __ne__(self, other):
-        """
-        Checks if self does not equal other
-        
-        Inputs: self (Scal object), other (either Scal object or constant)
-        Returns: Boolean (True if self does not equal other, False otherwise)
-        """
-        try: # if other is a Scal
-            return (self._val != other._val).all()
-        except AttributeError: # if other is a constant
-            return (self._val != other).all()      
+        if isinstance(other, Vect):
+            return self.__key() != other.__key()
+        return NotImplemented
+
+    # def __eq__(self, other):
+    #     """
+    #     Checks if self equals other
+    #
+    #     Inputs: self (Scal object), other (either Scal object or constant)
+    #     Returns: Boolean (True if self equals other, False otherwise)
+    #     """
+    #     try: # if other is a Scal
+    #         return (self._val == other._val).all()
+    #     except AttributeError: # if other is a vector, but not an instance of Scal
+    #         return (self._val == other).all()
+    #
+    # def __ne__(self, other):
+    #     """
+    #     Checks if self does not equal other
+    #
+    #     Inputs: self (Scal object), other (either Scal object or constant)
+    #     Returns: Boolean (True if self does not equal other, False otherwise)
+    #     """
+    #     try: # if other is a Scal
+    #         return (self._val != other._val).all()
+    #     except AttributeError: # if other is a constant
+    #         return (self._val != other).all()
         
     def __lt__(self, other):
         """
@@ -324,16 +334,22 @@ class Vect:
         try: # if other is a Scal
             return self._val >= other._val
         except AttributeError: # if other is a constant
-            return self._val >= other 
-    
-    def __hash__(self):
-        """
-        Ensures that objects which are equal have the same hash value
-        
-        Inputs: self (Scal object)
-        Returns: integer ID of self
-        """
+            return self._val >= other
+
+    def __key(self):
         return id(self)
+
+    def __hash__(self):
+        return hash(self.__key())
+
+    # def __hash__(self):
+    #     """
+    #     Ensures that objects which are equal have the same hash value
+    #
+    #     Inputs: self (Scal object)
+    #     Returns: integer ID of self
+    #     """
+    #     return id(self)
  
     @property
     def val(self):
