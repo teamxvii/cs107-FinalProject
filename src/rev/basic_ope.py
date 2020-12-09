@@ -35,7 +35,7 @@ class Scal:
     def __radd__(self, other):
         return self.__add__(other)
 
-     def __sub__(self, other):
+    def __sub__(self, other):
         try:
             inputs = {}
             for root in self._inputs.keys():
