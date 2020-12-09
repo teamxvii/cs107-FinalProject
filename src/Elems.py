@@ -4,6 +4,7 @@ import numpy as np
 from fad.Gradients import Scal as fadScal
 from fad.Matrices import Vect as fadVect
 from rev.Gradients import Scal as revScal
+from rev.Matrices import Vect as revVect
 
 
 def return_same_type(x, val, der, parents):
@@ -23,7 +24,7 @@ def return_same_rev(x, val, inputs):
     if isinstance(x, revScal):
         return revScal(val, inputs)
     else:
-        return  # TODO: Return a rev Vector
+        return revVect(val, inputs)
 
 
 def sin(x):

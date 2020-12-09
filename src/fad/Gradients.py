@@ -261,92 +261,11 @@ class Scal:
             return self.__key() != other.__key()
         return NotImplemented
 
-    # def __eq__(self, other):
-    #     """
-    #     Checks if self equals other
-    #
-    #     Inputs: self (Scal object), other (either Scal object or constant)
-    #     Returns: Boolean (True if self equals other, False otherwise)
-    #     """
-    #     try: # if other is a Scal
-    #         return self._val == other._val
-    #     except AttributeError: # if other is a scalar, but not an instance of Scal
-    #         return self._val == other
-    #
-    # def __ne__(self, other):
-    #     """
-    #     Checks if self does not equal other
-    #
-    #     Inputs: self (Scal object), other (either Scal object or constant)
-    #     Returns: Boolean (True if self does not equal other, False otherwise)
-    #     """
-    #     try: # if other is a Scal
-    #         return self._val != other._val
-    #     except AttributeError: # if other is a constant
-    #         return self._val != other
-
-    def __lt__(self, other):
-        """
-        Checks if self is less than other
-
-        Inputs: self (Scal object), other (either Scal object or constant)
-        Returns: Boolean (True if self is less than other, False otherwise)
-        """
-        try:  # if other is a Scal
-            return self._val < other._val
-        except AttributeError:  # if other is a constant
-            return self._val < other
-
-    def __le__(self, other):
-        """
-        Checks if self is less than or equal to other
-
-        Inputs: self (Scal object), other (either Scal object or constant)
-        Returns: Boolean (True if self is less than or equal to other, False otherwise)
-        """
-        try:  # if other is a Scal
-            return self._val <= other._val
-        except AttributeError:  # if other is a constant
-            return self._val <= other
-
-    def __gt__(self, other):
-        """
-        Checks if self is greater than other
-
-        Inputs: self (Scal object), other (either Scal object or constant)
-        Returns: Boolean (True if self is greater than other, False otherwise)
-        """
-        try:  # if other is a Scal
-            return self._val > other._val
-        except AttributeError:  # if other is a constant
-            return self._val > other
-
-    def __ge__(self, other):
-        """
-        Checks if self is greater than or equal to other
-
-        Inputs: self (Scal object), other (either Scal object or constant)
-        Returns: Boolean (True if self is greater than or equal to other, False otherwise)
-        """
-        try:  # if other is a Scal
-            return self._val >= other._val
-        except AttributeError:  # if other is a constant
-            return self._val >= other
-
     def __key(self):
         return id(self)
 
     def __hash__(self):
         return hash(self.__key())
-
-    # def __hash__(self):
-    #     """
-    #     Ensures that objects which are equal have the same hash value
-    #
-    #     Inputs: self (Scal object)
-    #     Returns: integer ID of self
-    #     """
-    #     return id(self)
 
     @property
     def val(self):
