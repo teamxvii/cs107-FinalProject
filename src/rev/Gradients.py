@@ -16,6 +16,8 @@ class Scal:
             FADiff._revscal_inputs.append(self)
         self._name = name
 
+        self._tmp_der = 0  # TODO
+
     # TODO: Check works correctly
     def __add__(self, other):
         try:
@@ -86,14 +88,24 @@ class Scal:
         parents = []
         for root in FADiff._revscal_inputs:  # Iterating w/this keeps var order
             if root in self._inputs.keys():
-                Scal._tmp_der = 1
+                # Scal._tmp_der = 1
+                self._tmp_der = 1  # TODO
                 self._back_trace(root)
-                parents.append(Scal._tmp_der)
+                # parents.append(Scal._tmp_der)
+                parents.append(root._tmp_der)  # TODO
         return parents
 
     # TODO: Check works correctly
     def _back_trace(self, root):
         if self._inputs[root]:               # (Base case: list is empty @ root)
             for parent, part_der in self._inputs[root]:
-                Scal._tmp_der = Scal._tmp_der * part_der
+
+                # print(f'Before -- Scal._tmp_der={Scal._tmp_der} part_der={part_der}')
+
+                # Scal._tmp_der = Scal._tmp_der * part_der
+                parent._tmp_der += self._tmp_der * part_der
+
+                # print(f'After -- Scal._tmp_der={Scal._tmp_der} part_der={part_der}')
                 parent._back_trace(root)
+
+            self._tmp_der = 0
