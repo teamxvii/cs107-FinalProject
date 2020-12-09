@@ -86,7 +86,7 @@ class Scal:
                 self._back_trace(root)
                 part_ders.append(root._tmp_der)
                 self._tmp_der = 0
-                self._undo(root)
+                self._undo_back_trace(root)
         return part_ders
 
     def _back_trace(self, root):
@@ -95,8 +95,8 @@ class Scal:
                 parent._tmp_der += self._tmp_der * part_der
                 parent._back_trace(root)
 
-    def _undo(self, root):
+    def _undo_back_trace(self, root):
         if self._inputs[root]:
             for parent, part_der in self._inputs[root]:
                 parent._tmp_der = 0
-                parent._undo(root)
+                parent._undo_back_trace(root)
