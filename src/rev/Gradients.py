@@ -58,6 +58,24 @@ class Scal:
     def __rmul__(self, other):
         return self.__mul__(other)
 
+    ### Comparison Operators ###
+
+    def __eq__(self, other):
+        if isinstance(other, Scal):
+            return self.__key() == other.__key()
+        return NotImplemented
+
+    def __ne__(self, other):
+        if isinstance(other, Scal):
+            return self.__key() != other.__key()
+        return NotImplemented
+
+    def __key(self):
+        return id(self)
+
+    def __hash__(self):
+        return hash(self.__key())
+
     @property
     def val(self):
         return [self._val]
