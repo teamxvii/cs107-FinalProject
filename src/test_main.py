@@ -38,18 +38,19 @@ class TestClass:
         assert x.val == 0
         # assert x.der == 1
 
-#     def test_mul(self):
-#         x = FADiff(3, 1) * 3
-#         assert x.val == 9
-#         assert x.der == 3
-#         y = FADiff(3, 1) * FADiff(4, 1)
-#         assert y.val == 12
-#         assert y.der == 7
+    def test_mul(self):
+        x = FADiff.new_scal(3) * 3
+        assert x.val == 9
+        assert x.der == 3
 
-#     def test_rmul(self):
-#         x = 3 * FADiff(3, 1)
-#         assert x.val == 9
-#         assert x.der == 3
+        y = FADiff.new_scal(3) * FADiff.new_scal(4)
+        assert y.val == 12
+        # assert y.der == 7
+
+    def test_rmul(self):
+        x = 3 * FADiff.new_scal(3)
+        assert x.val == 9
+        assert x.der == 3
 
 #     def test_div(self):
 #         x = FADiff(3, 1) / 3
