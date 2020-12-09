@@ -253,28 +253,38 @@ class Scal:
     ### Comparison Operators ###
 
     def __eq__(self, other):
-        """
-        Checks if self equals other
-        
-        Inputs: self (Scal object), other (either Scal object or constant)
-        Returns: Boolean (True if self equals other, False otherwise)
-        """
-        try: # if other is a Scal
-            return self._val == other._val
-        except AttributeError: # if other is a scalar, but not an instance of Scal
-            return self._val == other
-        
+        if isinstance(other, Scal):
+            return self.__key() == other.__key()
+        return NotImplemented
+
     def __ne__(self, other):
-        """
-        Checks if self does not equal other
-        
-        Inputs: self (Scal object), other (either Scal object or constant)
-        Returns: Boolean (True if self does not equal other, False otherwise)
-        """
-        try: # if other is a Scal
-            return self._val != other._val
-        except AttributeError: # if other is a constant
-            return self._val != other      
+        if isinstance(other, Scal):
+            return self.__key() != other.__key()
+        return NotImplemented
+
+    # def __eq__(self, other):
+    #     """
+    #     Checks if self equals other
+    #
+    #     Inputs: self (Scal object), other (either Scal object or constant)
+    #     Returns: Boolean (True if self equals other, False otherwise)
+    #     """
+    #     try: # if other is a Scal
+    #         return self._val == other._val
+    #     except AttributeError: # if other is a scalar, but not an instance of Scal
+    #         return self._val == other
+    #
+    # def __ne__(self, other):
+    #     """
+    #     Checks if self does not equal other
+    #
+    #     Inputs: self (Scal object), other (either Scal object or constant)
+    #     Returns: Boolean (True if self does not equal other, False otherwise)
+    #     """
+    #     try: # if other is a Scal
+    #         return self._val != other._val
+    #     except AttributeError: # if other is a constant
+    #         return self._val != other
         
     def __lt__(self, other):
         """
@@ -322,16 +332,22 @@ class Scal:
         try: # if other is a Scal
             return self._val >= other._val
         except AttributeError: # if other is a constant
-            return self._val >= other 
-    
-    def __hash__(self):
-        """
-        Ensures that objects which are equal have the same hash value
-        
-        Inputs: self (Scal object)
-        Returns: integer ID of self
-        """
+            return self._val >= other
+
+    def __key(self):
         return id(self)
+
+    def __hash__(self):
+        return hash(self.__key())
+
+    # def __hash__(self):
+    #     """
+    #     Ensures that objects which are equal have the same hash value
+    #
+    #     Inputs: self (Scal object)
+    #     Returns: integer ID of self
+    #     """
+    #     return id(self)
  
     @property
     def val(self):
@@ -371,3 +387,7 @@ class Scal:
                 parents.append(parent)
         parents = list(set(parents))
         return parents
+
+
+# References:
+# - https://stackoverflow.com/questions/2909106/whats-a-correct-and-good-way-to-implement-hash/2909119
