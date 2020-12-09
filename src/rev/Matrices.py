@@ -14,6 +14,22 @@ class Vect:
     def __rsub__(self, other):
         return self.__sub__(other)
 
+    def __eq__(self, other):
+        if isinstance(other, Vect):
+            return self.__key() == other.__key()
+        return NotImplemented
+
+    def __ne__(self, other):
+        if isinstance(other, Vect):
+            return self.__key() != other.__key()
+        return NotImplemented
+
+    def __key(self):
+        return id(self)
+
+    def __hash__(self):
+        return hash(self.__key())
+
     @property
     def val(self):
         pass
