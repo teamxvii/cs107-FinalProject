@@ -3,6 +3,8 @@
 import numpy as np
 from fad.Gradients import Scal as fadScal
 from fad.Matrices import Vect as fadVect
+from rev.Gradients import Scal as revScal
+
 
 def return_same_type(x, val, der, parents):
     """
@@ -11,10 +13,18 @@ def return_same_type(x, val, der, parents):
     Inputs: x (either Scal or Vect object)
     Returns: new object (same type as x)
     """
-    if isinstance(x, fadScal): # if input var is a scalar
+    if isinstance(x, fadScal):  # if input var is a scalar
         return fadScal(val, der, parents)
-    else: # if input var is a vector
+    else:      # if input var is a vector
         return fadVect(val, der, parents)
+
+
+def return_same_rev(x, val, inputs):
+    if isinstance(x, revScal):
+        return revScal(val, inputs)
+    else:
+        return  # TODO: Return a rev Vector
+
 
 def sin(x):
     """
@@ -23,16 +33,23 @@ def sin(x):
     Inputs: x (either Scal object or constant)
     Returns: new object of type x (if x is a Scal or Vect) or a new constant (if x is a constant)
     """
-    try: # if x is a Scal
+    try:                            # if x is a Scal/Vect
         val = np.sin(x._val)
-        der = {}
-        for var, part_der in x._der.items():
-            der[var] = part_der * np.cos(x._val)
-        parents = x._set_parents(x)
-        return return_same_type(x, val, der, parents)
-    except AttributeError: # if x is a constant
+        try:                        # if fad mode
+            der = {}
+            for var, part_der in x._der.items():
+                der[var] = part_der * np.cos(x._val)
+            parents = x._set_parents(x)
+            return return_same_type(x, val, der, parents)
+        except AttributeError:      # if rev mode
+            inputs = {}
+            for root in x._inputs.keys():
+                inputs[root] = [[x, np.cos(x._val)]]
+            return return_same_rev(x, val, inputs)
+    except AttributeError:          # if x is a constant
         return np.sin(x)
-    
+
+
 def cos(x):
     """
     Calculates cosine of x
@@ -40,16 +57,17 @@ def cos(x):
     Inputs: x (either Scal object or constant)
     Returns: new object of type x (if x is a Scal or Vect) or a new constant (if x is a constant)
     """
-    try: # if x is a Scal
+    try:  # if x is a Scal
         val = np.cos(x._val)
         der = {}
         for var, part_der in x._der.items():
             der[var] = - part_der * np.sin(x._val)
         parents = x._set_parents(x)
         return return_same_type(x, val, der, parents)
-    except AttributeError: # if x is a constant
+    except AttributeError:  # if x is a constant
         return np.cos(x)
     
+
 def tan(x):
     """
     Calculates tangent of x
@@ -57,15 +75,16 @@ def tan(x):
     Inputs: x (either Scal object or constant)
     Returns: new object of type x (if x is a Scal or Vect) or a new constant (if x is a constant)
     """
-    try: # if x is a Scal
+    try:  # if x is a Scal
         val = np.tan(x._val)
         der = {}
         for var, part_der in x._der.items():
             der[var] = - part_der / (np.cos(x._val) * np.cos(x._val))
         parents = x._set_parents(x)
         return return_same_type(x, val, der, parents)
-    except AttributeError: # if x is a constant
+    except AttributeError:  # if x is a constant
         return np.tan(x)
+
 
 def arcsin(x):
     """
@@ -74,15 +93,16 @@ def arcsin(x):
     Inputs: x (either Scal object or constant)
     Returns: new object of type x (if x is a Scal or Vect) or a new constant (if x is a constant)
     """
-    try: # if x is a Scal
+    try:  # if x is a Scal
         val = np.arcsin(x._val)
         der = {}
         for var, part_der in x._der.items():
             der[var] = part_der / np.sqrt(1 - (x._val * x._val))
         parents = x._set_parents(x)
         return return_same_type(x, val, der, parents)
-    except AttributeError: # if x is a constant
+    except AttributeError:  # if x is a constant
         return np.arcsin(x)
+
 
 def arccos(x):
     """
@@ -91,16 +111,17 @@ def arccos(x):
     Inputs: x (either Scal object or constant)
     Returns: new object of type x (if x is a Scal or Vect) or a new constant (if x is a constant)
     """
-    try: # if x is a Scal
+    try:  # if x is a Scal
         val = np.arccos(x._val)
         der = {}
         for var, part_der in x._der.items():
             der[var] = - part_der / np.sqrt(1 - (x._val * x._val))
         parents = x._set_parents(x)
         return return_same_type(x, val, der, parents)
-    except AttributeError: # if x is a constant
+    except AttributeError:  # if x is a constant
         return np.arccos(x)
     
+
 def arctan(x):
     """
     Calculates arctangent (inverse tangent) of x
@@ -108,16 +129,17 @@ def arctan(x):
     Inputs: x (either Scal object or constant)
     Returns: new object of type x (if x is a Scal or Vect) or a new constant (if x is a constant)
     """
-    try: # if x is a Scal
+    try:  # if x is a Scal
         val = np.arctan(x._val)
         der = {}
         for var, part_der in x._der.items():
             der[var] = part_der / (1 + (x._val * x._val))
         parents = x._set_parents(x)
         return return_same_type(x, val, der, parents)
-    except AttributeError: # if x is a constant
+    except AttributeError:  # if x is a constant
         return np.arctan(x)
     
+
 def sinh(x):
     """
     Calculates hyperbolic sine of x
@@ -125,16 +147,17 @@ def sinh(x):
     Inputs: x (either Scal object or constant)
     Returns: new object of type x (if x is a Scal or Vect) or a new constant (if x is a constant)
     """
-    try: # if x is a Scal
+    try:  # if x is a Scal
         val = np.sinh(x._val)
         der = {}
         for var, part_der in x._der.items():
             der[var] = part_der * np.cosh(x._val)
         parents = x._set_parents(x)
         return return_same_type(x, val, der, parents)
-    except AttributeError: # if x is a constant
+    except AttributeError:  # if x is a constant
         return np.sinh(x)
     
+
 def cosh(x):
     """
     Calculates hyperbolic cosine of x
@@ -142,16 +165,17 @@ def cosh(x):
     Inputs: x (either Scal object or constant)
     Returns: new object of type x (if x is a Scal or Vect) or a new constant (if x is a constant)
     """
-    try: # if x is a Scal
+    try:  # if x is a Scal
         val = np.cosh(x._val)
         der = {}
         for var, part_der in x._der.items():
             der[var] = part_der * np.sinh(x._val)
         parents = x._set_parents(x)
         return return_same_type(x, val, der, parents)
-    except AttributeError: # if x is a constant
+    except AttributeError:  # if x is a constant
         return np.cosh(x)
     
+
 def tanh(x):
     """
     Calculates hyperbolic tangent of x
@@ -159,16 +183,17 @@ def tanh(x):
     Inputs: x (either Scal object or constant)
     Returns: new object of type x (if x is a Scal or Vect) or a new constant (if x is a constant)
     """
-    try: # if x is a Scal
+    try:  # if x is a Scal
         val = np.tanh(x._val)
         der = {}
         for var, part_der in x._der.items():
             der[var] = part_der / (np.cosh(x._val) * np.cosh(x._val))
         parents = x._set_parents(x)
         return return_same_type(x, val, der, parents)
-    except AttributeError: # if x is a constant
+    except AttributeError:  # if x is a constant
         return np.tanh(x)
     
+
 def exp(x):
     """
     Calculates e ** x
@@ -176,16 +201,17 @@ def exp(x):
     Inputs: x (either Scal object or constant)
     Returns: new object of type x (if x is a Scal or Vect) or a new constant (if x is a constant)
     """
-    try: # if x is a Scal
+    try:  # if x is a Scal
         val = np.exp(x._val)
         der = {}
         for var, part_der in x._der.items():
             der[var] = part_der * np.exp(x._val)
         parents = x._set_parents(x)
         return return_same_type(x, val, der, parents)
-    except AttributeError: # if x is a constant
+    except AttributeError:  # if x is a constant
         return np.exp(x)
     
+
 def logistic(x):
     """
     Calculates logistic function f(x) = 1/(1 + e ** -x)
@@ -193,16 +219,17 @@ def logistic(x):
     Inputs: x (either Scal object or constant)
     Returns: new object of type x (if x is a Scal or Vect) or a new constant (if x is a constant)
     """
-    try: # if x is a Scal
+    try:  # if x is a Scal
         val = 1 / (1 + exp(-x))
         der = {}
         for var, part_der in x._der.items():
             der[var] = part_der * exp(x) / (1 + exp(x))**2
         parents = x._set_parents(x)
         return return_same_type(x, val, der, parents)
-    except AttributeError: # if x is a constant
+    except AttributeError:  # if x is a constant
         return 1 / (1 + np.exp(-x))   
     
+
 def log(x, b=np.e):
     """
     Calculates logarithm of x of base b (default is the natural logarithm, base e)
@@ -210,16 +237,17 @@ def log(x, b=np.e):
     Inputs: x (either Scal object or constant), b (base for log, default is e)
     Returns: new object of type x (if x is a Scal or Vect) or a new constant (if x is a constant)
     """
-    try: # if x is a Scal
+    try:  # if x is a Scal
         val = np.log(x._val) / np.log(b)
         der = {}
         for var, part_der in x._der.items():
             der[var] = part_der / (x._val * np.log(b))
         parents = x._set_parents(x)
         return return_same_type(x, val, der, parents)
-    except AttributeError: # if x is a constant
+    except AttributeError:  # if x is a constant
         return np.log(x) / np.log(b)      
     
+
 def sqrt(x):
     """
     Calculates sqrt of x
@@ -227,12 +255,12 @@ def sqrt(x):
     Inputs: x (either Scal object or constant)
     Returns: new object of type x (if x is a Scal or Vect) or a new constant (if x is a constant)
     """
-    try: # if x is a Scal
+    try:  # if x is a Scal
         val = np.sqrt(x._val)
         der = {}
         for var, part_der in x._der.items():
             der[var] = part_der / (2. * np.sqrt(x._val))
         parents = x._set_parents(x)
         return return_same_type(x, val, der, parents)
-    except AttributeError: # if x is a constant
+    except AttributeError:  # if x is a constant
         return np.sqrt(x)  

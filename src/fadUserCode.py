@@ -161,23 +161,23 @@ print(f'check._der.get(x2) -->\n'
 
 # TODO: FUNCTION VECTOR (FuncVect.py) DEBUGGING --
 
-# print()
+print()
 
-# print(f'x1 = ad.new_scal(3)\n'
-#       f'x2 = ad.new_scal(2)\n'
-#       f'f1 = x1 * x2 + x1\n'
-#       f'f2 = 8 * x2')
-# x1 = ad.new_scal(3)
-# x2 = ad.new_scal(2)
-# f1 = x1 * x2 + x1
-# f2 = 8 * x2
+print(f'x1 = ad.new_scal(3)\n'
+      f'x2 = ad.new_scal(2)\n'
+      f'f1 = x1 * x2 + x1\n'
+      f'f2 = 8 * x2')
+x1 = ad.new_scal(3)
+x2 = ad.new_scal(2)
+f1 = x1 * x2 + x1
+f2 = 8 * x2
 
-# print(f'\nf = ad.new_funcvect([f1, f2])')
-# f = ad.new_funcvect([f1, f2])
-# print(f'f.val --> '
-#       f'{f.val}')
-# print(f'f.der --> '
-#       f'{f.der}')
+print(f'\nf = ad.new_funcvect([f1, f2])')
+f = ad.new_funcvect([f1, f2])
+print(f'f.val --> '
+      f'{f.val}')
+print(f'f.der --> '
+      f'{f.der}')
 
 # # TODO: Checking the following against revUserCode.py (can erase later) --
 # print('Create input vars -->')
@@ -206,20 +206,3 @@ print(f'check._der.get(x2) -->\n'
 # print(f.val)
 # print('f.der -->')
 # print(f.der)
-print()
-
-print(f'x1 = ad.new_scal(3)\n'
-      f'x2 = ad.new_scal(2)\n'
-      f'f1 = x1 * x2 + x1\n'
-      f'f2 = 8 * x2')
-x1 = ad.new_scal(3)
-x2 = ad.new_scal(2)
-f1 = x1 * x2 + x1
-f2 = 8 * x2
-
-print(f'\nf = ad.new_funcvect([f1, f2])')
-f = ad.new_funcvect([f1, f2])
-print(f'f.val --> '
-      f'{f.val}')
-print(f'f.der --> '
-      f'{f.der}')

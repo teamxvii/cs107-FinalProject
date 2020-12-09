@@ -15,7 +15,6 @@ class Scal:
         self._name = name
         self._tmp_der = 0
 
-    # TODO: Check works correctly
     def __add__(self, other):
         try:
             inputs = {}
@@ -36,7 +35,6 @@ class Scal:
     def __radd__(self, other):
         return self.__add__(other)
 
-    # TODO: Check works correctly
     def __mul__(self, other):
         try:
             inputs = {}
@@ -79,7 +77,6 @@ class Scal:
     def val(self):
         return [self._val]
 
-    # TODO: Check works correctly
     @property
     def der(self):
         part_ders = []
@@ -92,7 +89,6 @@ class Scal:
                 self._undo(root)
         return part_ders
 
-    # TODO: Check works correctly
     def _back_trace(self, root):
         if self._inputs[root]:               # (Base case: list is empty @ root)
             for parent, part_der in self._inputs[root]:

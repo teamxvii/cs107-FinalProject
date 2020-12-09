@@ -17,86 +17,86 @@ print(f'y = FADiff.new_scal(5)')
 y = ad.new_scal(5, name='y')
 print(f'z = FADiff.new_scal(3)')
 z = ad.new_scal(3, name='z')
-print(f'x.val --> '                   
+print(f'x.val --> '
       f'{x.val}')              # Should be [2]
 print(f'x.der --> '            # 'der' (no underscore) returns only the partial
       f'{x.der}')              #   derivatives for input vars used in calculation
-print(f'y.val --> '                  
+print(f'y.val --> '
       f'{y.val}')              # Should be [5]
 print(f'y.der --> '
       f'{y.der}')              # Should be [1]
-print(f'z.val --> '                  
+print(f'z.val --> '
       f'{z.val}')              # Should be [3]
 print(f'z.der --> '
       f'{z.der}')              # Should be [1]
 
-# print(f'\ncheck = x * y + ef.sin(x)')
-# check = x * y + ef.sin(x)
-# print(f'check.val --> '
-#       f'{check.val}')                    # Should be [10.909...]
-# print(f'check.der --> '
-#       f'{check.der}')                 # Should be [4.583..., 2]
-#
-# print(f'\ncheck = ef.sin(x + y)')
-# check = ef.sin(x + y)
-# print(f'check.val --> '
-#       f'{check.val}')                    # Should be [0.656...]
-# print(f'check.der --> '
-#       f'{check.der}')
-#
-# print(f'\ncheck = ef.sin(x * y)')
-# check = ef.sin(x * y)
-# print(f'check.val --> '
-#       f'{check.val}')                    # Should be [-0.544..]
-# print(f'check.der --> '
-#       f'{check.der}')                    # Should be [-4.195..., -1.678...]
-#
-# print(f'\ncheck = 8 * x')
-# check = 8 * x
-# print(f'check.val --> '
-#       f'{check.val}')                    # Should be 16
-# print(f'check.der --> '
-#       f'{check.der}')
-#
-# print(f'\ncheck = 8 * y')
-# check = 8 * y
-# print(f'check.val --> '
-#       f'{check.val}')                    # Should be [40]
-# print(f'check.der --> '
-#       f'{check.der}')                    # Should be [8]
-#
-# print(f'\ncheck = 8 + x')
-# check = 8 + x
-# print(f'check.val --> '
-#       f'{check.val}')                    # Should be [10]
-# print(f'check.der --> '
-#       f'{check.der}')                    # Should be [1]
-#
-# print(f'\ncheck = 8 + y')
-# check = 8 + y
-# print(f'check.val --> '
-#       f'{check.val}')                    # Should be 13
-# print(f'check.der --> '
-#       f'{check.der}')
-#
-# print(f'\ncheck = x * y + ef.sin(x) + z')  # Check that uses three input vars
-# check = x * y + ef.sin(x) + z
-# print(f'check.val --> '
-#       f'{check.val}')                    # Should be 13.909...
-# print(f'check.der --> '
-#       f'{check.der}')                 # Should be [4.583..., 2, 1]
-#
-# print(f'\nx1 = ad.new_scal(2)\n'
-#       f'x2 = ad.new_scal(3)\n'
-#       f'check = x1 * x2 + x1')
-# x1 = ad.new_scal(2)
-# x2 = ad.new_scal(3)
-# check = x1 * x2 + x1
-# print(f'check.val --> '
-#       f'{check.val}')                    # Should be [8]
-# print(f'check.der --> '
-#       f'{check.der}')                    # Should be [4, 2]
-#
+print(f'\ncheck = x * y + ef.sin(x)')
+check = x * y + ef.sin(x)
+print(f'check.val --> '
+      f'{check.val}')                    # Should be [10.909...]
+print(f'check.der --> '
+      f'{check.der}')                 # Should be [4.583..., 2]
+
+print(f'\ncheck = ef.sin(x + y)')
+check = ef.sin(x + y)
+print(f'check.val --> '
+      f'{check.val}')                    # Should be [0.656...]
+print(f'check.der --> '
+      f'{check.der}')
+
+print(f'\ncheck = ef.sin(x * y)')
+check = ef.sin(x * y)
+print(f'check.val --> '
+      f'{check.val}')                    # Should be [-0.544..]
+print(f'check.der --> '
+      f'{check.der}')                    # Should be [-4.195..., -1.678...]
+
+print(f'\ncheck = 8 * x')
+check = 8 * x
+print(f'check.val --> '
+      f'{check.val}')                    # Should be 16
+print(f'check.der --> '
+      f'{check.der}')
+
+print(f'\ncheck = 8 * y')
+check = 8 * y
+print(f'check.val --> '
+      f'{check.val}')                    # Should be [40]
+print(f'check.der --> '
+      f'{check.der}')                    # Should be [8]
+
+print(f'\ncheck = 8 + x')
+check = 8 + x
+print(f'check.val --> '
+      f'{check.val}')                    # Should be [10]
+print(f'check.der --> '
+      f'{check.der}')                    # Should be [1]
+
+print(f'\ncheck = 8 + y')
+check = 8 + y
+print(f'check.val --> '
+      f'{check.val}')                    # Should be 13
+print(f'check.der --> '
+      f'{check.der}')
+
+print(f'\ncheck = x * y + ef.sin(x) + z')  # Check that uses three input vars
+check = x * y + ef.sin(x) + z
+print(f'check.val --> '
+      f'{check.val}')                    # Should be 13.909...
+print(f'check.der --> '
+      f'{check.der}')                 # Should be [4.583..., 2, 1]
+
+print(f'\nx1 = ad.new_scal(2)\n'
+      f'x2 = ad.new_scal(3)\n'
+      f'check = x1 * x2 + x1')
+x1 = ad.new_scal(2)
+x2 = ad.new_scal(3)
+check = x1 * x2 + x1
+print(f'check.val --> '
+      f'{check.val}')                    # Should be [8]
+print(f'check.der --> '
+      f'{check.der}')                    # Should be [4, 2]
+
 # # TODO: VECTOR DEBUGGING --
 # print()
 #
