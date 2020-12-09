@@ -82,14 +82,15 @@ class Scal:
     # TODO: Check works correctly
     @property
     def der(self):
-        parents = []
+        part_ders = []
         for root in FADiff._revscal_inputs:  # Iterating w/this keeps var order
             if root in self._inputs.keys():
                 self._tmp_der = 1
                 self._back_trace(root)
-                parents.append(root._tmp_der)
+                part_ders.append(root._tmp_der)
                 self._tmp_der = 0
-        return parents
+                self._undo(root)
+        return part_ders
 
     # TODO: Check works correctly
     def _back_trace(self, root):
@@ -97,4 +98,9 @@ class Scal:
             for parent, part_der in self._inputs[root]:
                 parent._tmp_der += self._tmp_der * part_der
                 parent._back_trace(root)
-            self._tmp_der = 0
+
+    def _undo(self, root):
+        if self._inputs[root]:
+            for parent, part_der in self._inputs[root]:
+                parent._tmp_der = 0
+                parent._undo(root)
