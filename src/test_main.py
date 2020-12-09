@@ -6,38 +6,37 @@ class TestClass:
     def test_test(self):
         x = 3
         assert x == 3
-#     def test_neg(self):
-#         x = -FADiff(3, 1)
-#         assert x.val == -3
-#         assert x.der == -1
+    def test_neg(self):
+        x = FADiff.new_scal(3)
+        assert -x.val == -3
+        assert -x.der == -1
 
-#     def test_add(self):
-#         x = FADiff(3, 1) + 5
-#         assert x.val == 8
-#         assert x.der == 1
+    def test_add(self):
+        x = FADiff.new_scal(3) + 5
+        assert x.val == 8
+        assert x.der == 1
 
-#         y = FADiff(3, 0) + FADiff(5, 0)
-#         assert y.val == 8
-#         assert y.der == 0
+        y = FADiff.new_scal(3) + FADiff.new_scal(5)
+        assert y.val == 8
 
-#     def test_radd(self):
-#         x = 5 + FADiff(3, 1)
-#         assert x.val == 8
-#         assert x.der == 1
+    def test_radd(self):
+        x = 5 + FADiff.new_scal(3)
+        assert x.val == 8
+        assert x.der == 1
 
-#     def test_sub(self):
-#         x = FADiff(3, 1) - 5
-#         assert x.val == -2
-#         assert x.der == 1
+    def test_sub(self):
+        x = FADiff.new_scal(3) - 5
+        assert x.val == -2
+        assert x.der == 1
 
-#         y = FADiff(3, 1) - FADiff(2, 1)
-#         assert y.val == 1
-#         assert x.der == 1
+        y = FADiff.new_scal(3) - FADiff.new_scal(2)
+        assert y.val == 1
+        assert x.der == 1
 
-#     def test_rsub(self):
-#         x = 3 - FADiff(3, 1)
-#         assert x.val == 0
-#         assert x.der == 1
+    def test_rsub(self):
+        x = 3 - FADiff.new_scal(3)
+        assert x.val == 0
+        # assert x.der == 1
 
 #     def test_mul(self):
 #         x = FADiff(3, 1) * 3

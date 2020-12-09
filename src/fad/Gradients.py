@@ -116,6 +116,7 @@ class Scal:
             parents = self._set_parents(self, other)
         except AttributeError:  # if other is a constant
             val = other - self._val
+            der = {}
             for var, part_der in self._der.items():  # loop through partial derivatives
                 der[var] = other - part_der
             parents = self._set_parents(self)
