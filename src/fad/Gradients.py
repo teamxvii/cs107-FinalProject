@@ -47,7 +47,7 @@ class Scal:
             FADiff._fadscal_inputs.append(self)  # Add self to global vars list
         else:
             self._der = deriv
-        self._name = name  # TODO: Utilize if have time?
+        self._name = name
         if parents is None:
             parents = []
         self._parents = parents

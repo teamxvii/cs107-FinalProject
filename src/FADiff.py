@@ -27,13 +27,11 @@ class FADiff:
     @staticmethod
     def new_vect(vect, der=None, name=None):
         if FADiff._mode == 'forward':
-            vect = np.array(vect)# TODO: Keep this?
+            vect = np.array(vect)
             if not der:  # No der arg?
                 der = np.ones(vect.shape)  # Init der to identity matrix
             return _fadVect(vect, der=der, name=name, new_input=True)
         elif FADiff._mode == 'reverse':
-            if not der:  # No der arg?
-                pass  # TODO: Need to change?
             return _revVect(vect, name=name, new_input=True)
 
     @staticmethod
