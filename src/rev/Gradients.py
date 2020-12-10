@@ -134,7 +134,7 @@ class Scal:
             inputs[root] = [[self, np.log(other) * other ** self._val]]
         return Scal(other ** self._val, inputs)
 
-    def __neg__(self, other):
+    def __neg__(self):
         inputs = {}
         for root in self._inputs.keys():
             inputs[root] = [[self, -1]]
