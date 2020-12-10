@@ -12,7 +12,7 @@ class FADiff:
 
     @staticmethod
     def set_mode(mode):
-        if mode.lower() == ('forward' or 'reverse'):
+        if mode.lower() == 'forward' or mode.lower() == 'reverse':
             FADiff._mode = mode.lower()
 
     @staticmethod
