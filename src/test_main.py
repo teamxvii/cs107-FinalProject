@@ -94,6 +94,8 @@ class TestClass:
         assert x.val == pytest.approx(-0.9899924966004454)
         assert x.der == pytest.approx(-0.1411200080598672)
 
+        y = 2
+        assert Elems.cos(y) == np.cos(y)
     def test_sin(self):
         x = Elems.sin(FADiff.new_scal(3))
         assert x.val == pytest.approx(0.1411200080598672)
@@ -101,8 +103,36 @@ class TestClass:
 
         y = 2
         assert Elems.sin(y) == np.sin(y)
-        
+
     def test_tan(self):
         x = Elems.tan(FADiff.new_scal(3))
         assert x.val == pytest.approx(-0.1425465430742778)
         assert x.der == pytest.approx(-1.020319516942427)
+        
+        y = 2
+        assert Elems.tan(y) == np.tan(y)
+
+    def test_arcsin(self):
+        x = Elems.arcsin(FADiff.new_scal(0.3))
+        assert x.val == pytest.approx(0.30469265)
+        with pytest.warns(RuntimeWarning):
+            Elems.arcsin(-19)
+        
+        y = -0.4
+        assert Elems.arcsin(y) == np.arcsin(y)
+
+    def test_arccos(self):
+        x = Elems.arccos(FADiff.new_scal(0.3))
+        assert x.val == pytest.approx(1.2661036727794992)
+        with pytest.warns(RuntimeWarning):
+            Elems.arccos(19)
+        
+        y = -0.4
+        assert Elems.arccos(y) == np.arccos(y)
+
+    def test_arctan(self):
+        x = Elems.arctan(FADiff.new_scal(0.5))
+        assert x.val == pytest.approx(0.4636476090008061)
+
+        y = -0.4
+        assert Elems.arctan(y) == np.arctan(y)
