@@ -19,13 +19,13 @@ class Vect:
     def __add__(self, other):
         try:
             inputs = {}
-            for root in self._inputs.keys():
-                inputs[root] = [[self, 1]]
             for root in other._inputs.keys():
+                inputs[root] = [[other, 1]]
+            for root in self._inputs.keys():
                 if root in inputs:
-                    inputs[root].append([other, 1])
+                    inputs[root].append([self, 1])
                 else:
-                    inputs[root] = [[other, 1]]
+                    inputs[root] = [[self, 1]]
             return Vect(self._val + other._val, inputs)
         except AttributeError:
             inputs = {}
@@ -39,13 +39,13 @@ class Vect:
     def __sub__(self, other):
         try:
             inputs = {}
-            for root in self._inputs.keys():
-                inputs[root] = [[self, 1]]
             for root in other._inputs.keys():
+                inputs[root] = [[other, -1]]
+            for root in self._inputs.keys():
                 if root in inputs:
-                    inputs[root].append([other, -1])
+                    inputs[root].append([self, 1])
                 else:
-                    inputs[root] = [[other, -1]]
+                    inputs[root] = [[self, 1]]
             return Vect(self._val - other._val, inputs)
         except AttributeError:
             inputs = {}
@@ -59,13 +59,13 @@ class Vect:
     def __mul__(self, other):
         try:
             inputs = {}
-            for root in self._inputs.keys():
-                inputs[root] = [[self, other._val]]
             for root in other._inputs.keys():
+                inputs[root] = [[other, self._val]]
+            for root in self._inputs.keys():
                 if root in inputs:
-                    inputs[root].append([other, self._val])
+                    inputs[root].append([self, other._val])
                 else:
-                    inputs[root] = [[other, self._val]]
+                    inputs[root] = [[self, other._val]]
             return Vect(self._val * other._val, inputs)
         except AttributeError:
             inputs = {}
@@ -85,13 +85,13 @@ class Vect:
         """
         try:
             inputs = {}
-            for root in self._inputs.keys():
-                inputs[root] = [[self, 1 / other._val]]
             for root in other._inputs.keys():
+                inputs[root] = [[other, -1 * self._val / (other._val ** 2)]]
+            for root in self._inputs.keys():
                 if root in inputs:
-                    inputs[root].append([other, -self._val / (other._val ** 2)])
+                    inputs[root].append([self, 1 / other._val])
                 else:
-                    inputs[root] = [[other, -self._val / (other._val ** 2)]]
+                    inputs[root] = [[self, 1 / other._val]]
             return Vect(self._val / other._val, inputs)
         except AttributeError:
             inputs = {}
@@ -108,19 +108,19 @@ class Vect:
         """
         inputs = {}
         for root in self._inputs.keys():
-            inputs[root].append([self, -other / (self._val ** 2)])
+            inputs[root].append([self, -1 * other / (self._val ** 2)])
         return Vect(other / self._val, inputs)
 
     def __pow__(self, other):
         try:
             inputs = {}
-            for root in self._inputs.keys():
-                inputs[root] = [[self, self._val ** (other._val - 1) * other._val]]
             for root in other._inputs.keys():
+                inputs[root] = [[other, np.log(self._val) * self._val ** other._val]]
+            for root in self._inputs.keys():
                 if root in inputs:
-                    inputs[root].append([other, np.log(self._val) * self._val ** other._val])
+                    inputs[root].append([self, self._val ** (other._val - 1) * other._val])
                 else:
-                    inputs[root] = [[other, np.log(self._val) * self._val ** other._val]]
+                    inputs[root] = [[self, self._val ** (other._val - 1) * other._val]]
             return Vect(self._val ** other._val, inputs)
         except AttributeError:
             inputs = {}
@@ -138,7 +138,7 @@ class Vect:
         inputs = {}
         for root in self._inputs.keys():
             inputs[root] = [[self, -1]]
-        return Vect(-self._val, inputs)
+        return Vect(-1 * self._val, inputs)
 
     ### Comparison Operators ###
 
