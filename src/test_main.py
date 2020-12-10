@@ -3,10 +3,13 @@ import coverage
 from FADiff import FADiff
 import Elems
 import numpy as np
+
+
 class TestClass:
     def test_test(self):
         x = 3
         assert x == 3
+
     def test_neg(self):
         x = FADiff.new_scal(3)
         assert -x.val == -3
@@ -84,6 +87,7 @@ class TestClass:
 
 # Elems testing
 
+
     def test_exp(self):
         x = Elems.exp(FADiff.new_scal(3))
         assert x.val == pytest.approx(20.085536923187668)
@@ -99,6 +103,7 @@ class TestClass:
 
         y = 2
         assert Elems.cos(y) == np.cos(y)
+
     def test_sin(self):
         x = Elems.sin(FADiff.new_scal(3))
         assert x.val == pytest.approx(0.1411200080598672)
@@ -110,8 +115,8 @@ class TestClass:
     def test_tan(self):
         x = Elems.tan(FADiff.new_scal(3))
         assert x.val == pytest.approx(-0.1425465430742778)
-        assert x.der == pytest.approx(-1.020319516942427)
-        
+        assert x.der == pytest.approx(1.020319516942427)
+
         y = 2
         assert Elems.tan(y) == np.tan(y)
 
@@ -120,7 +125,7 @@ class TestClass:
         assert x.val == pytest.approx(0.30469265)
         with pytest.warns(RuntimeWarning):
             Elems.arcsin(-19)
-        
+
         y = -0.4
         assert Elems.arcsin(y) == np.arcsin(y)
 
@@ -129,7 +134,7 @@ class TestClass:
         assert x.val == pytest.approx(1.2661036727794992)
         with pytest.warns(RuntimeWarning):
             Elems.arccos(19)
-        
+
         y = -0.4
         assert Elems.arccos(y) == np.arccos(y)
 
@@ -146,7 +151,7 @@ class TestClass:
 
         y = -0.4
         assert Elems.sinh(y) == np.sinh(y)
-    
+
     def test_cosh(self):
         x = Elems.cosh(FADiff.new_scal(0.3))
         assert x.val == pytest.approx(1.04533851)
@@ -182,4 +187,23 @@ class TestClass:
 
     # def return_same_type(self):
     #     x = FADiff.new_vect(np.array([2, 3, 4]))
-    #     assert Elems.return_same_type(x) 
+    #     assert Elems.return_same
+    # _type(x)
+
+    # FADiff class
+    def test_mode(self):
+        x = FADiff()
+        x.set_mode('forward')
+        assert x._mode == 'forward'
+        x.new_scal(3)
+        assert x._mode == 'forward'
+    # FuncVect class
+    def test_funcvect(self):
+
+        x = FADiff.new_vect(np.array([2, 3, 4]))
+        y = FADiff.new_vect(np.array([3, 2, 1]))
+        assert len(x.val) == 1
+        assert len(x.val[0]) == 3
+        assert type(x.val[0]) is np.ndarray
+        assert type(x) is not np.ndarray
+    
