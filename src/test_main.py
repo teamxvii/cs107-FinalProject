@@ -202,6 +202,15 @@ class TestClass:
         x.new_scal(4)
         x.set_mode('testing')
         assert x._mode != 'forward' or x._mode != 'reverse'
+
+        y = FADiff()
+        y.set_mode('forward')
+        y = y.new_vect(np.array([2,3,4]))
+        
+        assert y.der is not None
+
+        
+
     # FuncVect class
     # def test_funcvect(self):
 
