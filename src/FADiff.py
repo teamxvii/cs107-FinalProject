@@ -2,16 +2,18 @@
 import numpy as np
 # NOTE: See bottom of this module for imported modules
 
+
 class FADiff:
-    _fadscal_inputs = []        # Global input scalar vars list
-    _fadvect_inputs = []        # Global input vector vars list
-    _revscal_inputs = []
+    _fadscal_inputs = []        # Global input scalar vars list, forward mode
+    _fadvect_inputs = []        # Global input vector vars list, forward mode
+    _revscal_inputs = []        # Global input vector vars list, reverse mode
+    _revvect_inputs = []        # Global input vector vars list, reverse mode
     _mode = 'forward'           # Default mode is forward mode
 
     @staticmethod
     def set_mode(mode):
-        # TODO: Input validation necessary here?
-        FADiff._mode = mode.lower()
+        if mode.lower() == ('forward' or 'reverse'):
+            FADiff._mode = mode.lower()
 
     @staticmethod
     def new_scal(val, der=None, name=None):
@@ -25,11 +27,14 @@ class FADiff:
     @staticmethod
     def new_vect(vect, der=None, name=None):
         if FADiff._mode == 'forward':
+            vect = np.array(vect)# TODO: Keep this?
             if not der:  # No der arg?
                 der = np.ones(vect.shape)  # Init der to identity matrix
             return _fadVect(vect, der=der, name=name, new_input=True)
         elif FADiff._mode == 'reverse':
-            return _revVect()
+            if not der:  # No der arg?
+                pass  # TODO: Need to change?
+            return _revVect(vect, name=name, new_input=True)
 
     @staticmethod
     def new_funcvect(func_list):

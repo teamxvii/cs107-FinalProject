@@ -97,47 +97,47 @@ print(f'check.val --> '
 print(f'check.der --> '
       f'{check.der}')                    # Should be [4, 2]
 
-# # TODO: VECTOR DEBUGGING --
-# print()
-#
-# print(f'x1 = ad.new_vect([2, 3, 4])\n'
-#       f'x2 = ad.new_vect([3, 2, 1])')
-# x1 = ad.new_vect([2, 3, 4])
-# x2 = ad.new_vect([3, 2, 1])
-# print(f'x1.val --> '
-#       f'{x1.val}')
-# print(f'x1.der -->\n'       # Should be identity
-#       f'{x1.der}')
-# print(f'x2.val --> '
-#       f'{x2.val}')
-# print(f'x2.der -->\n'       # Should be identity
-#       f'{x2.der}')
-#
-# print(f'\ncheck = x1 - x2')
-# check = x1 - x2
-# print(f'check.val --> '
-#       f'{check.val}')
-# print(f'check.der -->\n'
-#       f'{check.der}')
-# print(f'check.der (pretty printed) -->')
-# for mat in check.der:
-#     print(mat)
-#
-# # TODO: FUNCTION VECTOR (FuncVect.py) DEBUGGING --
-# print()
-#
-# print(f'x1 = ad.new_scal(3)\n'
-#       f'x2 = ad.new_scal(2)\n'
-#       f'f1 = x1 * x2 + x1\n'
-#       f'f2 = 8 * x2')
-# x1 = ad.new_scal(3)
-# x2 = ad.new_scal(2)
-# f1 = x1 * x2 + x1
-# f2 = 8 * x2
-#
-# print(f'\nf = ad.new_funcvect([f1, f2])')
-# f = ad.new_funcvect([f1, f2])
-# print(f'f.val --> '
-#       f'{f.val}')
-# print(f'f.der --> '
-#       f'{f.der}')
+# TODO: VECTOR DEBUGGING --
+print()
+
+print(f'x1 = ad.new_vect([2, 3, 4])\n'
+      f'x2 = ad.new_vect([3, 2, 1])')
+x1 = ad.new_vect([2, 3, 4])
+x2 = ad.new_vect([3, 2, 1])
+print(f'x1.val --> '
+      f'{x1.val}')
+print(f'x1.der -->\n'       # Should be identity
+      f'{x1.der}')
+print(f'x2.val --> '
+      f'{x2.val}')
+print(f'x2.der -->\n'       # Should be identity
+      f'{x2.der}')
+
+print(f'\ncheck = x1 - x2')
+check = x1 - x2
+print(f'check.val --> '
+      f'{check.val}')
+print(f'check.der -->\n'
+      f'{check.der}')
+print(f'check.der (pretty printed) -->')
+for mat in check.der:
+    print(mat)
+
+# TODO: FUNCTION VECTOR (FuncVect.py) DEBUGGING --
+print()
+
+print(f'x1 = ad.new_scal(3)\n'
+      f'x2 = ad.new_scal(2)\n'
+      f'f1 = x1 * x2 + x1\n'
+      f'f2 = 8 * x2')
+x1 = ad.new_scal(3)
+x2 = ad.new_scal(2)
+f1 = x1 * x2 + x1
+f2 = 8 * x2
+
+print(f'\nf = ad.new_funcvect([f1, f2])')
+f = ad.new_funcvect([f1, f2])
+print(f'f.val --> '
+      f'{f.val}')
+print(f'f.der --> '
+      f'{f.der}')
