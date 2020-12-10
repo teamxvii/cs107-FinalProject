@@ -139,5 +139,5 @@ print(f'\nf = ad.new_funcvect([f1, f2])')
 f = ad.new_funcvect([f1, f2])
 print(f'f.val --> '
       f'{f.val}')
-print(f'f.der --> '
+print(f'f.der -->\n'
       f'{f.der}')
