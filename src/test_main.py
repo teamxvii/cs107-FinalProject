@@ -111,6 +111,13 @@ class TestClass:
 
         y = 2
         assert Elems.sin(y) == np.sin(y)
+        z = FADiff()
+        z.set_mode('reverse')
+        z = z.new_scal(3)
+        
+        a = Elems.sin(z)
+        assert a.val == pytest.approx(0.1411200080598672)
+
 
     def test_tan(self):
         x = Elems.tan(FADiff.new_scal(3))
@@ -119,6 +126,12 @@ class TestClass:
 
         y = 2
         assert Elems.tan(y) == np.tan(y)
+
+        z = FADiff()
+        z.set_mode('reverse')
+        z = z.new_scal(3)
+        a = Elems.tan(z)
+        assert a.val == pytest.approx(-0.1425465430742778)
 
     def test_arcsin(self):
         x = Elems.arcsin(FADiff.new_scal(0.3))
@@ -129,6 +142,12 @@ class TestClass:
         y = -0.4
         assert Elems.arcsin(y) == np.arcsin(y)
 
+        z = FADiff()
+        z.set_mode('reverse')
+        z = z.new_scal(0.3)
+        a = Elems.arcsin(z)
+        assert a.val == pytest.approx(0.30469265)
+
     def test_arccos(self):
         x = Elems.arccos(FADiff.new_scal(0.3))
         assert x.val == pytest.approx(1.2661036727794992)
@@ -138,6 +157,12 @@ class TestClass:
         y = -0.4
         assert Elems.arccos(y) == np.arccos(y)
 
+        z = FADiff()
+        z.set_mode('reverse')
+        z = z.new_scal(0.3)
+        a = Elems.arccos(z)
+        assert a.val == pytest.approx(1.2661036727794992)
+
     def test_arctan(self):
         x = Elems.arctan(FADiff.new_scal(0.5))
         assert x.val == pytest.approx(0.4636476090008061)
@@ -145,12 +170,24 @@ class TestClass:
         y = -0.4
         assert Elems.arctan(y) == np.arctan(y)
 
+        z = FADiff()
+        z.set_mode('reverse')
+        z = z.new_scal(0.5)
+        a = Elems.arctan(z)
+        assert a.val == pytest.approx(0.4636476090008061)
+
     def test_sinh(self):
         x = Elems.sinh(FADiff.new_scal(0.4))
         assert x.val == pytest.approx(0.4107523258028155)
 
         y = -0.4
         assert Elems.sinh(y) == np.sinh(y)
+
+        z = FADiff()
+        z.set_mode('reverse')
+        z = z.new_scal(0.4)
+        a = Elems.sinh(z)
+        assert a.val == pytest.approx(0.4107523258028155)
 
     def test_cosh(self):
         x = Elems.cosh(FADiff.new_scal(0.3))
@@ -160,6 +197,12 @@ class TestClass:
         y = 4
         assert Elems.cosh(y) == np.cosh(y)
 
+        z = FADiff()
+        z.set_mode('reverse')
+        z = z.new_scal(0.3)
+        a = Elems.cosh(z)
+        assert a.val == pytest.approx(1.04533851)
+
     def test_tanh(self):
         x = Elems.tanh(FADiff.new_scal(1))
         assert x.val == pytest.approx(0.7615941559557649)
@@ -167,12 +210,24 @@ class TestClass:
         y = 2
         assert Elems.tanh(y) == np.tanh(y)
 
+        z = FADiff()
+        z.set_mode('reverse')
+        z = z.new_scal(1)
+        a = Elems.tanh(z)
+        assert a.val == pytest.approx(0.7615941559557649)
+
     def test_log(self):
         x = Elems.log(FADiff.new_scal(0.3))
         assert x.val == pytest.approx(-1.2039728)
 
         y = 2
         assert Elems.log(y) == pytest.approx(np.log(y) / np.log(np.e))
+
+        z = FADiff()
+        z.set_mode('reverse')
+        z = z.new_scal(0.3)
+        a = Elems.log(z)
+        assert a.val == pytest.approx(-1.2039728)
 
     # def test_logistic(self):
     #     x = Elems.logistic(FADiff.new_scal(0.3))
@@ -202,6 +257,22 @@ class TestClass:
         x.new_scal(4)
         x.set_mode('testing')
         assert x._mode != 'forward' or x._mode != 'reverse'
+
+        y = FADiff()
+        y.set_mode('forward')
+        assert y._mode == 'forward'
+        y = y.new_vect(np.array([2,3,4]))
+        assert y.der is not None
+
+        z = FADiff()
+        z.set_mode('reverse')
+        
+        z = z.new_vect(np.array([1,2,3]))
+        assert FADiff._mode == 'reverse'
+
+
+        
+
     # FuncVect class
     # def test_funcvect(self):
 
