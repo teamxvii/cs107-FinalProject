@@ -180,6 +180,6 @@ class TestClass:
         y = 2
         assert Elems.sqrt(y) == np.sqrt(y)
 
-    def return_same_type(self):
-        x = FADiff.new_vect(np.array([2, 3, 4]))
-        assert Elems.return_same_type(x) 
+    # def return_same_type(self):
+    #     x = FADiff.new_vect(np.array([2, 3, 4]))
+    #     assert Elems.return_same_type(x) 
