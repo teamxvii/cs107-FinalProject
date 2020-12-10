@@ -5,7 +5,7 @@ from FADiff import FADiff
 
 
 class Vect:
-    def __init__(self):
+    def __init__(self, val, inputs=None):
         pass
 
     def __sub__(self, other):
