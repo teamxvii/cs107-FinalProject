@@ -197,13 +197,34 @@ class TestClass:
         assert x._mode == 'forward'
         x.new_scal(3)
         assert x._mode == 'forward'
-    # FuncVect class
-    def test_funcvect(self):
+        x.set_mode('reverse')
+        assert x._mode == 'reverse'
+        x.new_scal(4)
+        x.set_mode('testing')
+        assert x._mode != 'forward' or x._mode != 'reverse'
 
-        x = FADiff.new_vect(np.array([2, 3, 4]))
-        y = FADiff.new_vect(np.array([3, 2, 1]))
-        assert len(x.val) == 1
-        assert len(x.val[0]) == 3
-        assert type(x.val[0]) is np.ndarray
-        assert type(x) is not np.ndarray
+        y = FADiff()
+        y.set_mode('forward')
+        assert y._mode == 'forward'
+        y = y.new_vect(np.array([2,3,4]))
+        assert y.der is not None
+
+        z = FADiff()
+        z.set_mode('reverse')
+        z = z.new_vect(np.array([1,2,3]))
+        assert FADiff._mode == 'reverse'
+
+
+        
+
+    # FuncVect class
+    # def test_funcvect(self):
+
+        # x = FADiff()
+        # x.new_vect(np.array([2,3,4]))
+        # assert len(x.val) == 1
+        # assert len(x.val[0]) == 3
+        # assert type(x.val[0]) is np.ndarray
+        # assert type(x) is not np.ndarray
+        
     

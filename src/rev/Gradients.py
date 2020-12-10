@@ -43,9 +43,9 @@ class Scal:
                 inputs[root] = [[self, 1]]
             for root in other._inputs.keys():
                 if root in inputs:
-                    inputs[root].append([other, 1])
+                    inputs[root].append([other, -1])
                 else:
-                    inputs[root] = [[other, 1]]
+                    inputs[root] = [[other, -1]]
             return Scal(self._val - other._val, inputs)
         except AttributeError:
             inputs = {}
@@ -115,31 +115,29 @@ class Scal:
         try:
             inputs = {}
             for root in self._inputs.keys():
-                inputs[root] = [[self, other._val * self._val ** (other._val - 1)]]
+                inputs[root] = [[self, self._val ** (other._val - 1) * other._val]]
             for root in other._inputs.keys():
                 if root in inputs:
-                    inputs[root].append([other, self._val ** other._val * np.log(self._val)])
+                    inputs[root].append([other, np.log(self._val) * self._val ** other._val])
                 else:
-                    inputs[root] = [[other, self._val ** other._val * np.log(self._val)]]
+                    inputs[root] = [[other, np.log(self._val) * self._val ** other._val]]
             return Scal(self._val ** other._val, inputs)
         except AttributeError:
             inputs = {}
             for root in self._inputs.keys():
-                inputs[root] = [[self, other * self._val ** (other - 1)]]
+                inputs[root] = [[self, self._val ** (other - 1) * other]]
             return Scal(self._val ** other, inputs)
 
     def __rpow__(self, other):
         inputs = {}
         for root in self._inputs.keys():
-            inputs[root] = [[self, other ** self._val * np.log(other)]]
-
+            inputs[root] = [[self, np.log(other) * other ** self._val]]
         return Scal(other ** self._val, inputs)
 
     def __neg__(self, other):
         inputs = {}
         for root in self._inputs.keys():
             inputs[root] = [[self, -1]]
-
         return Scal(-self._val, inputs)
 
     ### Comparison Operators ###

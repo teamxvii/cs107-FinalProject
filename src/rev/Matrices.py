@@ -43,9 +43,9 @@ class Vect:
                 inputs[root] = [[self, 1]]
             for root in other._inputs.keys():
                 if root in inputs:
-                    inputs[root].append([other, 1])
+                    inputs[root].append([other, -1])
                 else:
-                    inputs[root] = [[other, 1]]
+                    inputs[root] = [[other, -1]]
             return Vect(self._val - other._val, inputs)
         except AttributeError:
             inputs = {}
@@ -80,8 +80,8 @@ class Vect:
         """
         Divides self by other (self / other)
 
-        Inputs: self (Scal object), other (either Scal object or constant)
-        Returns: new Scal object
+        Inputs: self (Vect object), other (either Vect object or constant)
+        Returns: new Vect object
         """
         try:
             inputs = {}
@@ -103,8 +103,8 @@ class Vect:
         """
         Divides other by self (other / self)
 
-        Inputs: self (Scal object), other (either Scal object or constant)
-        Returns: new Scal object
+        Inputs: self (Vect object), other (either Vect object or constant)
+        Returns: new Vect object
         """
         inputs = {}
         for root in self._inputs.keys():
@@ -115,31 +115,29 @@ class Vect:
         try:
             inputs = {}
             for root in self._inputs.keys():
-                inputs[root] = [[self, other._val * self._val ** (other._val - 1)]]
+                inputs[root] = [[self, self._val ** (other._val - 1) * other._val]]
             for root in other._inputs.keys():
                 if root in inputs:
-                    inputs[root].append([other, self._val ** other._val * np.log(self._val)])
+                    inputs[root].append([other, np.log(self._val) * self._val ** other._val])
                 else:
-                    inputs[root] = [[other, self._val ** other._val * np.log(self._val)]]
+                    inputs[root] = [[other, np.log(self._val) * self._val ** other._val]]
             return Vect(self._val ** other._val, inputs)
         except AttributeError:
             inputs = {}
             for root in self._inputs.keys():
-                inputs[root] = [[self, other * self._val ** (other - 1)]]
+                inputs[root] = [[self, self._val ** (other - 1) * other]]
             return Vect(self._val ** other, inputs)
 
     def __rpow__(self, other):
         inputs = {}
         for root in self._inputs.keys():
-            inputs[root] = [[self, other ** self._val * np.log(other)]]
-
+            inputs[root] = [[self, np.log(other) * other ** self._val]]
         return Vect(other ** self._val, inputs)
 
     def __neg__(self, other):
         inputs = {}
         for root in self._inputs.keys():
             inputs[root] = [[self, -1]]
-
         return Vect(-self._val, inputs)
 
     ### Comparison Operators ###
@@ -167,7 +165,7 @@ class Vect:
     @property
     def der(self):
         part_ders = []
-        for root in FADiff._revscal_inputs:  # Iterating w/this keeps var order
+        for root in FADiff._revvect_inputs:  # Iterating w/this keeps var order
             if root in self._inputs.keys():
                 self._tmp_der = np.ones(self._val.shape)
                 self._back_trace(root)
