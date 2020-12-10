@@ -3,6 +3,7 @@
 from FADiff import FADiff
 from fad.Gradients import Scal as fadScal
 from rev.Gradients import Scal as revScal
+import numpy as np
 
 
 class FuncVect:
@@ -24,28 +25,28 @@ class FuncVect:
             self._f_vect = funcs   # List of objects (Scal or Vect) used in fxns
             self._input_vars = []  # Get complete list of input vars of f_vect
             for func in funcs:
-                if func._parents:
-                    for var in func._der.keys():
-                        if var in func._parents:
+                if func._parents:  # Has parents?
+                    for var in func._der.keys():  # Loop through existing roots
+                        if var in func._parents:  # If var is in parent/root list
                             self._input_vars.append(var)
-                elif func in inputs:   # TODO: Input var (identity fxn) is correct? Make sure to test
+                elif func in inputs:  # Otherwise input var, i.e., f(x) = x?
                     self._input_vars.append(func)
             self._input_vars = list(set(self._input_vars))
 
     @property
     def val(self):
         func_vals = []
-        for func in self._f_vect:
+        for func in self._f_vect:   # For each fxn, add its value to list
             func_vals.append(func._val)
-        return func_vals
+        return np.array(func_vals)  # Return list
 
     @property
     def der(self):
-        funcs_parents = []
+        all_fxns_jacobs = []
         for func in self._f_vect:
-            parents = []
+            one_fxn_jacob = []
             for var, part_der in func._der.items():
                 if var in self._input_vars:
-                    parents.append(part_der)
-            funcs_parents.append(parents)
-        return funcs_parents  # TODO: Return correct?
+                    one_fxn_jacob.append(part_der)
+            all_fxns_jacobs.append(one_fxn_jacob)
+        return np.array(all_fxns_jacobs)

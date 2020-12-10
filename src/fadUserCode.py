@@ -176,7 +176,19 @@ print(f'\nf = ad.new_funcvect([f1, f2])')
 f = ad.new_funcvect([f1, f2])
 print(f'f.val --> '
       f'{f.val}')
-print(f'f.der --> '
+print(f'f.der -->\n'
+      f'{f.der}')
+
+print()
+
+print(f'f1 = x1')
+f1 = x1
+
+print(f'\nf = ad.new_funcvect([f1, f2])')
+f = ad.new_funcvect([f1, f2])
+print(f'f.val --> '
+      f'{f.val}')
+print(f'f.der -->\n'
       f'{f.der}')
 
 # # TODO: Checking the following against revUserCode.py (can erase later) --
