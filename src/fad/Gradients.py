@@ -248,7 +248,7 @@ class Scal:
         for var, part_der in self._der.items():
             der[var] = - part_der
         parents = self._set_parents(self)
-        return Scal(var, der, parents)
+        return Scal(val, der, parents)
 
     ### Comparison Operators ###
 
