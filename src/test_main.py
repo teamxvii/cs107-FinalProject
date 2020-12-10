@@ -111,6 +111,13 @@ class TestClass:
 
         y = 2
         assert Elems.sin(y) == np.sin(y)
+        z = FADiff()
+        z.set_mode('reverse')
+        z = z.new_scal(3)
+        
+        a = Elems.sin(z)
+        assert a.val == pytest.approx(0.1411200080598672)
+
 
     def test_tan(self):
         x = Elems.tan(FADiff.new_scal(3))
@@ -211,6 +218,7 @@ class TestClass:
 
         z = FADiff()
         z.set_mode('reverse')
+        
         z = z.new_vect(np.array([1,2,3]))
         assert FADiff._mode == 'reverse'
 
