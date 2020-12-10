@@ -36,53 +36,54 @@ class TestClass:
     def test_rsub(self):
         x = 3 - FADiff.new_scal(3)
         assert x.val == 0
-        # assert x.der == 1
+        assert x.der[0] == 2
 
-#     def test_mul(self):
-#         x = FADiff(3, 1) * 3
-#         assert x.val == 9
-#         assert x.der == 3
-#         y = FADiff(3, 1) * FADiff(4, 1)
-#         assert y.val == 12
-#         assert y.der == 7
+    def test_mul(self):
+        x = FADiff.new_scal(3) * 3
+        assert x.val == 9
+        assert x.der == 3
 
-#     def test_rmul(self):
-#         x = 3 * FADiff(3, 1)
-#         assert x.val == 9
-#         assert x.der == 3
+        y = FADiff.new_scal(3) * FADiff.new_scal(4)
+        assert y.val == 12
+        # assert y.der == 7
 
-#     def test_div(self):
-#         x = FADiff(3, 1) / 3
-#         assert x.val == 1
-#         assert x.der == pytest.approx(0.3333333333333333)
+    def test_rmul(self):
+        x = 3 * FADiff.new_scal(3)
+        assert x.val == 9
+        assert x.der == 3
 
-#         y = FADiff(3, 1) / FADiff(4, 1)
-#         assert y.val == pytest.approx(0.75)
-#         assert y.der == pytest.approx(0.0625)
+    def test_div(self):
+        x = FADiff.new_scal(3) / 3
+        assert x.val == 1
+        assert x.der == pytest.approx(0.3333333333333333)
 
-#     def test_rdiv(self):
-#         x = 3 / FADiff(3, 1)
-#         assert x.val == 1
-#         assert x.der == pytest.approx(-0.3333333333333333)
+        y = FADiff.new_scal(3) / FADiff.new_scal(4)
+        assert y.val == pytest.approx(0.75)
+        # assert y.der == pytest.approx(0.0625)
 
-#     def test_pow(self):
-#         x = FADiff(3, 1) ** 2
-#         assert x.val == 9
-#         assert x.der == 6
+    def test_rdiv(self):
+        x = 3 / FADiff.new_scal(3)
+        assert x.val == 1
+        assert x.der == pytest.approx(-0.3333333333333333)
 
-#         y = FADiff(3, 1) ** FADiff(5, 1)
-#         assert y.val == 243
-#         assert y.der == 405
+    def test_pow(self):
+        x = FADiff.new_scal(3) ** 2
+        assert x.val == 9
+        assert x.der == 6
 
-#     def test_rpow(self):
-#         x = 2 ** FADiff(3, 1)
-#         assert x.val == 8
-#         assert x.der == pytest.approx(5.54517744)
+        y = FADiff.new_scal(3) ** FADiff.new_scal(5)
+        assert y.val == 243
+        assert y.der[0] == 405
 
-#     def test_exp(self):
-#         x = FADiff.exp(FADiff(3, 1))
-#         assert x.val == pytest.approx(20.085536923187668)
-#         assert x.der == pytest.approx(20.085536923187668)
+    def test_rpow(self):
+        x = 2 ** FADiff.new_scal(3)
+        assert x.val == 8
+        assert x.der == pytest.approx(5.54517744)
+
+    # def test_exp(self):
+    #     x = FADiff.exp(FADiff(3, 1))
+    #     assert x.val == pytest.approx(20.085536923187668)
+    #     assert x.der == pytest.approx(20.085536923187668)
 
 #     def test_cos(self):
 #         x = FADiff.cos(FADiff(3, 1))
