@@ -99,7 +99,7 @@ def tan(x):
         except AttributeError:
             inputs = {}
             for root in x._inputs.keys():
-                inputs[root] = [[1 / (np.cos(x._val) * np.cos(x._val))]]
+                inputs[root] = [[x, 1 / (np.cos(x._val) * np.cos(x._val))]]
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
         return np.tan(x)
@@ -123,7 +123,7 @@ def arcsin(x):
         except AttributeError:
             inputs = {}
             for root in x._inputs.keys():
-                inputs[root] = [[1 / np.sqrt(1 - (x._val * x._val))]]
+                inputs[root] = [[x, 1 / np.sqrt(1 - (x._val * x._val))]]
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
         return np.arcsin(x)
@@ -147,7 +147,7 @@ def arccos(x):
         except AttributeError:
             inputs = {}
             for root in x._inputs.keys():
-                inputs[root] = [[-1 / np.sqrt(1 - (x._val * x._val))]]
+                inputs[root] = [[x, -1 / np.sqrt(1 - (x._val * x._val))]]
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
         return np.arccos(x)
@@ -171,7 +171,7 @@ def arctan(x):
         except AttributeError:
             inputs = {}
             for root in x._inputs.keys():
-                inputs[root] = [[1 / (1 + (x._val * x._val))]]
+                inputs[root] = [[x, 1 / (1 + (x._val * x._val))]]
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
         return np.arctan(x)
@@ -195,7 +195,7 @@ def sinh(x):
         except AttributeError:
             inputs = {}
             for root in x._inputs.keys():
-                inputs[root] = [[np.cosh(x._val)]]
+                inputs[root] = [[x, np.cosh(x._val)]]
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
         return np.sinh(x)
@@ -219,7 +219,7 @@ def cosh(x):
         except AttributeError:
             inputs = {}
             for root in x._inputs.keys():
-                inputs[root] = [[np.sinh(x._val)]]
+                inputs[root] = [[x, np.sinh(x._val)]]
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
         return np.cosh(x)
@@ -243,7 +243,7 @@ def tanh(x):
         except AttributeError:
             inputs = {}
             for root in x._inputs.keys():
-                inputs[root] = [[1 / (np.cosh(x._val) * np.cosh(x._val))]]
+                inputs[root] = [[x, 1 / (np.cosh(x._val) * np.cosh(x._val))]]
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
         return np.tanh(x)
@@ -267,7 +267,7 @@ def exp(x):
         except AttributeError:
             inputs = {}
             for root in x._inputs.keys():
-                inputs[root] = [[np.exp(x._val)]]
+                inputs[root] = [[x, np.exp(x._val)]]
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
         return np.exp(x)
@@ -291,7 +291,7 @@ def logistic(x):
         except AttributeError:
             inputs = {}
             for root in x._inputs.keys():
-                inputs[root] = [[exp(x) / (1 + exp(x))**2]]
+                inputs[root] = [[x, exp(x) / (1 + exp(x))**2]]
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
         return 1 / (1 + np.exp(-x))   
@@ -315,7 +315,7 @@ def log(x, b=np.e):
         except AttributeError:
             inputs = {}
             for root in x._inputs.keys():
-                inputs[root] = [[1 / (x._val * np.log(b))]]
+                inputs[root] = [[x, 1 / (x._val * np.log(b))]]
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
         return np.log(x) / np.log(b)      
@@ -339,7 +339,7 @@ def sqrt(x):
         except AttributeError:
             inputs = {}
             for root in x._inputs.keys():
-                inputs[root] = [[1 / (2. * np.sqrt(x._val))]]
+                inputs[root] = [[x, 1 / (2. * np.sqrt(x._val))]]
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
         return np.sqrt(x)  
