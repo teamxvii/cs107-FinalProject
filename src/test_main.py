@@ -2,6 +2,7 @@ import pytest
 import coverage
 from FADiff import FADiff
 import Elems
+import numpy as np
 class TestClass:
     def test_test(self):
         x = 3
@@ -80,6 +81,9 @@ class TestClass:
         assert x.val == 8
         assert x.der == pytest.approx(5.54517744)
 
+
+# Elems testing
+
     def test_exp(self):
         x = Elems.exp(FADiff.new_scal(3))
         assert x.val == pytest.approx(20.085536923187668)
@@ -95,6 +99,9 @@ class TestClass:
         assert x.val == pytest.approx(0.1411200080598672)
         assert x.der == pytest.approx(-0.9899924966004454)
 
+        y = 2
+        assert Elems.sin(y) == np.sin(y)
+        
     def test_tan(self):
         x = Elems.tan(FADiff.new_scal(3))
         assert x.val == pytest.approx(-0.1425465430742778)
