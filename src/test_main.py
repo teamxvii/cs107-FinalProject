@@ -183,3 +183,11 @@ class TestClass:
     # def return_same_type(self):
     #     x = FADiff.new_vect(np.array([2, 3, 4]))
     #     assert Elems.return_same_type(x) 
+
+    #FADiff class
+    def test_mode(self):
+        x = FADiff()
+        x.set_mode('forward')
+        assert x._mode == 'forward'
+        x.new_scal(3)
+        assert x._mode == 'forward'
