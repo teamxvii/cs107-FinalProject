@@ -162,8 +162,13 @@ class TestClass:
         y = 2
         assert Elems.tanh(y) == np.tanh(y)
 
-    # def test_log(self):
-        
-        
+    def test_log(self):
+        x = Elems.log(FADiff.new_scal(0.3))
+        assert x.val == pytest.approx(-1.2039728)
 
-      
+        y = 2
+        assert Elems.log(y) == pytest.approx(np.log(y) / np.log(np.e))
+
+    # def test_logistic(self):
+    #     x = Elems.logistic(FADiff.new_scal(0.3))
+    #     assert x.val == np.log(x._val) / np.log(np.e)
