@@ -57,10 +57,57 @@ class Vect:
         return self.__mul__(other)
 
     def __sub__(self, other):
-        pass  # TODO
+        try:
+            ders_update = {}
+            for i, j in self._inputs.items():
+                ders_update[i] = [[j - other._inputs[i]]]
+            return Vect(self._val - other._val, ders_update)
+        except AttributeError:
+            return Vect(self._val - other, self._inputs)
 
     def __rsub__(self, other):
         return self.__sub__(other)
+
+    def __truediv__(self, other):
+        ders_update = {}
+        try:
+            for i, j in self._inputs.items():
+                ders_update[i] = [(j * other._val - other._inputs[i] * self._val) / (other._val ** 2)]
+            return Vect(self._val / other._val, ders_update)
+        except AttributeError:
+            for i, j in self._inputs.items():
+                ders_update[i] = [j / other._val]
+            return Vect(self._val / other, ders_update)
+
+    def __rtruediv__(self, other):
+        ders_update = {}
+        for i, j in self._inputs.items():
+            ders_update[i] = [-other * j / (self._val ** 2)]
+        return Vect(other / self._val, ders_update)
+
+    def __pow__(self, other):
+        ders_update = {}
+        try:
+            for i, j in self._inputs.items():
+                ders_update[i] = [
+                    (self._val ** other._val) * (np.log(self._val) * other._inputs[i] + (other._val * j / self._val))]
+            return Vect(self._val ** other._val, ders_update)
+        except AttributeError:
+            for i, j in self._inputs.items():
+                ders_update[i] = [other * self._val ** (other - 1) * j]
+            return Vect(self._val ** other, ders_update)
+
+    def __rpow__(self, other):
+        ders_update = {}
+        for i, j in self._inputs.items():
+            ders_update[i] = [(other ** self._val) * np.log(other) * j]
+        return Vect(other ** self._val, ders_update)
+
+    def __neg__(self, other):
+        ders_update = {}
+        for i, j in self._inputs.items():
+            ders_update[i] = -j
+        return Vect(-self._val, ders_update)
 
     def __eq__(self, other):
         if isinstance(other, Vect):
