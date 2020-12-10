@@ -1,7 +1,7 @@
 import pytest
 import coverage
 from FADiff import FADiff
-
+import Elems
 class TestClass:
     def test_test(self):
         x = 3
@@ -80,22 +80,22 @@ class TestClass:
         assert x.val == 8
         assert x.der == pytest.approx(5.54517744)
 
-    # def test_exp(self):
-    #     x = FADiff.exp(FADiff(3, 1))
-    #     assert x.val == pytest.approx(20.085536923187668)
-    #     assert x.der == pytest.approx(20.085536923187668)
+    def test_exp(self):
+        x = Elems.exp(FADiff.new_scal(3))
+        assert x.val == pytest.approx(20.085536923187668)
+        assert x.der == pytest.approx(20.085536923187668)
 
-#     def test_cos(self):
-#         x = FADiff.cos(FADiff(3, 1))
-#         assert x.val == pytest.approx(-0.9899924966004454)
-#         assert x.der == pytest.approx(-0.1411200080598672)
+    def test_cos(self):
+        x = Elems.cos(FADiff.new_scal(3))
+        assert x.val == pytest.approx(-0.9899924966004454)
+        assert x.der == pytest.approx(-0.1411200080598672)
 
-#     def test_sin(self):
-#         x = FADiff.sin(FADiff(3, 1))
-#         assert x.val == pytest.approx(0.1411200080598672)
-#         assert x.der == pytest.approx(-0.9899924966004454)
+    def test_sin(self):
+        x = Elems.sin(FADiff.new_scal(3))
+        assert x.val == pytest.approx(0.1411200080598672)
+        assert x.der == pytest.approx(-0.9899924966004454)
 
-#     def test_tan(self):
-#         x = FADiff.tan(FADiff(3, 1))
-#         assert x.val == pytest.approx(-0.1425465430742778)
-#         assert x.der == pytest.approx(1.020319516942427)
+    def test_tan(self):
+        x = Elems.tan(FADiff.new_scal(3))
+        assert x.val == pytest.approx(-0.1425465430742778)
+        assert x.der == pytest.approx(-1.020319516942427)
