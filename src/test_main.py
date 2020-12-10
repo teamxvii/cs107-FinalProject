@@ -110,7 +110,7 @@ class TestClass:
     def test_tan(self):
         x = Elems.tan(FADiff.new_scal(3))
         assert x.val == pytest.approx(-0.1425465430742778)
-        assert x.der == pytest.approx(-1.020319516942427)
+        assert x.der == pytest.approx(1.020319516942427)
         
         y = 2
         assert Elems.tan(y) == np.tan(y)
