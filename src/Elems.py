@@ -11,7 +11,7 @@ def return_same_type(x, val, der, parents):
     """
     Returns new object of same type as x
 
-    Inputs: x (either Scal or Vect object)
+    Inputs: x (Scal/Vect forward mode object)
     Returns: new object (same type as x)
     """
     if isinstance(x, fadScal):  # if input var is a scalar
@@ -21,6 +21,12 @@ def return_same_type(x, val, der, parents):
 
 
 def return_same_rev(x, val, inputs):
+    """
+    Returns new object of same type as x
+
+    Inputs: x (Scal/Vect reverse mode object)
+    Returns: new object (same type as x)
+    """
     if isinstance(x, revScal):
         return revScal(val, inputs)
     else:
@@ -31,7 +37,7 @@ def sin(x):
     """
     Calculates sine of x
 
-    Inputs: x (either Scal object or constant)
+    Inputs: x (either Scal/Vect object or constant)
     Returns: new object of type x (if x is a Scal or Vect) or a new constant (if x is a constant)
     """
     try:                            # if x is a Scal/Vect
@@ -55,7 +61,7 @@ def cos(x):
     """
     Calculates cosine of x
 
-    Inputs: x (either Scal object or constant)
+    Inputs: x (either Scal/Vect object or constant)
     Returns: new object of type x (if x is a Scal or Vect) or a new constant (if x is a constant)
     """
     try:  # if x is a Scal
@@ -79,7 +85,7 @@ def tan(x):
     """
     Calculates tangent of x
 
-    Inputs: x (either Scal object or constant)
+    Inputs: x (either Scal/Vect object or constant)
     Returns: new object of type x (if x is a Scal or Vect) or a new constant (if x is a constant)
     """
     try:  # if x is a Scal
@@ -87,13 +93,13 @@ def tan(x):
         try:
             der = {}
             for var, part_der in x._der.items():
-                der[var] = - part_der / (np.cos(x._val) * np.cos(x._val))  # TODO: This shouldn't be neg?
+                der[var] = part_der / (np.cos(x._val) * np.cos(x._val))
             parents = x._set_parents(x)
             return return_same_type(x, val, der, parents)
         except AttributeError:
             inputs = {}
             for root in x._inputs.keys():
-                inputs[root] = [[1 / (np.cos(x._val) * np.cos(x._val))]]  # TODO: Check
+                inputs[root] = [[1 / (np.cos(x._val) * np.cos(x._val))]]
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
         return np.tan(x)
@@ -103,7 +109,7 @@ def arcsin(x):
     """
     Calculates arcsine (inverse sine) of x
 
-    Inputs: x (either Scal object or constant)
+    Inputs: x (either Scal/Vect object or constant)
     Returns: new object of type x (if x is a Scal or Vect) or a new constant (if x is a constant)
     """
     try:  # if x is a Scal
@@ -117,7 +123,7 @@ def arcsin(x):
         except AttributeError:
             inputs = {}
             for root in x._inputs.keys():
-                inputs[root] = [[1 / np.sqrt(1 - (x._val * x._val))]]  # TODO: Check
+                inputs[root] = [[1 / np.sqrt(1 - (x._val * x._val))]]
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
         return np.arcsin(x)
@@ -127,7 +133,7 @@ def arccos(x):
     """
     Calculates arccosine (inverse cosine) of x
 
-    Inputs: x (either Scal object or constant)
+    Inputs: x (either Scal/Vect object or constant)
     Returns: new object of type x (if x is a Scal or Vect) or a new constant (if x is a constant)
     """
     try:  # if x is a Scal
@@ -141,7 +147,7 @@ def arccos(x):
         except AttributeError:
             inputs = {}
             for root in x._inputs.keys():
-                inputs[root] = [[-1 / np.sqrt(1 - (x._val * x._val))]]  # TODO: Check
+                inputs[root] = [[-1 / np.sqrt(1 - (x._val * x._val))]]
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
         return np.arccos(x)
@@ -151,7 +157,7 @@ def arctan(x):
     """
     Calculates arctangent (inverse tangent) of x
 
-    Inputs: x (either Scal object or constant)
+    Inputs: x (either Scal/Vect object or constant)
     Returns: new object of type x (if x is a Scal or Vect) or a new constant (if x is a constant)
     """
     try:  # if x is a Scal
@@ -165,7 +171,7 @@ def arctan(x):
         except AttributeError:
             inputs = {}
             for root in x._inputs.keys():
-                inputs[root] = [[1 / (1 + (x._val * x._val))]]  # TODO: Check
+                inputs[root] = [[1 / (1 + (x._val * x._val))]]
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
         return np.arctan(x)
@@ -175,7 +181,7 @@ def sinh(x):
     """
     Calculates hyperbolic sine of x
 
-    Inputs: x (either Scal object or constant)
+    Inputs: x (either Scal/Vect object or constant)
     Returns: new object of type x (if x is a Scal or Vect) or a new constant (if x is a constant)
     """
     try:  # if x is a Scal
@@ -189,7 +195,7 @@ def sinh(x):
         except AttributeError:
             inputs = {}
             for root in x._inputs.keys():
-                inputs[root] = [[np.cosh(x._val)]]  # TODO: Check
+                inputs[root] = [[np.cosh(x._val)]]
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
         return np.sinh(x)
@@ -199,7 +205,7 @@ def cosh(x):
     """
     Calculates hyperbolic cosine of x
 
-    Inputs: x (either Scal object or constant)
+    Inputs: x (either Scal/Vect object or constant)
     Returns: new object of type x (if x is a Scal or Vect) or a new constant (if x is a constant)
     """
     try:  # if x is a Scal
@@ -213,7 +219,7 @@ def cosh(x):
         except AttributeError:
             inputs = {}
             for root in x._inputs.keys():
-                inputs[root] = [[np.sinh(x._val)]]  # TODO: Check
+                inputs[root] = [[np.sinh(x._val)]]
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
         return np.cosh(x)
@@ -223,7 +229,7 @@ def tanh(x):
     """
     Calculates hyperbolic tangent of x
 
-    Inputs: x (either Scal object or constant)
+    Inputs: x (either Scal/Vect object or constant)
     Returns: new object of type x (if x is a Scal or Vect) or a new constant (if x is a constant)
     """
     try:  # if x is a Scal
@@ -237,7 +243,7 @@ def tanh(x):
         except AttributeError:
             inputs = {}
             for root in x._inputs.keys():
-                inputs[root] = [[1 / (np.cosh(x._val) * np.cosh(x._val))]]  # TODO: Check
+                inputs[root] = [[1 / (np.cosh(x._val) * np.cosh(x._val))]]
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
         return np.tanh(x)
@@ -247,7 +253,7 @@ def exp(x):
     """
     Calculates e ** x
 
-    Inputs: x (either Scal object or constant)
+    Inputs: x (either Scal/Vect object or constant)
     Returns: new object of type x (if x is a Scal or Vect) or a new constant (if x is a constant)
     """
     try:  # if x is a Scal
@@ -261,7 +267,7 @@ def exp(x):
         except AttributeError:
             inputs = {}
             for root in x._inputs.keys():
-                inputs[root] = [[np.exp(x._val)]]  # TODO: Check
+                inputs[root] = [[np.exp(x._val)]]
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
         return np.exp(x)
@@ -271,7 +277,7 @@ def logistic(x):
     """
     Calculates logistic function f(x) = 1/(1 + e ** -x)
 
-    Inputs: x (either Scal object or constant)
+    Inputs: x (either Scal/Vect object or constant)
     Returns: new object of type x (if x is a Scal or Vect) or a new constant (if x is a constant)
     """
     try:  # if x is a Scal
@@ -285,7 +291,7 @@ def logistic(x):
         except AttributeError:
             inputs = {}
             for root in x._inputs.keys():
-                inputs[root] = [[exp(x) / (1 + exp(x))**2]]  # TODO: Check
+                inputs[root] = [[exp(x) / (1 + exp(x))**2]]
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
         return 1 / (1 + np.exp(-x))   
@@ -295,7 +301,7 @@ def log(x, b=np.e):
     """
     Calculates logarithm of x of base b (default is the natural logarithm, base e)
 
-    Inputs: x (either Scal object or constant), b (base for log, default is e)
+    Inputs: x (either Scal/Vect object or constant), b (base for log, default is e)
     Returns: new object of type x (if x is a Scal or Vect) or a new constant (if x is a constant)
     """
     try:  # if x is a Scal
@@ -309,7 +315,7 @@ def log(x, b=np.e):
         except AttributeError:
             inputs = {}
             for root in x._inputs.keys():
-                inputs[root] = [[1 / (x._val * np.log(b))]]  # TODO: Check
+                inputs[root] = [[1 / (x._val * np.log(b))]]
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
         return np.log(x) / np.log(b)      
@@ -319,7 +325,7 @@ def sqrt(x):
     """
     Calculates sqrt of x
 
-    Inputs: x (either Scal object or constant)
+    Inputs: x (either Scal/Vect object or constant)
     Returns: new object of type x (if x is a Scal or Vect) or a new constant (if x is a constant)
     """
     try:  # if x is a Scal
@@ -333,7 +339,7 @@ def sqrt(x):
         except AttributeError:
             inputs = {}
             for root in x._inputs.keys():
-                inputs[root] = [[1 / (2. * np.sqrt(x._val))]]  # TODO: Check
+                inputs[root] = [[1 / (2. * np.sqrt(x._val))]]
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
         return np.sqrt(x)  
