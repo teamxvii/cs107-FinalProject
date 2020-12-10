@@ -104,6 +104,13 @@ class TestClass:
         y = 2
         assert Elems.cos(y) == np.cos(y)
 
+        z = FADiff()
+        z.set_mode('reverse')
+        z = z.new_scal(3)
+        
+        a = Elems.cos(z)
+        assert a.val == pytest.approx(-0.9899924966004454)
+
     def test_sin(self):
         x = Elems.sin(FADiff.new_scal(3))
         assert x.val == pytest.approx(0.1411200080598672)
@@ -123,7 +130,6 @@ class TestClass:
         x = Elems.tan(FADiff.new_scal(3))
         assert x.val == pytest.approx(-0.1425465430742778)
         assert x.der == pytest.approx(1.020319516942427)
-
         y = 2
         assert Elems.tan(y) == np.tan(y)
 
@@ -240,6 +246,9 @@ class TestClass:
         y = 2
         assert Elems.sqrt(y) == np.sqrt(y)
 
+        z = Elems.sqrt(FADiff.new_scal(-1))
+        with pytest.raises(AssertionError):
+            assert z.val == 1
     # def return_same_type(self):
     #     x = FADiff.new_vect(np.array([2, 3, 4]))
     #     assert Elems.return_same
