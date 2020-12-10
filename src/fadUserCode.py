@@ -197,3 +197,17 @@ print(f'f.val --> '
       f'{f.val}')
 print(f'f.der -->\n'
       f'{f.der}')
+
+print()
+
+print(f'f1 = x1 * x2 + x1\n'
+      f'f2 = x1 / x2')
+f1 = x1 * x2 + x1
+f2 = x1 / x2
+
+print(f'\nf = ad.new_funcvect([f1, f2])')
+f = ad.new_funcvect([f1, f2])
+print(f'f.val --> '
+      f'{f.val}')
+print(f'f.der -->\n'
+      f'{f.der}')

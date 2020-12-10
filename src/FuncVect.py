@@ -61,12 +61,6 @@ class FuncVect:
                     if var in self._input_vars:
                         one_fxn_jacob.append(part_der)
             except AttributeError:
-                # for var in self._inputs:  # Using this keeps order of vars
-                #     if var in self._input_vars:
-                #         if var not in func._inputs:
-                #             one_fxn_jacob.append(0)
-                #         else:
-                #             one_fxn_jacob.append(func._inputs.get(var))
                 func_der = func.der
                 idx = 0
                 for var in self._inputs:  # Using this keeps order of vars
@@ -76,8 +70,5 @@ class FuncVect:
                             idx += 1
                         else:
                             one_fxn_jacob.append(0)
-
-                # one_fxn_jacob.append(func.der)
-
             all_fxns_jacobs.append(one_fxn_jacob)
         return np.array(all_fxns_jacobs)
