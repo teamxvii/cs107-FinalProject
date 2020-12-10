@@ -2,7 +2,9 @@
 
 from FADiff import FADiff
 from fad.Gradients import Scal as fadScal
+from fad.Matrices import Vect as fadVect
 from rev.Gradients import Scal as revScal
+from rev.Matrices import Vect as revVect
 import numpy as np
 
 
@@ -18,19 +20,28 @@ class FuncVect:
             raise
         else:
             # Set inputs list based on type (Scal or Vect) of functions
+            self._inputs = []
             if func_type is fadScal:
-                inputs = FADiff._fadscal_inputs
-            else:
-                inputs = FADiff._fadvect_inputs
+                self._inputs = FADiff._fadscal_inputs
+            elif func_type is fadVect:
+                self._inputs = FADiff._fadvect_inputs
+            elif func_type is revScal:
+                self._inputs = FADiff._revscal_inputs
+            elif func_type is revVect:
+                self._inputs = FADiff._revvect_inputs
             self._f_vect = funcs   # List of objects (Scal or Vect) used in fxns
             self._input_vars = []  # Get complete list of input vars of f_vect
             for func in funcs:
-                if func._parents:  # Has parents?
-                    for var in func._der.keys():  # Loop through existing roots
-                        if var in func._parents:  # If var is in parent/root list
-                            self._input_vars.append(var)
-                elif func in inputs:  # Otherwise input var, i.e., f(x) = x?
-                    self._input_vars.append(func)
+                try:
+                    if func._parents:  # Has parents?
+                        for var in func._der.keys():  # Loop through existing roots
+                            if var in func._parents:  # If var is in parent/root list
+                                self._input_vars.append(var)
+                    elif func in self._inputs:  # Otherwise input var, i.e., f(x) = x?
+                        self._input_vars.append(func)
+                except AttributeError:
+                    for var in func._inputs.keys():
+                        self._input_vars.append(var)
             self._input_vars = list(set(self._input_vars))
 
     @property
@@ -45,8 +56,28 @@ class FuncVect:
         all_fxns_jacobs = []
         for func in self._f_vect:
             one_fxn_jacob = []
-            for var, part_der in func._der.items():
-                if var in self._input_vars:
-                    one_fxn_jacob.append(part_der)
+            try:
+                for var, part_der in func._der.items():
+                    if var in self._input_vars:
+                        one_fxn_jacob.append(part_der)
+            except AttributeError:
+                # for var in self._inputs:  # Using this keeps order of vars
+                #     if var in self._input_vars:
+                #         if var not in func._inputs:
+                #             one_fxn_jacob.append(0)
+                #         else:
+                #             one_fxn_jacob.append(func._inputs.get(var))
+                func_der = func.der
+                idx = 0
+                for var in self._inputs:  # Using this keeps order of vars
+                    if var in self._input_vars:
+                        if var in func._inputs.keys():
+                            one_fxn_jacob.append(func_der[idx])
+                            idx += 1
+                        else:
+                            one_fxn_jacob.append(0)
+
+                # one_fxn_jacob.append(func.der)
+
             all_fxns_jacobs.append(one_fxn_jacob)
         return np.array(all_fxns_jacobs)
