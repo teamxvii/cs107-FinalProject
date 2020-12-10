@@ -89,6 +89,9 @@ class TestClass:
         assert x.val == pytest.approx(20.085536923187668)
         assert x.der == pytest.approx(20.085536923187668)
 
+        y = 10
+        assert Elems.exp(y) == np.exp(y)
+
     def test_cos(self):
         x = Elems.cos(FADiff.new_scal(3))
         assert x.val == pytest.approx(-0.9899924966004454)
@@ -136,3 +139,31 @@ class TestClass:
 
         y = -0.4
         assert Elems.arctan(y) == np.arctan(y)
+
+    def test_sinh(self):
+        x = Elems.sinh(FADiff.new_scal(0.4))
+        assert x.val == pytest.approx(0.4107523258028155)
+
+        y = -0.4
+        assert Elems.sinh(y) == np.sinh(y)
+    
+    def test_cosh(self):
+        x = Elems.cosh(FADiff.new_scal(0.3))
+        assert x.val == pytest.approx(1.04533851)
+        assert x.der == pytest.approx(0.30452029)
+
+        y = 4
+        assert Elems.cosh(y) == np.cosh(y)
+
+    def test_tanh(self):
+        x = Elems.tanh(FADiff.new_scal(1))
+        assert x.val == pytest.approx(0.7615941559557649)
+
+        y = 2
+        assert Elems.tanh(y) == np.tanh(y)
+
+    # def test_log(self):
+        
+        
+
+      
