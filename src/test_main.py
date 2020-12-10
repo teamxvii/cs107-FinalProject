@@ -172,3 +172,10 @@ class TestClass:
     # def test_logistic(self):
     #     x = Elems.logistic(FADiff.new_scal(0.3))
     #     assert x.val == np.log(x._val) / np.log(np.e)
+
+    def test_sqrt(self):
+        x = Elems.sqrt(FADiff.new_scal(3))
+        assert x.val == pytest.approx(1.7320508075688772)
+
+        y = 2
+        assert Elems.sqrt(y) == np.sqrt(y)
