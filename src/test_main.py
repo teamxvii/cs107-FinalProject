@@ -205,9 +205,15 @@ class TestClass:
 
         y = FADiff()
         y.set_mode('forward')
+        assert y._mode == 'forward'
         y = y.new_vect(np.array([2,3,4]))
-        
         assert y.der is not None
+
+        z = FADiff()
+        z.set_mode('reverse')
+        z = z.new_vect(np.array([1,2,3]))
+        assert FADiff._mode == 'reverse'
+
 
         
 
