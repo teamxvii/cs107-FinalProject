@@ -1,10 +1,11 @@
 import numpy as np
 
-class Vect():
+
+class Vect:
     """
     Input: val jacobian dictionary of the list of derivtives
     """
-    def __init__(self,val,ders = None):
+    def __init__(self, val, ders=None):
         """
         input: val: value of the function, ders: list of derivative stored in a dictionary
         return a scalar object with value and derivative
@@ -23,26 +24,22 @@ class Vect():
         self._ders = {}
         for i in inputs:
             self._ders[i] = int(id(self) == id(i))
-            
-        def eval(self):
-            return self._val
-        
-        def __add__(self,other):
+
+        def __add__(self, other):
             try:
-                #self._val += other._val
-                ders_update={}
-                for i,j in self._ders.items():
+                ders_update = {}
+                for i, j in self._ders.items():
                     ders_update[i] = [[j + other._ders[i]]]
                 return Vect(self._val + other._val, ders_update)
             except AttributeError:
                 return Vect(self._val + other, self._ders)
-        def __radd__(self,other):
+
+        def __radd__(self, other):
             return self.__add__(other)
         
-        def __sub__(self,other):
+        def __sub__(self, other):
             try:
-                #self._val += other._val
-                ders_update={}
+                ders_update = {}
                 for i,j in self._ders.items():
                     ders_update[i] = [[j - other._ders[i]]]
                 return Vect(self._val - other._val, ders_update)
@@ -59,6 +56,7 @@ class Vect():
                     ders_update[i] = [self._val*other._ders[i] + j*other._val]
                 return Vect(self._val*other._val, ders_update)
             except AttributeError:
+                ders_update = {}
                 for i,j in self._ders.items():
                     ders_update[i] = j*other
                 return Vect(self._val*other, ders_update)
@@ -72,7 +70,7 @@ class Vect():
                 for i,j in self._ders.items():
                     ders_update[i] = [(j*other._val - other._ders[i]*self._val)/(other._val**2)]
                 return Vect(self._val / other._val, ders_update)
-            except AttrbuteError:
+            except AttributeError:
                 for i,j in self._ders.items():
                     ders_update[i] = [j / other._val]
                 return Vect(self._val / other, ders_update)
@@ -90,7 +88,7 @@ class Vect():
                 return Vect(self._val**other._val, ders_update)
             except AttributeError:
                 for i,j in self._ders.items():
-                    ders_date[i] = [other*(self._val)**(other - 1)*j]
+                    ders_update[i] = [other*(self._val)**(other - 1)*j]
                 return Vect(self._val**other, ders_update)
             
         def __rpow__(self,other):
@@ -106,13 +104,13 @@ class Vect():
             return Vect(-self._val, ders_update)
         
         def __eq__(self, other):
-            if (self._val == other._val) and (self._ders == others._ders):
+            if (self._val == other._val) and (self._ders == other._ders):
                 return True
             else:
                 return False
             
         def __ne__(self, other):
-            if (self._val == other._val) and (self._ders == others._ders):
+            if (self._val == other._val) and (self._ders == other._ders):
                 return False
             else:
                 return True    
