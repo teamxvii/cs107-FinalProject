@@ -97,6 +97,13 @@ print(f'check.val --> '
 print(f'check.der --> '
       f'{check.der}')                    # Should be [4, 2]
 
+print(f'\ncheck = x1 - x2')
+check = x1 - x2
+print(f'check.val --> '
+      f'{check.val}')                    
+print(f'check.der --> '
+      f'{check.der}')
+
 # TODO: VECTOR DEBUGGING --
 print()
 
@@ -123,17 +130,17 @@ print(f'check.der (pretty printed) -->')
 for mat in check.der:
     print(mat)
 
-# TODO: FUNCTION VECTOR (FuncVect.py) DEBUGGING --
-print()
-
-print(f'x1 = ad.new_scal(3)\n'
-      f'x2 = ad.new_scal(2)\n'
-      f'f1 = x1 * x2 + x1\n'
-      f'f2 = 8 * x2')
-x1 = ad.new_scal(3)
-x2 = ad.new_scal(2)
-f1 = x1 * x2 + x1
-f2 = 8 * x2
+# # TODO: FUNCTION VECTOR (FuncVect.py) DEBUGGING --
+# print()
+#
+# print(f'x1 = ad.new_scal(3)\n'
+#       f'x2 = ad.new_scal(2)\n'
+#       f'f1 = x1 * x2 + x1\n'
+#       f'f2 = 8 * x2')
+# x1 = ad.new_scal(3)
+# x2 = ad.new_scal(2)
+# f1 = x1 * x2 + x1
+# f2 = 8 * x2
 
 # print(f'\nf = ad.new_funcvect([f1, f2])')
 # f = ad.new_funcvect([f1, f2])

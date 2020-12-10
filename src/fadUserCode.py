@@ -129,6 +129,13 @@ print(f'check.val --> '
 print(f'check.der --> '
       f'{check.der}')                    # Should be [4, 2]
 
+print(f'\ncheck = x1 - x2')
+check = x1 - x2
+print(f'check.val --> '
+      f'{check.val}')
+print(f'check.der --> '
+      f'{check.der}')
+
 # TODO: VECTOR DEBUGGING --
 print()
 
