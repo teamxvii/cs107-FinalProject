@@ -14,7 +14,7 @@ class Vect:
             self._inputs[self] = []
             FADiff._revvect_inputs.append(self)
         self._name = name
-        self._tmp_der = np.zeros(val.shape)
+        self._tmp_der = np.zeros(self._val.shape)
 
     def __add__(self, other):
         try:
@@ -36,6 +36,26 @@ class Vect:
     def __radd__(self, other):
         return self.__add__(other)
 
+    def __sub__(self, other):
+        try:
+            inputs = {}
+            for root in self._inputs.keys():
+                inputs[root] = [[self, 1]]
+            for root in other._inputs.keys():
+                if root in inputs:
+                    inputs[root].append([other, 1])
+                else:
+                    inputs[root] = [[other, 1]]
+            return Vect(self._val - other._val, inputs)
+        except AttributeError:
+            inputs = {}
+            for root in self._inputs.keys():
+                inputs[root] = [[self, 1]]
+            return Vect(self._val - other, inputs)
+
+    def __rsub__(self, other):
+        return self.__sub__(other)
+
     def __mul__(self, other):
         try:
             inputs = {}
@@ -55,6 +75,74 @@ class Vect:
 
     def __rmul__(self, other):
         return self.__mul__(other)
+
+    def __truediv__(self, other):
+        """
+        Divides self by other (self / other)
+
+        Inputs: self (Scal object), other (either Scal object or constant)
+        Returns: new Scal object
+        """
+        try:
+            inputs = {}
+            for root in self._inputs.keys():
+                inputs[root] = [[self, 1 / other._val]]
+            for root in other._inputs.keys():
+                if root in inputs:
+                    inputs[root].append([other, -self._val / (other._val ** 2)])
+                else:
+                    inputs[root] = [[other, -self._val / (other._val ** 2)]]
+            return Vect(self._val / other._val, inputs)
+        except AttributeError:
+            inputs = {}
+            for root in self._inputs.keys():
+                inputs[root] = [[self, 1 / other]]
+            return Vect(self._val / other, inputs)
+
+    def __rtruediv__(self, other):
+        """
+        Divides other by self (other / self)
+
+        Inputs: self (Scal object), other (either Scal object or constant)
+        Returns: new Scal object
+        """
+        inputs = {}
+        for root in self._inputs.keys():
+            inputs[root].append([self, -other / (self._val ** 2)])
+        return Vect(other / self._val, inputs)
+
+    def __pow__(self, other):
+        try:
+            inputs = {}
+            for root in self._inputs.keys():
+                inputs[root] = [[self, other._val * self._val ** (other._val - 1)]]
+            for root in other._inputs.keys():
+                if root in inputs:
+                    inputs[root].append([other, self._val ** other._val * np.log(self._val)])
+                else:
+                    inputs[root] = [[other, self._val ** other._val * np.log(self._val)]]
+            return Vect(self._val ** other._val, inputs)
+        except AttributeError:
+            inputs = {}
+            for root in self._inputs.keys():
+                inputs[root] = [[self, other * self._val ** (other - 1)]]
+            return Vect(self._val ** other, inputs)
+
+    def __rpow__(self, other):
+        inputs = {}
+        for root in self._inputs.keys():
+            inputs[root] = [[self, other ** self._val * np.log(other)]]
+
+        return Vect(other ** self._val, inputs)
+
+    def __neg__(self, other):
+        inputs = {}
+        for root in self._inputs.keys():
+            inputs[root] = [[self, -1]]
+
+        return Vect(-self._val, inputs)
+
+    ### Comparison Operators ###
 
     def __eq__(self, other):
         if isinstance(other, Vect):

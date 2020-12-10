@@ -135,9 +135,9 @@ x2 = ad.new_scal(2)
 f1 = x1 * x2 + x1
 f2 = 8 * x2
 
-print(f'\nf = ad.new_funcvect([f1, f2])')
-f = ad.new_funcvect([f1, f2])
-print(f'f.val --> '
-      f'{f.val}')
-print(f'f.der -->\n'
-      f'{f.der}')
+# print(f'\nf = ad.new_funcvect([f1, f2])')
+# f = ad.new_funcvect([f1, f2])
+# print(f'f.val --> '
+#       f'{f.val}')
+# print(f'f.der -->\n'
+#       f'{f.der}')

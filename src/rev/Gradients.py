@@ -36,26 +36,6 @@ class Scal:
     def __radd__(self, other):
         return self.__add__(other)
 
-    def __mul__(self, other):
-        try:
-            inputs = {}
-            for root in self._inputs.keys():
-                inputs[root] = [[self, other._val]]
-            for root in other._inputs.keys():
-                if root in inputs:
-                    inputs[root].append([other, self._val])
-                else:
-                    inputs[root] = [[other, self._val]]
-            return Scal(self._val * other._val, inputs)
-        except AttributeError:
-            inputs = {}
-            for root in self._inputs.keys():
-                inputs[root] = [[self, other]]
-            return Scal(self._val * other, inputs)
-
-    def __rmul__(self, other):
-        return self.__mul__(other)
-
     def __sub__(self, other):
         try:
             inputs = {}
@@ -75,6 +55,26 @@ class Scal:
 
     def __rsub__(self, other):
         return self.__sub__(other)
+
+    def __mul__(self, other):
+        try:
+            inputs = {}
+            for root in self._inputs.keys():
+                inputs[root] = [[self, other._val]]
+            for root in other._inputs.keys():
+                if root in inputs:
+                    inputs[root].append([other, self._val])
+                else:
+                    inputs[root] = [[other, self._val]]
+            return Scal(self._val * other._val, inputs)
+        except AttributeError:
+            inputs = {}
+            for root in self._inputs.keys():
+                inputs[root] = [[self, other]]
+            return Scal(self._val * other, inputs)
+
+    def __rmul__(self, other):
+        return self.__mul__(other)
 
     def __truediv__(self, other):
         """
