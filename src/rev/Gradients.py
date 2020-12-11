@@ -261,7 +261,7 @@ class Scal:
         Inputs: self (Scal object)
         Returns: NumPy array of values
         """
-        return np.array(self._val)
+        return np.squeeze(np.array(self._val))
 
     @property
     def der(self):
@@ -279,7 +279,7 @@ class Scal:
                 part_ders.append(root._tmp_der)
                 self._tmp_der = 0
                 self._undo_back_trace(root)
-        return np.array(part_ders)
+        return np.squeeze(np.array(part_ders))
 
     def _back_trace(self, root):
         """
