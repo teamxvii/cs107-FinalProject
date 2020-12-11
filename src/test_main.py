@@ -3,7 +3,7 @@ import coverage
 from FADiff import FADiff
 import Elems
 import numpy as np
-
+from FuncVect import FuncVect
 
 class TestClass:
     def test_test(self):
@@ -235,6 +235,7 @@ class TestClass:
         a = Elems.log(z)
         assert a.val == pytest.approx(-1.2039728)
 
+    @pytest.mark.skip(reason="Gerald working on this")
     def test_logistic(self):
         x = FADiff()
         x.set_mode('forward')
@@ -252,10 +253,7 @@ class TestClass:
         z = Elems.sqrt(FADiff.new_scal(-1))
         with pytest.raises(AssertionError):
             assert z.val == 1
-    # def return_same_type(self):
-    #     x = FADiff.new_vect(np.array([2, 3, 4]))
-    #     assert Elems.return_same
-    # _type(x)
+   
 
     # FADiff class
     def test_mode(self):
@@ -286,13 +284,21 @@ class TestClass:
         
 
     # FuncVect class
-    # def test_funcvect(self):
+    def test_funcvect(self):
+        # trying to model Gerald's file
+        x = FADiff.new_scal(3)
+        y = FADiff.new_scal(2)
+        f1 = x * y + x
+        assert f1.val == 9
+        f2 = 8 * y
+        assert f2.val == 16
 
-        # x = FADiff()
-        # x.new_vect(np.array([2,3,4]))
-        # assert len(x.val) == 1
-        # assert len(x.val[0]) == 3
-        # assert type(x.val[0]) is np.ndarray
-        # assert type(x) is not np.ndarray
+        f = FADiff.new_funcvect([f1, f2])
+        assert f.val.tolist() == [9, 16]
+        assert f.der.tolist() == [[3, 3], [0, 8]]
+
+
+        
+
         
     
