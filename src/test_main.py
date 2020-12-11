@@ -225,6 +225,7 @@ class TestClass:
         y = 2
         assert Elems.sin(y) == np.sin(y)
     def test_tan(self):
+        FADiff.set_mode('forward')
         x = Elems.tan(FADiff.new_scal(3))
         assert x.val == pytest.approx(-0.1425465430742778)
         assert x.der == pytest.approx(1.020319516942427)
