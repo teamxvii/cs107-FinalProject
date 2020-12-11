@@ -251,45 +251,46 @@ class Scal:
     ### Comparison Operators ###
 
     def __eq__(self, other):
-        '''
+        """
         Compares other to self based on key values defined in Scal (in this case
         the value returned from running id() Python built-in on a Scal instance)
 
         Inputs: self (Scal object), other (Scal object)
         Returns: True if their key values are equal, False otherwise
-        '''
+        """
         if isinstance(other, Scal):
             return self.__key() == other.__key()
         return NotImplemented
 
     def __ne__(self, other):
-        '''
+        """
         Compares other to self based on key values defined in Scal (in this case
         the value returned from running id() Python built-in on a Scal instance)
 
         Inputs: self (Scal object), other (Scal object)
         Returns: False if their key values are equal, True otherwise
-        '''
+        """
         if isinstance(other, Scal):
             return self.__key() != other.__key()
         return NotImplemented
 
     def __key(self):
-        '''
+        """
         Defines the key value to use, e.g, for hashing Python objects in
         collections.
 
         Returns: The value of self when id() Python huilt-in is run on it.
-        '''
+        """
         return id(self)
 
     def __hash__(self):
-        '''
-        Used in conjuction with comparison operators to enable Python to objects
-        like Scal into collections based on a way defined by the user.
+        """
+        Used in conjuction with comparison operators to enable Python to put
+        objects like Scal instances into collections based on a way defined by
+        the user.
 
         Returns: a key value to use for hashing
-        '''
+        """
         return hash(self.__key())
 
     @property
@@ -319,8 +320,9 @@ class Scal:
 
     @staticmethod
     def _set_parents(var1, var2=None):
-        '''
-        Sets parent/grandparent vars (including root input vars used)
+        """
+        Utility function that sets parent/grandparent vars (including root input
+        vars used)
 
         Inputs:
             var1 : Scal
@@ -328,8 +330,8 @@ class Scal:
             var2 : Scal
                 The other parent of an AD variable, i.e., in an eval trace
         Returns:
-            A list of all the parent variables of self
-        '''
+            A list of the parent variables combined
+        """
         parents = []
         parents.append(var1)
         for parent in var1._parents:

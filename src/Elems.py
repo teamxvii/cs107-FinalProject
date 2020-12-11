@@ -7,36 +7,6 @@ from rev.Gradients import Scal as revScal
 from rev.Matrices import Vect as revVect
 
 
-def return_same_type(x, val, der, parents):
-    """
-    Returns new object of same type as x
-
-    Inputs:
-        x: a Scal/Vect forward mode object
-
-    Returns:
-        (Scal): new object (same type as x)
-    """
-    if isinstance(x, fadScal):  # if input var is a scalar
-        return fadScal(val, der, parents)
-    else:  # if input var is a vector
-        return fadVect(val, der, parents)
-
-
-def return_same_rev(x, val, inputs):
-    """
-    Returns new object of same type as x
-
-    Inputs:
-        x: a Scal/Vect reverse mode object
-    Returns: new object (same type as x)
-    """
-    if isinstance(x, revScal):
-        return revScal(val, inputs)
-    else:
-        return revVect(val, inputs)
-
-
 def sin(x):
     """
     Calculates sine of x
@@ -347,3 +317,34 @@ def sqrt(x):
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
         return np.sqrt(x)
+
+
+def return_same_type(x, val, der, parents):
+    """
+    Utility function that returns new object of same type as x for forward mode
+    objects
+
+    Inputs:
+        x: a Scal/Vect forward mode object
+
+    Returns:
+        (Scal): new object (same type as x)
+    """
+    if isinstance(x, fadScal):  # if input var is a scalar
+        return fadScal(val, der, parents)
+    else:  # if input var is a vector
+        return fadVect(val, der, parents)
+
+
+def return_same_rev(x, val, inputs):
+    """
+    Utility function that returns new object of same type as x
+
+    Inputs:
+        x: a Scal/Vect reverse mode object
+    Returns: new object (same type as x)
+    """
+    if isinstance(x, revScal):
+        return revScal(val, inputs)
+    else:
+        return revVect(val, inputs)

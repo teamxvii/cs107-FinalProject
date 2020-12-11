@@ -5,10 +5,10 @@ from FADiff import FADiff
 
 
 class Vect:
-    '''
+    """
     A class for automatic differentiation (AD) for representing vector variables
     (NumPy arrays) in reverse mode
-    '''
+    """
     def __init__(self, val, inputs=None, name=None, new_input=False):
         """
         Inputs:
@@ -159,19 +159,46 @@ class Vect:
     ### Comparison Operators ###
 
     def __eq__(self, other):
+        """
+        Compares other to self based on key values defined in Vect (in this case
+        the value returned from running id() Python built-in on a Vect instance)
+
+        Inputs: self (Vect object), other (Vect object)
+        Returns: True if their key values are equal, False otherwise
+        """
         if isinstance(other, Vect):
             return self.__key() == other.__key()
         return NotImplemented
 
     def __ne__(self, other):
+        """
+        Compares other to self based on key values defined in Vect (in this case
+        the value returned from running id() Python built-in on a Vect instance)
+
+        Inputs: self (Vect object), other (Vect object)
+        Returns: False if their key values are equal, True otherwise
+        """
         if isinstance(other, Vect):
             return self.__key() != other.__key()
         return NotImplemented
 
     def __key(self):
+        """
+        Defines the key value to use, e.g, for hashing Python objects in
+        collections.
+
+        Returns: The value of self when id() Python huilt-in is run on it.
+        """
         return id(self)
 
     def __hash__(self):
+        """
+        Used in conjuction with comparison operators to enable Python to put
+        objects like Vect instances into collections based on a way defined by
+        the user.
+
+        Returns: a key value to use for hashing
+        """
         return hash(self.__key())
 
     @property

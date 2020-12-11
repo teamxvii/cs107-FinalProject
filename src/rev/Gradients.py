@@ -213,45 +213,46 @@ class Scal:
     ### Comparison Operators ###
 
     def __eq__(self, other):
-        '''
+        """
         Compares other to self based on key values defined in Scal (in this case
         the value returned from running id() Python built-in on a Scal instance)
 
         Inputs: self (Scal object), other (Scal object)
         Returns: True if their key values are equal, False otherwise
-        '''
+        """
         if isinstance(other, Scal):
             return self.__key() == other.__key()
         return NotImplemented
 
     def __ne__(self, other):
-        '''
+        """
         Compares other to self based on key values defined in Scal (in this case
         the value returned from running id() Python built-in on a Scal instance)
 
         Inputs: self (Scal object), other (Scal object)
         Returns: False if their key values are equal, True otherwise
-        '''
+        """
         if isinstance(other, Scal):
             return self.__key() != other.__key()
         return NotImplemented
 
     def __key(self):
-        '''
+        """
         Defines the key value to use, e.g, for hashing Python objects in
         collections.
 
         Returns: The value of self when id() Python huilt-in is run on it.
-        '''
+        """
         return id(self)
 
     def __hash__(self):
-        '''
-        Used in conjuction with comparison operators to enable Python to objects
-        like Scal into collections based on a way defined by the user.
+        """
+        Used in conjuction with comparison operators to enable Python to put
+        objects like Scal instances into collections based on a way defined by
+        the user.
 
         Returns: a key value to use for hashing
-        '''
+        """
         return hash(self.__key())
 
     @property
@@ -281,27 +282,27 @@ class Scal:
         return np.array(part_ders)
 
     def _back_trace(self, root):
-        '''
+        """
         Performs the backward pass of an evaluation trace for reverse mode wrt
         a particular root of a variable. It does this recursively.
 
         Inputs: The root to evaluate the backward pass wrt
         Returns: None
-        '''
+        """
         if self._inputs[root]:             # (Base case: no parents @ root)
             for parent, part_der in self._inputs[root]:
                 parent._tmp_der += self._tmp_der * part_der
                 parent._back_trace(root)
 
     def _undo_back_trace(self, root):
-        '''
+        """
         Undoes the changes _back_trace() did on self's (and affected parents)
         derivative variables (in this case restoring them back to 0). Like
         _back_trace, this is a recursive method.
 
         Inputs: The root in which to undo the changes on self wrt
         Returns: None
-        '''
+        """
         if self._inputs[root]:
             for parent, part_der in self._inputs[root]:
                 parent._tmp_der = 0
