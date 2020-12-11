@@ -5,8 +5,10 @@ import Elems
 import numpy as np
 from FuncVect import FuncVect
 
+
 class TestClass:
     FADiff.set_mode('forward')
+
     def test_neg(self):
         x = FADiff.new_scal(3)
         assert -x.val == -3
@@ -80,7 +82,6 @@ class TestClass:
         x = 2 ** FADiff.new_scal(3)
         assert x.val == 8
         assert x.der == pytest.approx(5.54517744)
-
 
     assert FADiff._mode == 'forward'
     FADiff.set_mode('reverse')
@@ -159,13 +160,11 @@ class TestClass:
         x = 2 ** FADiff.new_scal(3)
         assert x.val == 8
         assert x.der == pytest.approx(5.54517744)
-    
 
     assert FADiff._mode == 'reverse'
     FADiff.set_mode('forward')
     assert FADiff._mode == 'forward'
 # Elems testing
-
 
     def test_exp(self):
         x = Elems.exp(FADiff.new_scal(3))
@@ -201,6 +200,7 @@ class TestClass:
 
         y = 2
         assert Elems.cos(y) == np.cos(y)
+
     def test_sin(self):
         x = FADiff()
         x.set_mode('forward')
@@ -224,7 +224,9 @@ class TestClass:
 
         y = 2
         assert Elems.sin(y) == np.sin(y)
+
     def test_tan(self):
+        FADiff.set_mode('forward')
         x = Elems.tan(FADiff.new_scal(3))
         assert x.val == pytest.approx(-0.1425465430742778)
         assert x.der == pytest.approx(1.020319516942427)
@@ -238,6 +240,7 @@ class TestClass:
         assert x.der == pytest.approx(1.020319516942427)
         y = 2
         assert Elems.tan(y) == np.tan(y)
+
     def test_arcsin(self):
         FADiff.set_mode('forward')
         x = Elems.arcsin(FADiff.new_scal(0.3))
@@ -257,6 +260,7 @@ class TestClass:
 
         y = -0.4
         assert Elems.arcsin(y) == np.arcsin(y)
+
     def test_arccos(self):
         FADiff.set_mode('forward')
         x = Elems.arccos(FADiff.new_scal(0.3))
@@ -276,6 +280,7 @@ class TestClass:
 
         y = -0.4
         assert Elems.arccos(y) == np.arccos(y)
+
     def test_arctan(self):
         FADiff.set_mode('forward')
         x = Elems.arctan(FADiff.new_scal(0.5))
@@ -285,12 +290,13 @@ class TestClass:
         assert Elems.arctan(y) == np.arctan(y)
 
     def test_arctan_reverse(self):
-        FADiff.set_mode('forward')
+        FADiff.set_mode('reverse')
         x = Elems.arctan(FADiff.new_scal(0.5))
         assert x.val == pytest.approx(0.4636476090008061)
 
         y = -0.4
         assert Elems.arctan(y) == np.arctan(y)
+
     def test_sinh(self):
         FADiff.set_mode('forward')
         x = Elems.sinh(FADiff.new_scal(0.4))
@@ -298,6 +304,7 @@ class TestClass:
 
         y = -0.4
         assert Elems.sinh(y) == np.sinh(y)
+
     def test_sinh_reverse(self):
         FADiff.set_mode('reverse')
         x = Elems.sinh(FADiff.new_scal(0.4))
@@ -305,6 +312,7 @@ class TestClass:
 
         y = -0.4
         assert Elems.sinh(y) == np.sinh(y)
+
     def test_cosh(self):
         FADiff.set_mode('forward')
 
@@ -314,6 +322,7 @@ class TestClass:
 
         y = 4
         assert Elems.cosh(y) == np.cosh(y)
+
     def test_cosh_reverse(self):
         FADiff.set_mode('reverse')
 
@@ -323,6 +332,7 @@ class TestClass:
 
         y = 4
         assert Elems.cosh(y) == np.cosh(y)
+
     def test_tanh(self):
         FADiff.set_mode('forward')
         x = Elems.tanh(FADiff.new_scal(1))
@@ -330,6 +340,7 @@ class TestClass:
 
         y = 2
         assert Elems.tanh(y) == np.tanh(y)
+
     def test_tanh_reverse(self):
         FADiff.set_mode('reverse')
         x = Elems.tanh(FADiff.new_scal(1))
@@ -361,12 +372,17 @@ class TestClass:
         x = Elems.logistic(x)
         assert x.val == pytest.approx(0.8807970779778823)
 
+        y = 4
+        assert Elems.logistic(y) == pytest.approx(0.9820137900379085)
+
     def test_logistic_reverse(self):
         FADiff.set_mode('reverse')
         x = FADiff()
         x = x.new_scal(2)
         x = Elems.logistic(x)
         assert x.val == pytest.approx(0.8807970779778823)
+        y = 4
+        assert Elems.logistic(y) == pytest.approx(0.9820137900379085)
 
     def test_sqrt(self):
         FADiff.set_mode('forward')
@@ -379,7 +395,7 @@ class TestClass:
         z = Elems.sqrt(FADiff.new_scal(-1))
         with pytest.raises(AssertionError):
             assert z.val == 1
-   
+
     def test_sqrt_reverse(self):
         FADiff.set_mode('reverse')
         x = Elems.sqrt(FADiff.new_scal(3))
@@ -391,7 +407,7 @@ class TestClass:
         z = Elems.sqrt(FADiff.new_scal(-1))
         with pytest.raises(AssertionError):
             assert z.val == 1
-    
+
     # FADiff class
     def test_mode(self):
         x = FADiff()
@@ -408,21 +424,23 @@ class TestClass:
         y = FADiff()
         y.set_mode('forward')
         assert y._mode == 'forward'
-        y = y.new_vect(np.array([2,3,4]))
+        y = y.new_vect(np.array([2, 3, 4]))
         assert y.der is not None
 
         z = FADiff()
         z.set_mode('reverse')
-        
-        z = z.new_vect(np.array([1,2,3]))
+
+        z = z.new_vect(np.array([1, 2, 3]))
         assert FADiff._mode == 'reverse'
 
-
-        
-
     # FuncVect class
+
     def test_funcvect(self):
-        # trying to model Gerald's file
+
+        # forward mode scalar tests
+        x = FADiff()
+        x.set_mode('forward')
+
         x = FADiff.new_scal(3)
         y = FADiff.new_scal(2)
         f1 = x * y + x
@@ -434,11 +452,35 @@ class TestClass:
         assert f.val.tolist() == [9, 16]
         assert f.der.tolist() == [[3, 3], [0, 8]]
 
-        x1 = FADiff.new_scal(3)
-        x2 = FADiff.new_vect(np.array([2,3,4]))
-        with pytest.raises(Exception):
-            f = FADiff.new_funcvect([x1,x2])
-        
+        # forward mode vector tests
+        x1 = FADiff.new_vect(np.array([2, 3, 4]))
+        f3 = x1 * x1
+        f4 = x1 * 8
+        ff = FADiff.new_funcvect([f3, f4])
 
-        
-    
+        assert ff.val.tolist() == [[4, 9, 16], [16, 24, 32]]
+        assert ff.der.tolist() == [[4, 6, 8], [8, 8, 8]]
+
+        # reverse mode scalar tests
+        xr = FADiff()
+        xr.set_mode('reverse')
+
+        xr = FADiff.new_scal(3)
+        yr = FADiff.new_scal(2)
+        f1r = xr * yr + xr
+        assert f1r.val == 9
+        f2r = 8 * yr
+        assert f2r.val == 16
+
+        fr = FADiff.new_funcvect([f1r, f2r])
+        assert fr.val.tolist() == [9, 16]
+        assert fr.der.tolist() == [[3, 3], [0, 8]]
+
+        # reverse mode vector tests
+        x1r = FADiff.new_vect(np.array([2, 3, 4]))
+        f3r = x1r * x1r
+        f4r = x1r * 8
+        ffr = FADiff.new_funcvect([f3r, f4r])
+
+        assert ffr.val.tolist() == [[4, 9, 16], [16, 24, 32]]
+        assert ffr.der.tolist() == [[4, 6, 8], [8, 8, 8]]
