@@ -279,7 +279,7 @@ class Scal:
                 part_ders.append(root._tmp_der)
                 self._tmp_der = 0
                 self._undo_back_trace(root)
-        return np.squeeze(np.array(part_ders))
+        return np.array(part_ders)
 
     def _back_trace(self, root):
         """
