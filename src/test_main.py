@@ -39,7 +39,7 @@ class TestClass:
     def test_rsub(self):
         x = 3 - FADiff.new_scal(3)
         assert x.val == 0
-        assert x.der[0] == 2
+        assert x.der == 2
 
     def test_mul(self):
         x = FADiff.new_scal(3) * 3
@@ -117,7 +117,7 @@ class TestClass:
     def test_rsub_reverse(self):
         x = 3 - FADiff.new_scal(3)
         assert x.val == 0
-        assert x.der[0] == 2
+        assert x.der == 2
 
     def test_mul_reverse(self):
         x = FADiff.new_scal(3) * 3
@@ -461,6 +461,9 @@ class TestClass:
         assert ff.val.tolist() == [[4, 9, 16], [16, 24, 32]]
         assert ff.der.tolist() == [[4, 6, 8], [8, 8, 8]]
 
+        # test fucntions of dif types
+        with pytest.raises(Exception):
+            ff = FADiff.new_funcvect([f3, 17])
         # reverse mode scalar tests
         xr = FADiff()
         xr.set_mode('reverse')
@@ -484,3 +487,7 @@ class TestClass:
 
         assert ffr.val.tolist() == [[4, 9, 16], [16, 24, 32]]
         assert ffr.der.tolist() == [[4, 6, 8], [8, 8, 8]]
+
+        # test fucntions of dif types
+        with pytest.raises(Exception):
+            ffr = FADiff.new_funcvect([f3r, 17])
