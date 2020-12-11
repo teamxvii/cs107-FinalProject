@@ -6,6 +6,7 @@ import numpy as np
 from FuncVect import FuncVect
 
 class TestClass:
+    FADiff.set_mode('forward')
     def test_neg(self):
         x = FADiff.new_scal(3)
         assert -x.val == -3
@@ -81,6 +82,88 @@ class TestClass:
         assert x.der == pytest.approx(5.54517744)
 
 
+    assert FADiff._mode == 'forward'
+    FADiff.set_mode('reverse')
+    assert FADiff._mode == 'reverse'
+
+    def test_neg_reverse(self):
+        x = FADiff.new_scal(3)
+        assert -x.val == -3
+        assert -x.der == -1
+
+    def test_add_reverse(self):
+        x = FADiff.new_scal(3) + 5
+        assert x.val == 8
+        assert x.der == 1
+
+        y = FADiff.new_scal(3) + FADiff.new_scal(5)
+        assert y.val == 8
+
+    def test_radd_reverse(self):
+        x = 5 + FADiff.new_scal(3)
+        assert x.val == 8
+        assert x.der == 1
+
+    def test_sub_reverse(self):
+        x = FADiff.new_scal(3) - 5
+        assert x.val == -2
+        assert x.der == 1
+
+        y = FADiff.new_scal(3) - FADiff.new_scal(2)
+        assert y.val == 1
+        assert x.der == 1
+
+    def test_rsub_reverse(self):
+        x = 3 - FADiff.new_scal(3)
+        assert x.val == 0
+        assert x.der[0] == 2
+
+    def test_mul_reverse(self):
+        x = FADiff.new_scal(3) * 3
+        assert x.val == 9
+        assert x.der == 3
+
+        y = FADiff.new_scal(3) * FADiff.new_scal(4)
+        assert y.val == 12
+        # assert y.der == 7
+
+    def test_rmul_reverse(self):
+        x = 3 * FADiff.new_scal(3)
+        assert x.val == 9
+        assert x.der == 3
+
+    def test_div_reverse(self):
+        x = FADiff.new_scal(3) / 3
+        assert x.val == 1
+        assert x.der == pytest.approx(0.3333333333333333)
+
+        y = FADiff.new_scal(3) / FADiff.new_scal(4)
+        assert y.val == pytest.approx(0.75)
+        # assert y.der == pytest.approx(0.0625)
+
+    def test_rdiv_reverse(self):
+        x = 3 / FADiff.new_scal(3)
+        assert x.val == 1
+        assert x.der == pytest.approx(-0.3333333333333333)
+
+    def test_pow_reverse(self):
+        x = FADiff.new_scal(3) ** 2
+        assert x.val == 9
+        assert x.der == 6
+
+        y = FADiff.new_scal(3) ** FADiff.new_scal(5)
+        assert y.val == 243
+        assert y.der[0] == 405
+
+    def test_rpow_reverse(self):
+        x = 2 ** FADiff.new_scal(3)
+        assert x.val == 8
+        assert x.der == pytest.approx(5.54517744)
+    
+
+    assert FADiff._mode == 'reverse'
+    FADiff.set_mode('forward')
+    assert FADiff._mode == 'forward'
 # Elems testing
 
 
