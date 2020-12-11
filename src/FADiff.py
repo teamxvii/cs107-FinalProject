@@ -30,7 +30,7 @@ class FADiff:
 
     @staticmethod
     def set_mode(mode):
-        '''
+        """
         This method is used to set the mode in which to perform automatic
         differentiation calculations and for determining which objects to
         return to the user (i.e., forward mode objects or reverse mode ones)
@@ -41,13 +41,13 @@ class FADiff:
 
         Returns:
             None
-        '''
+        """
         if mode.lower() == 'forward' or mode.lower() == 'reverse':
             FADiff._mode = mode.lower()
 
     @staticmethod
     def new_scal(val, der=None, name=None):
-        '''
+        """
         This method allows the user to define a new scalar object that
         represents a variable, i.e., an input variable in an evaluation trace
         in AD that is scalar-valued.
@@ -62,7 +62,7 @@ class FADiff:
 
         Returns:
             A forward or reverse mode Scal instance
-        '''
+        """
         if FADiff._mode == 'forward':
             if not der:               # No der arg?
                 der = 1               # Init der to 1
@@ -72,7 +72,7 @@ class FADiff:
 
     @staticmethod
     def new_vect(vect, der=None, name=None):
-        '''
+        """
         This method allows the user to define a new vector object that
         represents a variable, i.e., an input variable in an evaluation trace
         in AD that is vector-valued.
@@ -87,7 +87,7 @@ class FADiff:
 
         Returns:
             A forward or reverse mode Vect instance
-        '''
+        """
         if FADiff._mode == 'forward':
             vect = np.array(vect)
             if not der:                    # No der arg?
@@ -98,7 +98,7 @@ class FADiff:
 
     @staticmethod
     def new_funcvect(func_list):
-        '''
+        """
         This class allows the user to define a vector function where all
         functions in the vector are either all Scal forward mode objects or
         Scal reverse mode objects.
@@ -109,7 +109,7 @@ class FADiff:
 
         Returns:
             A FuncVect instance
-        '''
+        """
         return _funcVect(func_list)
 
 

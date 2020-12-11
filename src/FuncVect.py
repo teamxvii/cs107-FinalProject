@@ -9,11 +9,9 @@ import numpy as np
 
 
 class FuncVect:
-    '''
+    """
 
-
-
-    '''
+    """
     def __init__(self, funcs):
         try:                                   # All fxns all Scal xor all Vect?
             func_type = type(funcs[0])         # Check the first element
