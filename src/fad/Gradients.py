@@ -299,7 +299,7 @@ class Scal:
         Inputs: self (Scal object)
         Returns: NumPy array of values
         """
-        return self._val
+        return np.array(self._val)
 
     @property
     def der(self):
