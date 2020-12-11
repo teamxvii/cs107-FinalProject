@@ -6,10 +6,6 @@ import numpy as np
 from FuncVect import FuncVect
 
 class TestClass:
-    def test_test(self):
-        x = 3
-        assert x == 3
-
     def test_neg(self):
         x = FADiff.new_scal(3)
         assert -x.val == -3
