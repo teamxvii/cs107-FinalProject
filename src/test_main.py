@@ -285,7 +285,7 @@ class TestClass:
         assert Elems.arctan(y) == np.arctan(y)
 
     def test_arctan_reverse(self):
-        FADiff.set_mode('forward')
+        FADiff.set_mode('reverse')
         x = Elems.arctan(FADiff.new_scal(0.5))
         assert x.val == pytest.approx(0.4636476090008061)
 
