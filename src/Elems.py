@@ -11,17 +11,15 @@ def return_same_type(x, val, der, parents):
     """
     Returns new object of same type as x
 
-    Inputs
-    ======
-    x: Scal/Vect forward mode object
+    Inputs:
+        x: a Scal/Vect forward mode object
 
-    Returns
-    =======
-    (Scal): new object (same type as x)
+    Returns:
+        (Scal): new object (same type as x)
     """
     if isinstance(x, fadScal):  # if input var is a scalar
         return fadScal(val, der, parents)
-    else:      # if input var is a vector
+    else:  # if input var is a vector
         return fadVect(val, der, parents)
 
 
@@ -29,7 +27,8 @@ def return_same_rev(x, val, inputs):
     """
     Returns new object of same type as x
 
-    Inputs: x (Scal/Vect reverse mode object)
+    Inputs:
+        x: a Scal/Vect reverse mode object
     Returns: new object (same type as x)
     """
     if isinstance(x, revScal):
@@ -45,20 +44,20 @@ def sin(x):
     Inputs: x (either Scal/Vect object or constant)
     Returns: new object of type x (if x is a Scal or Vect) or a new constant (if x is a constant)
     """
-    try:                            # if x is a Scal/Vect
+    try:  # if x is a Scal/Vect
         val = np.sin(x._val)
-        try:                        # if fad mode
+        try:  # if fad mode
             der = {}
             for var, part_der in x._der.items():
                 der[var] = part_der * np.cos(x._val)
             parents = x._set_parents(x)
             return return_same_type(x, val, der, parents)
-        except AttributeError:      # if rev mode
+        except AttributeError:  # if rev mode
             inputs = {}
             for root in x._inputs.keys():
                 inputs[root] = [[x, np.cos(x._val)]]
             return return_same_rev(x, val, inputs)
-    except AttributeError:          # if x is a constant
+    except AttributeError:  # if x is a constant
         return np.sin(x)
 
 
@@ -84,7 +83,7 @@ def cos(x):
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
         return np.cos(x)
-    
+
 
 def tan(x):
     """
@@ -156,7 +155,7 @@ def arccos(x):
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
         return np.arccos(x)
-    
+
 
 def arctan(x):
     """
@@ -180,7 +179,7 @@ def arctan(x):
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
         return np.arctan(x)
-    
+
 
 def sinh(x):
     """
@@ -204,7 +203,7 @@ def sinh(x):
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
         return np.sinh(x)
-    
+
 
 def cosh(x):
     """
@@ -228,7 +227,7 @@ def cosh(x):
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
         return np.cosh(x)
-    
+
 
 def tanh(x):
     """
@@ -252,7 +251,7 @@ def tanh(x):
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
         return np.tanh(x)
-    
+
 
 def exp(x):
     """
@@ -276,7 +275,7 @@ def exp(x):
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
         return np.exp(x)
-    
+
 
 def logistic(x):
     """
@@ -290,17 +289,17 @@ def logistic(x):
         try:
             der = {}
             for var, part_der in x._der.items():
-                der[var] = part_der * exp(x) / (1 + exp(x))**2
+                der[var] = part_der * exp(x) / (1 + exp(x)) ** 2
             parents = x._set_parents(x)
             return return_same_type(x, val, der, parents)
         except AttributeError:
             inputs = {}
             for root in x._inputs.keys():
-                inputs[root] = [[x, exp(x) / (1 + exp(x))**2]]
+                inputs[root] = [[x, exp(x) / (1 + exp(x)) ** 2]]
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
-        return 1 / (1 + np.exp(-x))   
-    
+        return 1 / (1 + np.exp(-x))
+
 
 def log(x, b=np.e):
     """
@@ -323,8 +322,8 @@ def log(x, b=np.e):
                 inputs[root] = [[x, 1 / (x._val * np.log(b))]]
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
-        return np.log(x) / np.log(b)      
-    
+        return np.log(x) / np.log(b)
+
 
 def sqrt(x):
     """
@@ -347,4 +346,4 @@ def sqrt(x):
                 inputs[root] = [[x, 1 / (2. * np.sqrt(x._val))]]
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
-        return np.sqrt(x)  
+        return np.sqrt(x)
