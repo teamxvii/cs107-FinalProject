@@ -1,7 +1,7 @@
 [run]
 branch = True
-omit = src/fad/*
-        src/rev/*
+omit = FADiff/fad/*
+        FADiff/rev/*
 
 [report]
 exclude_lines =
