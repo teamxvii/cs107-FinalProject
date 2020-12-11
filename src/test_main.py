@@ -297,7 +297,10 @@ class TestClass:
         assert f.val.tolist() == [9, 16]
         assert f.der.tolist() == [[3, 3], [0, 8]]
 
-
+        x1 = FADiff.new_scal(3)
+        x2 = FADiff.new_vect(np.array([2,3,4]))
+        with pytest.raises(Exception):
+            f = FADiff.new_funcvect([x1,x2])
         
 
         
