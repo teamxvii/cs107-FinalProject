@@ -243,10 +243,10 @@ class Scal:
         Inputs: self (Scal object)
         Returns: new Scal object
         """
-        val = -self._val
+        val = -1 * self._val
         der = {}
         for var, part_der in self._der.items():
-            der[var] = -part_der
+            der[var] = -1 * part_der
         parents = self._set_parents(self)
         return Scal(val, der, parents)
 
