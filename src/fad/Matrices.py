@@ -244,7 +244,7 @@ class Vect:
         Inputs: self (Scal object)
         Returns: new Scal object
         """
-        val = - self._val
+        val = -self._val
         der = {}
         for var, part_der in self._der.items():
             der[var] = - part_der
