@@ -6,25 +6,23 @@ import numpy as np
 
 class Vect:
     """
-   A class for automatic differentiation of vector variables (NumPy arrays)
-   """
-
+    A class for automatic differentiation (AD) for representing vector variables
+    (NumPy arrays) in forward mode
+    """
     def __init__(self, val, der=None, parents=None, name=None, new_input=False):
         """
-        Inputs
-        ------
+        Inputs:
             val : NumPy array (column or row vector)
                 value of the vector variable
             der : NumPy array (column or row vector) or a dictionary
                 derivative of the vector variable
-            parents : list of Scal objects
+            parents : list of Vect objects
                 the parent/grandparent vars of the variable
             name : str
-                the name of the variable
+                the name of the variable defined by the user
             new_input : boolean
                 if variable is an input variable
         """
-
         # preprocess inputs
         if new_input:
             if len(val.shape) > 1 and min(val.shape) > 1:  # check for correct shape
@@ -40,12 +38,12 @@ class Vect:
             deriv = der
 
         self._val = value
-        if new_input:  # Creating input var?
-            self._der = {}  # Add gradient dict for new var
+        if new_input:                  # Creating input var?
+            self._der = {}             # Add gradient dict for new var
             for var in FADiff._fadvect_inputs:  # Update gradient dicts for all vars
                 self._der[var] = zero  # Partial der of others as 0 in self
                 var._der[self] = zero  # Self's partial der as 0 in others
-            self._der[self] = deriv  # Self's partial der in self
+            self._der[self] = deriv    # Self's partial der in self
             FADiff._fadvect_inputs.append(self)  # Add self to global vars list
         else:
             self._der = deriv
@@ -60,10 +58,10 @@ class Vect:
         """
         Adds self with other (self + other)
 
-        Inputs: self (Scal object), other (either Scal object or constant)
-        Returns: new Scal object
+        Inputs: self (Vect object), other (either Vect object or constant)
+        Returns: new Vect object
         """
-        try:  # if other is a Scal
+        try:  # if other is a Vect
             val = self._val + other._val
             der = {}
             for var, part_der in self._der.items():
@@ -79,8 +77,8 @@ class Vect:
         """
         Adds other with self (other + self)
 
-        Inputs: self (Scal object), other (either Scal object or constant)
-        Returns: new Scal object
+        Inputs: self (Vect object), other (either Vect object or constant)
+        Returns: new Vect object
         """
         return self.__add__(other)
 
@@ -88,10 +86,10 @@ class Vect:
         """
         Subtracts other from self (self - other)
 
-        Inputs: self (Scal object), other (either Scal object or constant)
-        Returns: new Scal object
+        Inputs: self (Vect object), other (either Vect object or constant)
+        Returns: new Vect object
         """
-        try:  # if other is a Scal
+        try:  # if other is a Vect
             val = self._val - other._val
             der = {}
             for var, part_der in self._der.items():  # loop through partial derivatives
@@ -107,10 +105,10 @@ class Vect:
         """
         Subtracts self from other (other - self)
 
-        Inputs: self (Scal object), other (either Scal object or constant)
-        Returns: new Scal object
+        Inputs: self (Vect object), other (either Vect object or constant)
+        Returns: new Vect object
         """
-        try:  # if other is a Scal
+        try:  # if other is a Vect
             val = other._val - self._val
             der = {}
             for var, part_der in self._der.items():  # loop through partial derivatives
@@ -127,10 +125,10 @@ class Vect:
         """
         Multiplies self with other (self * other)
 
-        Inputs: self (Scal object), other (either Scal object or constant)
-        Returns: new Scal object
+        Inputs: self (Vect object), other (either Vect object or constant)
+        Returns: new Vect object
         """
-        try:  # if other is a Scal
+        try:  # if other is a Vect
             val = self._val * other._val
             der = {}
             for var, part_der in self._der.items():  # loop through partial derivatives
@@ -148,8 +146,8 @@ class Vect:
         """
         Multiplies other with self (other * self)
 
-        Inputs: self (Scal object), other (either Scal object or constant)
-        Returns: new Scal object
+        Inputs: self (Vect object), other (either Vect object or constant)
+        Returns: new Vect object
         """
         return self.__mul__(other)
 
@@ -157,10 +155,10 @@ class Vect:
         """
         Divides self by other (self / other)
 
-        Inputs: self (Scal object), other (either Scal object or constant)
-        Returns: new Scal object
+        Inputs: self (Vect object), other (either Vect object or constant)
+        Returns: new Vect object
         """
-        try:  # if other is a Scal
+        try:  # if other is a Vect
             val = self._val / other._val
             der = {}
             for var, part_der in self._der.items():  # loop through partial derivatives
@@ -178,10 +176,10 @@ class Vect:
         """
         Divides other by self (other / self)
 
-        Inputs: self (Scal object), other (either Scal object or constant)
-        Returns: new Scal object
+        Inputs: self (Vect object), other (either Vect object or constant)
+        Returns: new Vect object
         """
-        try:  # if other is a Scal
+        try:  # if other is a Vect
             val = other._val / self._val
             der = {}
             for var, part_der in self._der.items():  # loop through partial derivatives
@@ -199,10 +197,10 @@ class Vect:
         """
         Raises self the other power (self ** other)
 
-        Inputs: self (Scal object), other (either Scal object or constant)
-        Returns: new Scal object
+        Inputs: self (Vect object), other (either Vect object or constant)
+        Returns: new Vect object
         """
-        try:  # if other is a Scal
+        try:  # if other is a Vect
             val = self._val ** other._val
             der = {}
             for var, part_der in self._der.items():  # loop through partial derivatives
@@ -220,10 +218,10 @@ class Vect:
         """
         Raises other the self power (other ** self)
 
-        Inputs: self (Scal object), other (either Scal object or constant)
-        Returns: new Scal object
+        Inputs: self (Vect object), other (either Vect object or constant)
+        Returns: new Vect object
         """
-        try:  # if other is a Scal
+        try:  # if other is a Vect
             val = other._val ** self._val
             der = {}
             for var, part_der in self._der.items():  # loop through partial derivatives
@@ -241,8 +239,8 @@ class Vect:
         """
         Negates self (- self)
 
-        Inputs: self (Scal object)
-        Returns: new Scal object
+        Inputs: self (Vect object)
+        Returns: new Vect object
         """
         val = -1 * self._val
         der = {}
@@ -272,7 +270,7 @@ class Vect:
     @property
     def val(self):
         """
-        Inputs: self (Scal object)
+        Inputs: self (Vect object)
         Returns: NumPy array of values
         """
         return np.array(self._val)
@@ -282,7 +280,7 @@ class Vect:
         """
         Returns partial derivatives wrt all root input vars used
 
-        Inputs: self (Scal object)
+        Inputs: self (Vect object)
         Returns: NumPy array of derivative
         """
         parents = []

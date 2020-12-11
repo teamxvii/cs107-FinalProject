@@ -5,7 +5,23 @@ from FADiff import FADiff
 
 
 class Vect:
+    '''
+    A class for automatic differentiation (AD) for representing vector variables
+    (NumPy arrays) in reverse mode
+    '''
     def __init__(self, val, inputs=None, name=None, new_input=False):
+        """
+        Inputs:
+            val :
+                The value of the Vect instance defined by user
+            inputs:
+                The root inputs of a Vect instance and associated parents and
+                their partial derivatives (no chain rule)
+            name : str
+                the name of the variable defined by the user
+            new_input : boolean
+                if variable is an input variable
+        """
         self._val = np.array(val)
         if inputs is None:
             inputs = {}

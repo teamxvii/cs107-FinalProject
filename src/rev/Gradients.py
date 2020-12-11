@@ -282,8 +282,11 @@ class Scal:
 
     def _back_trace(self, root):
         '''
+        Performs the backward pass of an evaluation trace for reverse mode wrt
+        a particular root of a variable. It does this recursively.
 
-
+        Inputs: The root to evaluate the backward pass wrt
+        Returns: None
         '''
         if self._inputs[root]:             # (Base case: no parents @ root)
             for parent, part_der in self._inputs[root]:
@@ -292,8 +295,12 @@ class Scal:
 
     def _undo_back_trace(self, root):
         '''
+        Undoes the changes _back_trace() did on self's (and affected parents)
+        derivative variables (in this case restoring them back to 0). Like
+        _back_trace, this is a recursive method.
 
-
+        Inputs: The root in which to undo the changes on self wrt
+        Returns: None
         '''
         if self._inputs[root]:
             for parent, part_der in self._inputs[root]:

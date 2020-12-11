@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
-import numpy as np
-# NOTE: See bottom of this module for imported modules
 
+# NOTE: See bottom of this module for imported modules/libraries
 
 class FADiff:
     """
@@ -65,8 +64,8 @@ class FADiff:
             A forward or reverse mode Scal instance
         '''
         if FADiff._mode == 'forward':
-            if not der:  # No der arg?
-                der = 1  # Init der to 1
+            if not der:               # No der arg?
+                der = 1               # Init der to 1
             return _fadScal(val, der=der, name=name, new_input=True)
         elif FADiff._mode == 'reverse':
             return _revScal(val, name=name, new_input=True)
@@ -91,7 +90,7 @@ class FADiff:
         '''
         if FADiff._mode == 'forward':
             vect = np.array(vect)
-            if not der:  # No der arg?
+            if not der:                    # No der arg?
                 der = np.ones(vect.shape)  # Init der to identity matrix
             return _fadVect(vect, der=der, name=name, new_input=True)
         elif FADiff._mode == 'reverse':
@@ -120,6 +119,7 @@ from fad.Matrices import Vect as _fadVect
 from FuncVect import FuncVect as _funcVect
 from rev.Gradients import Scal as _revScal
 from rev.Matrices import Vect as _revVect
+import numpy as np
 
 
 # References:
