@@ -361,13 +361,16 @@ class TestClass:
         x = Elems.logistic(x)
         assert x.val == pytest.approx(0.8807970779778823)
 
+        y = 4
+        assert Elems.logistic(y) == pytest.approx(0.9820137900379085)
     def test_logistic_reverse(self):
         FADiff.set_mode('reverse')
         x = FADiff()
         x = x.new_scal(2)
         x = Elems.logistic(x)
         assert x.val == pytest.approx(0.8807970779778823)
-
+        y = 4
+        assert Elems.logistic(y) == pytest.approx(0.9820137900379085)
     def test_sqrt(self):
         FADiff.set_mode('forward')
         x = Elems.sqrt(FADiff.new_scal(3))
@@ -391,7 +394,7 @@ class TestClass:
         z = Elems.sqrt(FADiff.new_scal(-1))
         with pytest.raises(AssertionError):
             assert z.val == 1
-    
+
     # FADiff class
     def test_mode(self):
         x = FADiff()
