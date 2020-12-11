@@ -112,9 +112,13 @@ class TestClass:
         assert a.val == pytest.approx(-0.9899924966004454)
 
     def test_sin(self):
-        x = Elems.sin(FADiff.new_scal(3))
-        assert x.val == pytest.approx(0.1411200080598672)
-        assert x.der == pytest.approx(-0.9899924966004454)
+        x = FADiff()
+        x.set_mode('forward')
+        x = x.new_scal(3)
+
+        a = Elems.sin(x)
+        assert a.val == pytest.approx(0.1411200080598672)
+        assert a.der == pytest.approx(-0.9899924966004454)
 
         y = 2
         assert Elems.sin(y) == np.sin(y)
