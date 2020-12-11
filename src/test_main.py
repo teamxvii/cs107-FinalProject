@@ -235,9 +235,12 @@ class TestClass:
         a = Elems.log(z)
         assert a.val == pytest.approx(-1.2039728)
 
-    # def test_logistic(self):
-    #     x = Elems.logistic(FADiff.new_scal(0.3))
-    #     assert x.val == np.log(x._val) / np.log(np.e)
+    def test_logistic(self):
+        x = FADiff()
+        x.set_mode('forward')
+        x = x.new_scal(2)
+        x = Elems.logistic(x)
+        assert x.val == pytest.approx(0.8807970779778823)
 
     def test_sqrt(self):
         x = Elems.sqrt(FADiff.new_scal(3))
