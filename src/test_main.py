@@ -484,3 +484,12 @@ class TestClass:
 
         assert ffr.val.tolist() == [[4, 9, 16], [16, 24, 32]]
         assert ffr.der.tolist() == [[4, 6, 8], [8, 8, 8]]
+        
+        # test error catching
+        a = FADiff.new_scalar(3)
+        b = FADiff.new_vect(np.array([2, 5]))
+        c = a * a
+        d = b * 8
+        e = FADiff.new_funcvect([c, d])
+        with pytest.raises(AssertionError):
+            assert e.val == [[9], [16, 40]]
