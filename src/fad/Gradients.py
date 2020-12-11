@@ -6,21 +6,21 @@ import numpy as np
 
 class Scal:
     """
-    A class for automatic differentiation of scalar variables
+    A class for automatic differentiation (AD) representing forward mode
+    scalar variables
     """
 
     def __init__(self, val, der=None, parents=None, name=None, new_input=False):
         """
-        Inputs
-        ------
+        Inputs:
             val : int/float
                 value of the scalar variable
             der : int/float or dictionary
-                derivative of the scalar variable
+                derivative/jacobian of the scalar variable
             parents : list of Scal objects
-                the parent/grandparent vars of the variable
+                the parent/grandparent vars of the variable including roots
             name : str
-                the name of the variable
+                the name of the variable defined by user
             new_input : boolean
                 if variable is an input variable
         """
@@ -238,7 +238,7 @@ class Scal:
 
     def __neg__(self):
         """
-        Negates self (- self)
+        Negates self (-self)
 
         Inputs: self (Scal object)
         Returns: new Scal object
@@ -253,11 +253,25 @@ class Scal:
     ### Comparison Operators ###
 
     def __eq__(self, other):
+        '''
+        Compares other to self based on key values defined in Scal (in this case
+        the value returned from running id() Python built-in on a Scal instance)
+
+        Inputs: self (Scal object), other (Scal object)
+        Returns: True if their key values are equal, False otherwise
+        '''
         if isinstance(other, Scal):
             return self.__key() == other.__key()
         return NotImplemented
 
     def __ne__(self, other):
+        '''
+        Compares other to self based on key values defined in Scal (in this case
+        the value returned from running id() Python built-in on a Scal instance)
+
+        Inputs: self (Scal object), other (Scal object)
+        Returns: False if their key values are equal, True otherwise
+        '''
         if isinstance(other, Scal):
             return self.__key() != other.__key()
         return NotImplemented
@@ -288,14 +302,21 @@ class Scal:
         for var, part_der in self._der.items():
             if var in self._parents:
                 parents.append(part_der)
-        if parents:  # For output vars
+        if parents:                           # For output vars
             return np.array(parents)
         elif self in FADiff._fadscal_inputs:  # For input vars (no parents)
             return np.array(self._der[self])
 
     @staticmethod
     def _set_parents(var1, var2=None):
-        '''Sets parent/grandparent vars (including root input vars used)'''
+        '''
+        Sets parent/grandparent vars (including root input vars used)
+
+        Inputs:
+
+        Returns:
+
+        '''
         parents = []
         parents.append(var1)
         for parent in var1._parents:

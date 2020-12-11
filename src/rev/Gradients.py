@@ -5,7 +5,26 @@ import numpy as np
 
 
 class Scal:
+    '''
+
+    Inputs:
+
+
+    Returns:
+
+
+    '''
     def __init__(self, val, inputs=None, name=None, new_input=False):
+        """
+        Inputs:
+            val :
+
+
+            name : str
+                the name of the variable
+            new_input : boolean
+                if variable is an input variable
+        """
         self._val = val
         if inputs is None:
             inputs = {}
@@ -143,11 +162,29 @@ class Scal:
     ### Comparison Operators ###
 
     def __eq__(self, other):
+        '''
+
+        Inputs:
+
+
+        Returns:
+
+
+        '''
         if isinstance(other, Scal):
             return self.__key() == other.__key()
         return NotImplemented
 
     def __ne__(self, other):
+        '''
+
+        Inputs:
+
+
+        Returns:
+
+
+        '''
         if isinstance(other, Scal):
             return self.__key() != other.__key()
         return NotImplemented
@@ -160,10 +197,28 @@ class Scal:
 
     @property
     def val(self):
+        '''
+
+        Inputs:
+
+
+        Returns:
+
+
+        '''
         return np.array(self._val)
 
     @property
     def der(self):
+        '''
+
+        Inputs:
+
+
+        Returns:
+
+
+        '''
         part_ders = []
         for root in FADiff._revscal_inputs:  # Iterating w/this keeps var order
             if root in self._inputs.keys():
@@ -175,6 +230,15 @@ class Scal:
         return np.array(part_ders)
 
     def _back_trace(self, root):
+        '''
+
+        Inputs:
+
+
+        Returns:
+
+
+        '''
         if self._inputs[root]:               # (Base case: list is empty @ root)
             for parent, part_der in self._inputs[root]:
                 parent._tmp_der += self._tmp_der * part_der
