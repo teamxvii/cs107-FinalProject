@@ -10,10 +10,17 @@ import numpy as np
 
 class FuncVect:
     """
-
-
+    This class represents a vector function for automatic differention (AD) for
+    forward and reverse mode.
     """
     def __init__(self, funcs):
+        """
+        Inputs:
+            funcs : int/float
+                list of functions where all functions in the list are either
+                all Scal objects or all Vect objects and all reverse mode or all
+                forward mode objects
+        """
         try:                                   # All fxns all Scal xor all Vect?
             func_type = type(funcs[0])         # Check the first element
             for func in funcs[1:]:
@@ -52,6 +59,9 @@ class FuncVect:
 
     @property
     def val(self):
+        """
+        Returns NumPy array of values
+        """
         func_vals = []
         for func in self._f_vect:   # For each fxn, add its value to list
             func_vals.append(func._val)
@@ -59,6 +69,10 @@ class FuncVect:
 
     @property
     def der(self):
+        """
+        Returns partial derivatives of function vector wrt all root input vars
+        used in all functions in the vector in a numpy array
+        """
         all_fxns_jacobs = []
         for func in self._f_vect:
             one_fxn_jacob = []
