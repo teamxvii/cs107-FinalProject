@@ -6,6 +6,9 @@ import numpy as np
 from FuncVect import FuncVect
 
 class TestClass:
+    def test_changeMode(self):
+        FADiff.set_mode('reverse')
+
     def test_test(self):
         x = 3
         assert x == 3
