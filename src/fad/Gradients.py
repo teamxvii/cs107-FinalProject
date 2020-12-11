@@ -268,7 +268,7 @@ class Scal:
         the value returned from running id() Python built-in on a Scal instance)
 
         Inputs: self (Scal object), other (Scal object)
-        Returns: False if their key values are equal, True otherwise
+        Returns: False if their key values are equal, True otherwise        
         """
         if isinstance(other, Scal):
             return self.__key() != other.__key()

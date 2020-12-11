@@ -271,6 +271,7 @@ class Vect:
         Inputs: self (Vect object), other (Vect object)
         Returns: False if their key values are equal, True otherwise
         """
+
         if isinstance(other, Vect):
             return self.__key() != other.__key()
         return NotImplemented
