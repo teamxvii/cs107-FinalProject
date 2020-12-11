@@ -113,6 +113,7 @@ class TestClass:
 
     def test_sin(self):
         x = Elems.sin(FADiff.new_scal(3))
+        assert FADiff._mode == 'reverse'
         assert x.val == pytest.approx(0.1411200080598672)
         assert x.der == pytest.approx(-0.9899924966004454)
 
@@ -235,7 +236,7 @@ class TestClass:
         a = Elems.log(z)
         assert a.val == pytest.approx(-1.2039728)
 
-    @pytest.mark.skip(reason="Gerald working on this")
+    # @pytest.mark.skip(reason="Gerald working on this")
     def test_logistic(self):
         x = FADiff()
         x.set_mode('forward')
