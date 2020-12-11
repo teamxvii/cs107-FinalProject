@@ -235,7 +235,6 @@ class TestClass:
         a = Elems.log(z)
         assert a.val == pytest.approx(-1.2039728)
 
-    @pytest.mark.skip(reason="Gerald working on this")
     def test_logistic(self):
         x = FADiff()
         x.set_mode('forward')
