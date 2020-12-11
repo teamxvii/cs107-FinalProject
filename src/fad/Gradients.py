@@ -246,7 +246,7 @@ class Scal:
         val = -self._val
         der = {}
         for var, part_der in self._der.items():
-            der[var] = - part_der
+            der[var] = -part_der
         parents = self._set_parents(self)
         return Scal(val, der, parents)
 
