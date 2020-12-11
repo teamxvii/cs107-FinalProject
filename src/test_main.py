@@ -426,7 +426,11 @@ class TestClass:
 
     # FuncVect class
     def test_funcvect(self):
-        # trying to model Gerald's file
+        
+        # forward mode scalar tests
+        x = FADiff()
+        x.set_mode('forward')
+        
         x = FADiff.new_scal(3)
         y = FADiff.new_scal(2)
         f1 = x * y + x
@@ -437,11 +441,43 @@ class TestClass:
         f = FADiff.new_funcvect([f1, f2])
         assert f.val.tolist() == [9, 16]
         assert f.der.tolist() == [[3, 3], [0, 8]]
+        
+        
+        # forward mode vector tests
+        x1 = FADiff.new_vect(np.array([2,3,4]))
+        f3 = x1 * x1
+        f4 = x1 * 8
+        ff = FADiff.new_funcvect([f3, f4])
+        
+        assert ff.val.tolist() == [[4, 9, 16], [16, 24, 32]]
+        assert ff.der.tolist() == [[4, 6, 8], [8, 8, 8]]
+        
+        
+        # reverse mode scalar tests
+        xr = FADiff()
+        xr.set_mode('reverse')
+        
+        xr = FADiff.new_scal(3)
+        yr = FADiff.new_scal(2)
+        f1r = xr * yr + xr
+        assert f1r.val == 9
+        f2r = 8 * yr
+        assert f2r.val == 16
 
-        x1 = FADiff.new_scal(3)
-        x2 = FADiff.new_vect(np.array([2,3,4]))
-        with pytest.raises(Exception):
-            f = FADiff.new_funcvect([x1,x2])
+        fr = FADiff.new_funcvect([f1r, f2r])
+        assert fr.val.tolist() == [9, 16]
+        assert fr.der.tolist() == [[3, 3], [0, 8]]
+        
+        
+        # reverse mode vector tests
+        x1r = FADiff.new_vect(np.array([2,3,4]))
+        f3r = x1r * x1r
+        f4r = x1r * 8
+        ffr = FADiff.new_funcvect([f3r, f4r])
+        
+        assert ffr.val.tolist() == [[4, 9, 16], [16, 24, 32]]
+        assert ffr.der.tolist() == [[4, 6, 8], [8, 8, 8]]
+        
         
 
         
