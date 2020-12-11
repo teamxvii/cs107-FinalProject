@@ -203,7 +203,7 @@ class Vect:
 
     @property
     def val(self):
-        return np.squeeze(np.array(self._val))
+        return np.array(self._val)
 
     @property
     def der(self):
@@ -215,7 +215,7 @@ class Vect:
                 part_ders.append(root._tmp_der)
                 self._tmp_der = np.zeros(self._val.shape)
                 self._undo_back_trace(root)
-        return np.squeeze(np.array(part_ders))
+        return np.array(part_ders)
 
     def _back_trace(self, root):
         if self._inputs[root]:  # (Base case: list is empty @ root)
