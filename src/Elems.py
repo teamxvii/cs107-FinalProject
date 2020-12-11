@@ -259,13 +259,15 @@ def logistic(x):
         try:
             der = {}
             for var, part_der in x._der.items():
-                der[var] = part_der * np.exp(x._val) / (1 + np.exp(x._val)) ** 2
+                der[var] = part_der * \
+                    np.exp(x._val) / (1 + np.exp(x._val)) ** 2
             parents = x._set_parents(x)
             return return_same_type(x, val, der, parents)
         except AttributeError:
             inputs = {}
             for root in x._inputs.keys():
-                inputs[root] = [[x, np.exp(x._val) / (1 + np.exp(x._val)) ** 2]]
+                inputs[root] = [
+                    [x, np.exp(x._val) / (1 + np.exp(x._val)) ** 2]]
             return return_same_rev(x, val, inputs)
     except AttributeError:  # if x is a constant
         return 1 / (1 + np.exp(-x))

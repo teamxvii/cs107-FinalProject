@@ -11,6 +11,7 @@ import numpy as np
 class FuncVect:
     """
 
+
     """
     def __init__(self, funcs):
         try:                                   # All fxns all Scal xor all Vect?
@@ -32,7 +33,8 @@ class FuncVect:
                 self._inputs = FADiff._revscal_inputs
             elif func_type is revVect:
                 self._inputs = FADiff._revvect_inputs
-            self._f_vect = funcs   # List of objects (Scal or Vect) used in fxns
+            # List of objects (Scal or Vect) used in fxns
+            self._f_vect = funcs
             self._input_vars = []  # Get complete list of input vars of f_vect
             for func in funcs:
                 try:
@@ -40,7 +42,8 @@ class FuncVect:
                         for var in func._der.keys():  # Loop through existing roots
                             if var in func._parents:  # If var is in parent/root list
                                 self._input_vars.append(var)
-                    elif func in self._inputs:  # Otherwise input var, i.e., f(x) = x?
+                    # Otherwise input var, i.e., f(x) = x?
+                    elif func in self._inputs:
                         self._input_vars.append(func)
                 except AttributeError:
                     for var in func._inputs.keys():
