@@ -188,7 +188,7 @@ class Scal:
             val = other / self._val
             der = {}
             for var, part_der in self._der.items():  # loop through partial derivatives
-                der[var] = (- other / (self._val * self._val)) * part_der
+                der[var] = (-other / (self._val * self._val)) * part_der
             parents = self._set_parents(self)
         return Scal(val, der, parents)
 

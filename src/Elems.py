@@ -43,7 +43,7 @@ def cos(x):
         try:
             der = {}
             for var, part_der in x._der.items():
-                der[var] = - part_der * np.sin(x._val)
+                der[var] = -part_der * np.sin(x._val)
             parents = x._set_parents(x)
             return return_same_type(x, val, der, parents)
         except AttributeError:
@@ -115,7 +115,7 @@ def arccos(x):
         try:
             der = {}
             for var, part_der in x._der.items():
-                der[var] = - part_der / np.sqrt(1 - (x._val * x._val))
+                der[var] = -part_der / np.sqrt(1 - (x._val * x._val))
             parents = x._set_parents(x)
             return return_same_type(x, val, der, parents)
         except AttributeError:
