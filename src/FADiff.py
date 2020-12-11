@@ -7,7 +7,9 @@ class FADiff:
     """
     This is the main API class of the package. It acts as an object factory
     from which a user can create objects that are used in automatic
-    differentiation (AD) calculations.
+    differentiation (AD) calculations. Each object has @property decorator
+    methods called val and der which they can call using the object to get the
+    value and derivative/jacobian associated with it.
 
     Attributes:
         _fadscal_inputs : Scal (forward mode version) list

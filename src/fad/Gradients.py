@@ -9,7 +9,6 @@ class Scal:
     A class for automatic differentiation (AD) representing forward mode
     scalar variables
     """
-
     def __init__(self, val, der=None, parents=None, name=None, new_input=False):
         """
         Inputs:
@@ -24,7 +23,6 @@ class Scal:
             new_input : boolean
                 if variable is an input variable
         """
-
         # preprocess inputs
         if new_input:
             if isinstance(val, float) or isinstance(val, int) and isinstance(der, float) or isinstance(der, int):
@@ -277,9 +275,21 @@ class Scal:
         return NotImplemented
 
     def __key(self):
+        '''
+        Defines the key value to use, e.g, for hashing Python objects in
+        collections.
+
+        Returns: The value of self when id() Python huilt-in is run on it.
+        '''
         return id(self)
 
     def __hash__(self):
+        '''
+        Used in conjuction with comparison operators to enable Python to objects
+        like Scal into collections based on a way defined by the user.
+
+        Returns: a key value to use for hashing
+        '''
         return hash(self.__key())
 
     @property
@@ -293,7 +303,7 @@ class Scal:
     @property
     def der(self):
         """
-        Returns partial derivatives wrt all root input vars used
+        Returns partial derivatives wrt all root/parent input vars used
 
         Inputs: self (Scal object)
         Returns: NumPy array of derivative
@@ -313,9 +323,12 @@ class Scal:
         Sets parent/grandparent vars (including root input vars used)
 
         Inputs:
-
+            var1 : Scal
+                One parent of AD variable, i.e., in an evaluation trace
+            var2 : Scal
+                The other parent of an AD variable, i.e., in an eval trace
         Returns:
-
+            A list of all the parent variables of self
         '''
         parents = []
         parents.append(var1)
