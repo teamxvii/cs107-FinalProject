@@ -212,15 +212,19 @@ print(f'f.val --> '
 print(f'f.der -->\n'
       f'{f.der}')
 
-# print()
-#
-# print(f'x1 = ad.new_vect(np.array([2, 3, 4]))')
-# x1 = ad.new_vect(np.array([2, 3, 4]))
-# print('f1 = x1')
-# f1 = x1
-# print(f'\nf = ad.new_funcvect([f1])')
-# f = ad.new_funcvect([f1])
-# print(f'f.val --> '
-#       f'{f.val}')
-# print(f'f.der -->\n'
-#       f'{f.der}')
+print()
+
+print(f'x1 = ad.new_vect(np.array([2, 3, 4]))')
+# print(f'x2 = ad.new_vect(np.array([1, 3, 2]))')
+x1 = ad.new_vect(np.array([2, 3, 4]))
+# x2 = ad.new_scal(np.array([1, 3, 2]))
+print('f1 = x1 * x1')
+f1 = x1 * x1
+print('f2 = x1 * 8')
+f2 = x1 * 8
+print(f'\nf = ad.new_funcvect([f1, f2])')
+f = ad.new_funcvect([f1, f2])
+print(f'f.val --> '
+      f'{f.val}')
+print(f'f.der -->\n'
+      f'{f.der}')

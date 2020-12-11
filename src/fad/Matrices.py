@@ -300,7 +300,7 @@ class Vect:
         Inputs: self (Vect object)
         Returns: NumPy array of values
         """
-        return np.array(self._val)
+        return np.squeeze(np.array(self._val))
 
     @property
     def der(self):
@@ -315,9 +315,9 @@ class Vect:
             if var in self._parents:
                 parents.append(part_der)
         if parents:  # For output vars
-            return np.array(parents)
+            return np.squeeze(np.array(parents))
         elif self in FADiff._fadvect_inputs:  # For input vars (no parents)
-            return np.array(self._der[self])
+            return np.squeeze(np.array(self._der[self]))
 
     @staticmethod
     def _set_parents(var1, var2=None):

@@ -54,7 +54,7 @@ class FuncVect:
         func_vals = []
         for func in self._f_vect:   # For each fxn, add its value to list
             func_vals.append(func._val)
-        return np.array(func_vals)  # Return list
+        return np.squeeze(np.array(func_vals))  # Return list
 
     @property
     def der(self):
@@ -76,4 +76,4 @@ class FuncVect:
                         else:
                             one_fxn_jacob.append(0)
             all_fxns_jacobs.append(one_fxn_jacob)
-        return np.array(all_fxns_jacobs)
+        return np.squeeze(np.array(all_fxns_jacobs))

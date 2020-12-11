@@ -324,11 +324,9 @@ def return_same_type(x, val, der, parents):
     Utility function that returns new object of same type as x for forward mode
     objects
 
-    Inputs:
-        x: a Scal/Vect forward mode object
+    Inputs: a Scal/Vect forward mode object
 
-    Returns:
-        (Scal): new object (same type as x)
+    Returns: new object (same type as x)
     """
     if isinstance(x, fadScal):  # if input var is a scalar
         return fadScal(val, der, parents)
@@ -338,10 +336,11 @@ def return_same_type(x, val, der, parents):
 
 def return_same_rev(x, val, inputs):
     """
-    Utility function that returns new object of same type as x
+    Utility function that returns new object of same type as x for reverse mode
+    objects
 
-    Inputs:
-        x: a Scal/Vect reverse mode object
+    Inputs: a Scal/Vect reverse mode object
+
     Returns: new object (same type as x)
     """
     if isinstance(x, revScal):
