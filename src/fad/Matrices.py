@@ -11,19 +11,19 @@ class Vect:
 
     def __init__(self, val, der=None, parents=None, name=None, new_input=False):
         """
-                Inputs
-                ------
-                    val : NumPy array (column or row vector)
-                        value of the vector variable
-                    der : NumPy array (column or row vector) or a dictionary
-                        derivative of the vector variable
-                    parents : list of Scal objects
-                        the parent/grandparent vars of the variable
-                    name : str
-                        the name of the variable
-                    new_input : boolean
-                        if variable is an input variable
-                """
+        Inputs
+        ------
+            val : NumPy array (column or row vector)
+                value of the vector variable
+            der : NumPy array (column or row vector) or a dictionary
+                derivative of the vector variable
+            parents : list of Scal objects
+                the parent/grandparent vars of the variable
+            name : str
+                the name of the variable
+            new_input : boolean
+                if variable is an input variable
+        """
 
         # preprocess inputs
         if new_input:

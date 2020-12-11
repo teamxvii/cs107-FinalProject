@@ -11,8 +11,13 @@ def return_same_type(x, val, der, parents):
     """
     Returns new object of same type as x
 
-    Inputs: x (Scal/Vect forward mode object)
-    Returns: new object (same type as x)
+    Inputs
+    ======
+    x: Scal/Vect forward mode object
+
+    Returns
+    =======
+    (Scal): new object (same type as x)
     """
     if isinstance(x, fadScal):  # if input var is a scalar
         return fadScal(val, der, parents)
