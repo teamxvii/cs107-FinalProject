@@ -33,6 +33,12 @@ class Vect:
         self._tmp_der = np.zeros(self._val.shape)
 
     def __add__(self, other):
+        """
+        Adds self with other (self + other)
+
+        Inputs: self (Vect object), other (either Vect object or constant)
+        Returns: new Vect object
+        """
         try:
             inputs = {}
             for root in other._inputs.keys():
@@ -50,9 +56,21 @@ class Vect:
             return Vect(self._val + other, inputs)
 
     def __radd__(self, other):
+        """
+        Adds other with self (other + self)
+
+        Inputs: self (Vect object), other (either Vect object or constant)
+        Returns: new Vect object
+        """
         return self.__add__(other)
 
     def __sub__(self, other):
+        """
+        Subtracts other from self (self - other)
+
+        Inputs: self (Vect object), other (either Vect object or constant)
+        Returns: new Vect object
+        """
         try:
             inputs = {}
             for root in other._inputs.keys():
@@ -70,9 +88,21 @@ class Vect:
             return Vect(self._val - other, inputs)
 
     def __rsub__(self, other):
+        """
+        Subtracts self from other (other - self)
+
+        Inputs: self (Vect object), other (either Vect object or constant)
+        Returns: new Vect object
+        """
         return self.__sub__(other)
 
     def __mul__(self, other):
+        """
+        Multiplies self with other (self * other)
+
+        Inputs: self (Vect object), other (either Vect object or constant)
+        Returns: new Vect object
+        """
         try:
             inputs = {}
             for root in other._inputs.keys():
@@ -90,6 +120,12 @@ class Vect:
             return Vect(self._val * other, inputs)
 
     def __rmul__(self, other):
+        """
+        Multiplies other with self (other * self)
+
+        Inputs: self (Vect object), other (either Vect object or constant)
+        Returns: new Vect object
+        """
         return self.__mul__(other)
 
     def __truediv__(self, other):
@@ -128,6 +164,12 @@ class Vect:
         return Vect(other / self._val, inputs)
 
     def __pow__(self, other):
+        """
+        Raises self the other power (self ** other)
+
+        Inputs: self (Vect object), other (either Vect object or constant)
+        Returns: new Vect object
+        """
         try:
             inputs = {}
             for root in other._inputs.keys():
@@ -145,12 +187,24 @@ class Vect:
             return Vect(self._val ** other, inputs)
 
     def __rpow__(self, other):
+        """
+        Raises other the self power (other ** self)
+
+        Inputs: self (Vect object), other (either Vect object or constant)
+        Returns: new Vect object
+        """
         inputs = {}
         for root in self._inputs.keys():
             inputs[root] = [[self, np.log(other) * other ** self._val]]
         return Vect(other ** self._val, inputs)
 
     def __neg__(self):
+        """
+        Negates self (-self)
+
+        Inputs: self (Vect object)
+        Returns: new Vect object
+        """
         inputs = {}
         for root in self._inputs.keys():
             inputs[root] = [[self, -1]]
@@ -203,10 +257,20 @@ class Vect:
 
     @property
     def val(self):
+        """
+        Inputs: self (Vect object)
+        Returns: NumPy array of values
+        """
         return np.array(self._val)
 
     @property
     def der(self):
+        """
+        Returns partial derivatives wrt all root input vars used
+
+        Inputs: self (Vect object)
+        Returns: NumPy array of derivative
+        """
         part_ders = []
         for root in FADiff._revvect_inputs:  # Iterating w/this keeps var order
             if root in self._inputs.keys():
@@ -218,12 +282,27 @@ class Vect:
         return np.array(part_ders)
 
     def _back_trace(self, root):
+        """
+        Performs the backward pass of an evaluation trace for reverse mode wrt
+        a particular root of a variable. It does this recursively.
+
+        Inputs: The root to evaluate the backward pass wrt
+        Returns: None
+        """
         if self._inputs[root]:  # (Base case: list is empty @ root)
             for parent, part_der in self._inputs[root]:
                 parent._tmp_der += self._tmp_der * part_der
                 parent._back_trace(root)
 
     def _undo_back_trace(self, root):
+        """
+        Undoes the changes _back_trace() did on self's (and affected parents)
+        derivative variables (in this case restoring them back to 0). Like
+        _back_trace, this is a recursive method.
+
+        Inputs: The root in which to undo the changes on self wrt
+        Returns: None
+        """
         if self._inputs[root]:
             for parent, part_der in self._inputs[root]:
                 parent._tmp_der = np.zeros(self._val.shape)
