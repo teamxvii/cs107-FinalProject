@@ -78,7 +78,7 @@ class FADiff:
         in AD that is vector-valued.
 
         Inputs:
-            val : int or float
+            val : int or float list
                 A user-defined value
             der : int/float or dict
                 The initial derivative of the variable
@@ -104,7 +104,7 @@ class FADiff:
         and all reverse mode or all forward mode objects.
 
         Inputs:
-            func_list : Scal (forward xor reverse mode objects) list
+            func_list : Scal/Vect (forward xor reverse mode objects) list
                 The list of functions that comprise the vector function
 
         Returns:
