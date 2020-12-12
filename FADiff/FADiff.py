@@ -7,8 +7,8 @@ class FADiff:
     This is the main API class of the package. It acts as an object factory
     from which a user can create objects that are used in automatic
     differentiation (AD) calculations. Each object has @property decorator
-    methods called val and der which they can call using the object to get the
-    value and derivative/jacobian associated with it.
+    methods called val and der which the user can call using the object in order
+    to get the value and derivative/jacobian associated with it.
 
     Attributes:
         _fadscal_inputs : Scal (forward mode version) list
@@ -78,7 +78,7 @@ class FADiff:
         in AD that is vector-valued.
 
         Inputs:
-            val : int or float
+            val : int or float list
                 A user-defined value
             der : int/float or dict
                 The initial derivative of the variable
@@ -100,11 +100,11 @@ class FADiff:
     def new_funcvect(func_list):
         """
         This class allows the user to define a vector function where all
-        functions in the vector are either all Scal forward mode objects or
-        Scal reverse mode objects.
+        functions in the list are either all Scal objects or all Vect objects
+        and all reverse mode or all forward mode objects.
 
         Inputs:
-            func_list : Scal (forward xor reverse mode objects) list
+            func_list : Scal/Vect (forward xor reverse mode objects) list
                 The list of functions that comprise the vector function
 
         Returns:
