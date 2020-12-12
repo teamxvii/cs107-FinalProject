@@ -139,10 +139,10 @@ print(f'check.der --> '
 # TODO: VECTOR DEBUGGING --
 print()
 
-print(f'x1 = ad.new_vect(np.array([2, 3, 4]))\n'
-      f'x2 = ad.new_vect(np.array([3, 2, 1]))')
-x1 = ad.new_vect(np.array([2, 3, 4]))
-x2 = ad.new_vect(np.array([3, 2, 1]))
+print(f'x1 = ad.new_vect([2, 3, 4])\n'
+      f'x2 = ad.new_vect([3, 2, 1])')
+x1 = ad.new_vect([2, 3, 4])
+x2 = ad.new_vect([3, 2, 1])
 print(f'x1.val --> '       
       f'{x1.val}')
 print(f'x1.der -->\n'       # Should be array of ones of size x1
@@ -214,10 +214,10 @@ print(f'f.der -->\n'
 
 print()
 
-print(f'x1 = ad.new_vect(np.array([2, 3, 4]))')
-# print(f'x2 = ad.new_vect(np.array([1, 3, 2]))')
-x1 = ad.new_vect(np.array([2, 3, 4]))
-# x2 = ad.new_scal(np.array([1, 3, 2]))
+print(f'x1 = ad.new_vect([2, 3, 4])')
+# print(f'x2 = ad.new_vect([1, 3, 2])')
+x1 = ad.new_vect([2, 3, 4])
+# x2 = ad.new_scal([1, 3, 2])
 print('f1 = x1 * x1')
 f1 = x1 * x1
 print('f2 = x1 * 8')
